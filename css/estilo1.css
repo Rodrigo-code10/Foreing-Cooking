@@ -1,0 +1,156 @@
+*{/*caracteristicas generals*/
+    margin: 0;
+    padding: 0;
+    text-align: center;
+
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #F5F5F5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; 
+    z-index: 10;
+}
+
+nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.btn-primary {
+    padding: 10px 20px 10px 20px;
+    color: white;
+    background-color:#E8534F;
+    border-radius: 14px;
+    border-color: #E8534F;
+}
+
+.btn-primary:hover {
+    background-color: #e32620;
+}
+
+.btn-secondary {
+    color: #E8534F ;
+    border-color: #E8534F;
+    padding: 10px 20px 10px 20px;
+    border-radius: 14px;
+    background-color: transparent;
+
+}
+
+.btn-secondary:hover {
+    border-color: #e32620;
+    color: #e32620;
+}
+  
+
+h1 {
+    text-align: center;
+    color: #E74D4E;
+    padding: 20px;
+    background-color: #FFEFE9;
+}
+
+.Buscador {
+    background-color: #FFEFE9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+
+}
+.Buscador_recetas {
+    width: 30%;
+    padding: 15px 20px;
+    border-radius: 16px;
+    border: 3px solid #CBB7B7;
+    font-size: 20px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.Buscador_recetas {
+    border-color: #CBB7B7;
+    box-shadow: 0 0 8px rgba(231, 77, 78, 0.3);
+}
+
+.catalogo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 40px;
+    background-color: #FFEFE9;
+}
+
+.Entrada {
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 300px;
+    height: 280px;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.Entrada:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.Entrada img {
+    width: 250px;
+    height: 160px;
+    object-fit: cover;
+    margin-top: 10px;
+    border-radius: 10;
+    overflow: hidden;/*para evitar que se salga*/
+}
+
+.Entrada h3 {
+    color: #E74D4E;
+    margin: 15px 0 5px 0;
+}
+
+.Entrada p {
+    color: #555;
+    padding: 0 15px;
+    font-size: 15px;
+}
+
+.btn-ver {
+    display: inline-block;
+    margin: 15px 0 20px 0;
+    background-color: #E74D4E;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.btn-ver:hover {
+    background-color: #ff6f70;
+}
+
+.footer {
+    background-color: #2C2C2C;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 19px;
+    position: fixed; /* se mantendra fijo en la barra*/
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
