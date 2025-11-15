@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilo.css">
+    <title>Agregar Receta</title>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="index.php"><img id="logo" src="src/Logo.png" width="100" height="100" alt="Logo"></a>
+            <a href="">Recetas Recientes</a>
+            <a href="CatalogoRecetas.php">Catalogo de recetas</a>
+            <a href="">Acerca de nosotros</a>
+            <a href="crear_rec.php">Añadir Receta</a>
+            <a href="Perfil.php"><img id="logo_usuario" src="src/logo_perfilusu.png" width="100" height="100"
+                    alt="Logo_usu"></a>
+        </nav>
+    </header>
+
+    <section class="section-titleCR">
+        <div class="contenido">
+            <h1>Agregar Nueva <span class="highlight">Receta</span></h1>
+        </div>
+    </section>
+
+    <section class="Formulario_contenedor">
+        <div class="Formulario_Receta">
+            <h2>Nueva Receta</h2>
+            <h3>Comparte tu creación culinaria con la comunidad</h3>
+
+            <form id="formCrearReceta" enctype="multipart/form-data">
+
+                <label for="nombre_receta">Nombre de la Receta *</label>
+                <input type="text" name="nombre_receta" id="nombre_receta" placeholder="Ej: Quesadillas con quesillo"
+                    required>
+
+                <label for="descripcion">Descripción *</label>
+                <textarea name="descripcion" id="descripcion" placeholder="Cuéntanos sobre tu receta ..." rows="4"
+                    required></textarea>
+
+                <label for="tiempo_preparacion">Tiempo de Preparación (minutos) *</label>
+                <input type="number" name="tiempo_preparacion" id="tiempo_preparacion" placeholder="30" min="1"
+                    required>
+
+                <label for="porciones">Número de Porciones *</label>
+                <input type="number" name="porciones" id="porciones" placeholder="4" min="1" required>
+
+                <label for="dificultad">Dificultad *</label>
+                <select name="dificultad" id="dificultad" required>
+                    <option value="">Seleccionar...</option>
+                    <option value="Fácil">Fácil</option>
+                    <option value="Medio">Medio</option>
+                    <option value="Difícil">Difícil</option>
+                </select>
+
+                <label for="ingredientes">Ingredientes *</label>
+                <textarea name="ingredientes" id="ingredientes" placeholder="Cada ingrediente en una línea" rows="6"
+                    required></textarea>
+
+                <label for="pasos">Ingrese los pasos para la receta *</label>
+                <textarea name="pasos" id="pasos" placeholder="Cada paso en una línea" rows="8" required></textarea>
+
+                <label for="imagen_receta">Sube la imagen de tu Receta *</label>
+                <input type="file" name="imagen_receta" id="imagen_receta" accept="image/*" required
+                    style="padding: 12px; cursor: pointer;">
+
+                <div class="botones">
+                    <button type="submit" class="enviar" onclick="nuevaReceta()">Enviar Solicitud</button>
+                    <button type="button" class="cancelar" onclick="window.location.href='index.php'">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        © 2025 Foreign Cooking. Hecho para amantes de la comida a bajo presupuesto | Comparte tus sabores con el mundo
+    </footer>
+
+    <script src="js/animacion.js"></script>
+    <script src="js/logica.js"></script>
+</body>
+</html>

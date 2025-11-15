@@ -1,0 +1,51 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: mongo_srv
+    restart: always
+    volumes:
+      - ./mongo/init.js:/docker-entrypoint-initdb.d/init.js
+      - ./mongo/data:/data/db   #Carpeta de persistencia
+
+    ports:
+      - "${MONGO_PORT}:27017"
+    networks:
+      - services_net
+
+  api:
+    build: ./api
+    container_name: api_srv
+    restart: always
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_URI:  mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}
+      NODE_ENV: ${NODE_ENV}
+      JWT_SECRET: ${JWT_SECRET}
+      API_PORT: ${API_PORT}
+    ports:
+      - "${API_PORT}:3000"
+    volumes:      
+      - ./api:/usr/src/app  # Mounts the API source code
+      - /usr/src/app/node_modules  # Prevents overwriting node_modules
+
+    command: ["npm", "run", "dev"]
+    networks:
+      - services_net
+
+  web:
+    image: php:8.3-apache
+    container_name: web_srv
+    restart: always
+    depends_on:
+      - api
+    volumes:
+      - ./web:/var/www/html
+    ports:
+      - "${WEB_PORT}:80"
+    networks:
+      - services_net
+
+networks:
+  services_net:
+    driver: bridge
