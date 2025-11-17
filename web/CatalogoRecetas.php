@@ -9,18 +9,8 @@
 </head>
 
 <body>
-    <header>
-        <nav>
-            <a href="index.php">
-                <img id="logo" src="src/Logo.png" width="100" height="100" alt="Logo">
-            </a>
-            <a href="">Recetas Recientes</a>
-            <a href="CatalogoRecetas.php">Catalogo de recetas</a>
-            <a href="">Acerca de nosotros</a>
-            <a href="CrearRecetas.php"><button class="btn-secondary">Crear Receta</button></a>
-            <a href="IniciarRegistrarse.php"><button class="btn-primary">Registrarse</button></a>
-        </nav>
-    </header>
+    
+    <?php include 'includes/header.php'; ?> 
 
     <h1>Explora Nuestro Catálogo</h1>
 
@@ -48,12 +38,10 @@
         <!-- Más recetas aquí -->
     </section>
 
-    <footer class="footer">
-        <p>© 2025 Foreign Cooking. Hecho para amantes de la comida a bajo presupuesto | Comparte tus sabores con el
-            mundo</p>
-    </footer>
+    <?php include 'includes/footer.php'; ?>
 
     <script src="js/animacion.js"></script>
-    <script src="js/logica.js"></script>
+    <script src="js/logicaRecetas.js"></script>
+    <script src="js/logicaHeader.js"></script>
 </body>
 </html>

@@ -14,7 +14,7 @@
         <div class="form-section" id="loginForm">
             <h2>Iniciar Sesión</h2>
             <p class="subtitle">Use su correo y contraseña</p>
-            <form action="php/login.php" method="POST">
+            <form method="POST">
                 <div class="input-group email">
                     <input type="email" name="email" id="login_email" placeholder="Correo" required />
                 </div>
@@ -29,7 +29,7 @@
         <div class="form-section" id="registerForm">
             <h2>Registrarse</h2>
             <p class="subtitle">Use su correo electrónico para registrarse</p>
-            <form action="php/register.php" method="POST">
+            <form method="POST">
                 <div class="input-group name">
                     <input type="text" name="nombre" id="register_nombre" placeholder="Nombre" required />
                 </div>
@@ -64,6 +64,7 @@
     </div>
 
     <script src="js/animacion.js"></script>
-    <script src="js/logica.js"></script>
+    <script src="js/logicaSesion.js"></script>
+    <script src="js/logicaHeader.js"></script>
 </body>
 </html>

@@ -9,17 +9,7 @@
 </head>
 
 <body>
-    <header>
-        <nav>
-            <a href="index.php"><img id="logo" src="src/Logo.png" width="100" height="100" alt="Logo"></a>
-            <a href="">Recetas Recientes</a>
-            <a href="CatalogoRecetas.php">Catalogo de recetas</a>
-            <a href="">Acerca de nosotros</a>
-            <a href="crear_rec.php">Añadir Receta</a>
-            <a href="Perfil.php"><img id="logo_usuario" src="src/logo_perfilusu.png" width="100" height="100"
-                    alt="Logo_usu"></a>
-        </nav>
-    </header>
+    <?php include 'includes/header.php'; ?> 
 
     <section class="section-titleCR">
         <div class="contenido">
@@ -51,7 +41,7 @@
 
                 <label for="dificultad">Dificultad *</label>
                 <select name="dificultad" id="dificultad" required>
-                    <option value="">Seleccionar...</option>
+                    <option value="">Seleccionar...</option>    
                     <option value="Fácil">Fácil</option>
                     <option value="Medio">Medio</option>
                     <option value="Difícil">Difícil</option>
@@ -69,18 +59,16 @@
                     style="padding: 12px; cursor: pointer;">
 
                 <div class="botones">
-                    <button type="submit" class="enviar" onclick="nuevaReceta()">Enviar Solicitud</button>
+                    <button type="button" class="enviar" onclick="nuevaReceta()">Enviar Solicitud</button>
                     <button type="button" class="cancelar" onclick="window.location.href='index.php'">Cancelar</button>
                 </div>
             </form>
         </div>
     </section>
 
-    <footer>
-        © 2025 Foreign Cooking. Hecho para amantes de la comida a bajo presupuesto | Comparte tus sabores con el mundo
-    </footer>
+    <?php include 'includes/footer.php'; ?>
 
-    <script src="js/animacion.js"></script>
-    <script src="js/logica.js"></script>
+    <script src="js/logicaCreaReceta.js"></script>
+    <script src="js/logicaHeader.js"></script>  
 </body>
 </html>

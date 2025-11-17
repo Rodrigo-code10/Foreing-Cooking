@@ -62,10 +62,6 @@ const NewRecetaSchema = new mongoose.Schema({
   likes: { 
     type:Number, 
     default:0 
-  },
-  usuariosLike: [{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:'Usuario'
-  }]
+  }
 });
 export const Receta = mongoose.model('Receta', NewRecetaSchema);

@@ -1,7 +1,6 @@
-import { Receta } from "../models/NuevaReceta.js";
-import { Usuario } from "../models/Usuario.js";
-
-//import bcrypt from 'bcryptjs';
+import { Receta } from "../models/nuevaReceta.js";
+import { Usuario } from "../models/usuario.js";
+import { Favorito } from "../models/favoritos.js";
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET
@@ -9,7 +8,7 @@ const JWT_SECRET = process.env.JWT_SECRET
 export async function crearReceta(req,res) {
     try {
         const usuario = await Usuario.findById(req.usuarioId);
-        
+
         const nuevaReceta = new Receta({
             nombre: req.body.nombre_receta,
             descripcion: req.body.descripcion,
@@ -18,7 +17,7 @@ export async function crearReceta(req,res) {
             dificultad: req.body.dificultad, 
             ingredientes: req.body.ingredientes.split('\n'), 
             pasos: req.body.pasos.split('\n'),
-            imagen: req.file ? req.file.filename : null, 
+            imagen: req.file ? `/uploads/${req.file.filename}` : null,
             autor: req.usuarioId,
             categoria: req.body.categoria 
         });
@@ -32,8 +31,7 @@ export async function crearReceta(req,res) {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al crear receta', detalle: error.message });
-    }
-    
+    }  
 }
 
 
@@ -55,6 +53,87 @@ export function verificarToken(req, res, next) {
         req.usuarioId = decoded.id;
         next(); 
     } catch (error) {
-        return res.status(403).json({ error: "Token inválido o expirado" });
+        //res.status(403).json({ error: "Token inválido o expirado" });
+    }
+}
+
+
+export async function mostrarRecetas(req, res) {
+    try {
+        // Obtenemos los filtros desde query params
+        const filtros = {};
+
+        if (req.query.autor) {
+            filtros.autor = req.query.autor;
+        }
+
+        if (req.query.categoria) {
+            filtros.categoria = req.query.categoria;
+        }
+        if (req.query.ingrediente) {
+            filtros.ingredientes = { $in: [req.query.ingrediente] }; 
+        }
+
+        const recetas = await Receta.find(filtros)
+            .populate('autor', 'nombre');
+
+        res.json(recetas);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al obtener recetas" });
+    }
+}
+
+
+export async function like(req, res) {
+    try {
+        const receta = await Receta.findById(req.params.id);
+        if (!receta) return res.status(404).json({ error: "Receta no encontrada" });
+        if (receta.autor == req.usuarioId) return res.json({ mensaje: "No te puedes dar like a ti mismo",likes:receta.likes});
+
+        const existeFavorito = await Favorito.findOne({
+            userId: req.usuarioId, 
+            recetaId: receta._id
+        });
+
+        if (existeFavorito) {
+            // Quitar like
+            await existeFavorito.deleteOne();
+            receta.likes = Math.max(0, receta.likes - 1);
+            await receta.save();
+            return res.json({ mensaje: "Like eliminado", likes: receta.likes });
+        } else {
+            // Dar like
+            await Favorito.create({ userId: req.usuarioId,  recetaId: receta._id});
+            receta.likes = receta.likes + 1;
+            await receta.save();
+            return res.json({ mensaje: "Like agregado", likes: receta.likes });
+        }
+
+    } catch (error) {
+        res.status(500).json({ error: "Error al dar like", detalle: error.message });
+    }
+}
+  
+export async function eliminarReceta(req, res) {
+    try {
+        const receta = await Receta.findById(req.params.id);
+        
+        if (!receta) {
+            return res.status(404).json({ error: 'Receta no encontrada' });
+        }
+
+        // Verificar que el usuario es el autor
+        if (receta.autor.toString() !== req.usuarioId) {
+            return res.status(403).json({ error: 'No tienes permiso para eliminar esta receta' });
+        }
+
+        await Favorito.deleteMany({ recetaId: receta._id });
+
+        await Receta.findByIdAndDelete(req.params.id);
+
+        res.json({ mensaje: 'Receta eliminada exitosamente' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al eliminar receta', detalle: error.message });
     }
 }

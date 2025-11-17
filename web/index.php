@@ -10,16 +10,7 @@
 
 <body>
 
-    <header>
-        <nav>
-            <a href="index.php"><img id="logo" src="src/Logo.png" width="100" height="100" alt="Logo"></a>
-            <a href="">Recetas Recientes</a>
-            <a href="CatalogoRecetas.php">Catalogo de recetas</a>
-            <a href="">Acerca de nosotros</a>
-            <a href="IniciarRegistrarse.php"><button class="btn-secondary">Iniciar Sesión</button></a>
-            <a href="IniciarRegistrarse.php?mode=register"><button class="btn-primary">Registrarse</button></a>
-        </nav>
-    </header>
+    <?php include 'includes/header.php'; ?>
 
     <section class="section-title">
         <div class="contenido">
@@ -27,8 +18,8 @@
             <p>Únete a una comunidad de apasionados por la cocina. Guarda tus recetas, aprende de otros e inspira a la
                 comunidad con tus creaciones culinarias.</p>
             <div class="buttons">
-                <button class="btn-primary">Explorar Recetas</button>
-                <a href="IniciarRegistrarse.php?mode=register"><button class="btn-secondary">Crear Receta</button></a>
+                <button class="btn-primary" onclick="window.location.href='CatalogoRecetas.php'">Explorar Recetas</button>
+                <button class="btn-secondary" onclick="revisar()">Crear Receta</button>
             </div>
         </div>
 
@@ -45,151 +36,24 @@
         </div>
 
         <div class="cards">
-            <div class="card">
-                <div class="card-image">
-                    <img src="src/pasta_carbonara.png" alt="Pasta Carbonara">
-                    <span class="card-badge">Nuevo</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-rating">
-                        <span class="star">★★★★★</span>
-                        <span class="rating-number">4.7 (32)</span>
-                    </div>
-                    <h3 class="card-title">Pasta Carbonara</h3>
-                    <p class="card-author">por @Josesito</p>
-                    <div class="card-info">
-                        <div class="info-item">
-                            <span class="info-icon">⏱️</span>
-                            <span>30 min</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">👥</span>
-                            <span>2 porciones</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">🔥</span>
-                            <span>Medio</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn-receta">Ver Receta</button>
-                    <button class="btn-heart">❤️</button>
-                    <span class="like-count">524</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-image">
-                    <img src="src/RamenCasero.jpg" alt="Ramen Casero">
-                    <span class="card-badge">Nuevo</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-rating">
-                        <span class="star">★★★★★</span>
-                        <span class="rating-number">4.7 (24)</span>
-                    </div>
-                    <h3 class="card-title">Ramen Casero</h3>
-                    <p class="card-author">por @Pepito</p>
-                    <div class="card-info">
-                        <div class="info-item">
-                            <span class="info-icon">⏱️</span>
-                            <span>45 min</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">👥</span>
-                            <span>1 porción</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">🔥</span>
-                            <span>Fácil</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn-receta">Ver Receta</button>
-                    <button class="btn-heart">❤️</button>
-                    <span class="like-count">24</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-image">
-                    <img src="src/Lasagna.jpg" alt="Lasagna">
-                    <span class="card-badge">Nuevo</span>
-                </div>
-                <div class="card-content">
-                    <div class="card-rating">
-                        <span class="star">★★★★★</span>
-                        <span class="rating-number">4.7 (45)</span>
-                    </div>
-                    <h3 class="card-title">Lasagna</h3>
-                    <p class="card-author">por @Mariangel</p>
-                    <div class="card-info">
-                        <div class="info-item">
-                            <span class="info-icon">⏱️</span>
-                            <span>60 min</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">👥</span>
-                            <span>2 porciones</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">🔥</span>
-                            <span>Media</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn-receta">Ver Receta</button>
-                    <button class="btn-heart">❤️</button>
-                    <span class="like-count">4</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-image">
-                    <img src="src/Mole.jfif" alt="Mole">
-                </div>
-                <div class="card-content">
-                    <div class="card-rating">
-                        <span class="star">★★★★★</span>
-                        <span class="rating-number">4.7 (18)</span>
-                    </div>
-                    <h3 class="card-title">Mole</h3>
-                    <p class="card-author">por @Maria</p>
-                    <div class="card-info">
-                        <div class="info-item">
-                            <span class="info-icon">⏱️</span>
-                            <span>90 min</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">👥</span>
-                            <span>4 porciones</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">🔥</span>
-                            <span>Difícil</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn-receta">Ver Receta</button>
-                    <button class="btn-heart">❤️</button>
-                    <span class="like-count">156</span>
-                </div>
-            </div>
+            
         </div>
     </section>
 
+    <?php include 'includes/footer.php'; ?>
 
+    <script src="js/logicaRecetas.js"></script>
+    <script src="js/logicaHeader.js"></script>
+    <script>
+        function revisar(){
+            const token = localStorage.getItem("token");
 
-
-    <footer>
-        © 2025 Foreing Cooking. Hecho para amantes de la comida a bajo presupuesto | Comparte tus sabores con el mundo
-    </footer>
-
-    <script src="js/animacion.js"></script>
-    <script src="js/logica.js"></script>
+            if (token) {
+                window.location.href = "CrearRecetas.php"; 
+            } else {
+                window.location.href = "IniciarRegistrarse.php?mode=register";
+            }
+        }
+    </script>
 </body>
 </html>

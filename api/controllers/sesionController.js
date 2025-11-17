@@ -1,4 +1,4 @@
-import { Usuario } from "../models/Usuario.js";
+import { Usuario } from "../models/usuario.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -37,7 +37,8 @@ export async function registrarUsuario(req, res) {
                 nombre: nuevoUsuario.nombre,
                 email: nuevoUsuario.email,
                 rol: nuevoUsuario.rol,
-                fechaRegistro: nuevoUsuario.fechaRegistro
+                foto: nuevoUsuario.foto,
+                status: nuevoUsuario.status,
             }
         });
 
@@ -73,7 +74,9 @@ export async function iniciarSesion(req, res){
             usuario: {
                 id: usuario._id,
                 nombre: usuario.nombre,
-                email: usuario.email
+                email: usuario.email,
+                foto: usuario.foto,
+                status: usuario.status,
             }
         });
     } catch (error) {
