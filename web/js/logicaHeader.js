@@ -1,7 +1,8 @@
 import API_URL from './config.js';
+
 //// FUNCIÓN PARA CAMBIAR HEADER ////
 
-function CambiarHeader(fotoPerfil){
+export function CambiarHeader(fotoPerfil){
     const btnLogin = document.getElementById("btn-login");
     const btnRegister = document.getElementById("btn-register");
     const perfil = document.getElementById("perfil-container");

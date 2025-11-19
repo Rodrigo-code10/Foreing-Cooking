@@ -1,4 +1,5 @@
 import API_URL from './config.js';
+import { CambiarHeader } from "./logicaHeader.js";
 
 ///Funcion pa cerrar sesion
 function cerrarSesion(){
@@ -15,6 +16,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if(usuario && usuario.foto){
         CambiarPerfil(usuario.foto,usuario);
         CambiarHeader(usuario.foto);
+    }
+
+    // Agregar evento al botón de cerrar sesión
+    const btnCerrarSesion = document.querySelector(".btn_sesion");
+    if(btnCerrarSesion){
+        btnCerrarSesion.addEventListener("click", cerrarSesion);
     }
 });
 
@@ -74,10 +81,15 @@ async function CambiarPerfil(fotoPerfil,usuario){
                 </div>
                 <div class="card-footer">
                     <button class="btn-receta">Ver Receta</button>
-                    <button onclick="eliminarReceta('${receta._id}')" class="btn-receta">Eliminar</button>
+                    <button class="btn-receta eliminar">Eliminar</button>
                 </div>
             `;
             recetasContainer.appendChild(card);
+
+            const btnEliminar = card.querySelector(".btn-receta.eliminar");
+            btnEliminar.addEventListener("click", () => {
+                eliminarReceta(receta._id);
+            });
         });
 
         const Conteorecetas = document.getElementById("recetas-creadas");
@@ -149,34 +161,3 @@ async function eliminarReceta(id) {
         }
     }
 }
-
-
-
-
-function CambiarHeader(fotoPerfil){
-    const btnLogin = document.getElementById("btn-login");
-    const btnRegister = document.getElementById("btn-register");
-    const perfil = document.getElementById("perfil-container");
-    const img = document.getElementById("perfil-foto");
-
-    const receta = document.getElementById("CreaReceta");
-
-    if(btnLogin) btnLogin.style.display = "none";
-    if(btnRegister) btnRegister.style.display = "none";
-
-    if(perfil && img){        
-        img.src = `${API_URL}${fotoPerfil}`;
-        perfil.style.display = "block";
-        receta.style.display = "block";
-    }
-}
-
-
-
-
-
-
-
-
-
-

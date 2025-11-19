@@ -9,11 +9,11 @@ async function mostrarRecetas(filtros = {}) {
         const recetas = await response.json();
 
         const contenedor = document.querySelector('.cards');
+        contenedor.innerHTML = ''; // Limpiar contenedor antes de cargar
 
         recetas.forEach(receta => {
             const card = document.createElement('div');
             card.classList.add('card');
-            
 
             card.innerHTML = `
                 <div class="card-image">
@@ -47,11 +47,20 @@ async function mostrarRecetas(filtros = {}) {
 
                 <div class="card-footer">
                     <button class="btn-receta">Ver Receta</button>
-                    <button onclick="toggleLike('${receta._id}')" class="btn-heart">❤️</button>
+                    <button class="btn-heart">❤️</button>
                     <span class="like-count">${receta.likes}</span>
                 </div>
             `;
             contenedor.appendChild(card);
+
+            const btnLike = card.querySelector('.btn-heart');
+            const likeCount = card.querySelector('.like-count');
+            btnLike.addEventListener('click', async () => {
+                const data = await toggleLike(receta._id);
+                if (data && likeCount) {
+                    likeCount.textContent = data.likes;
+                }
+            });
         });
 
     } catch (error) {
@@ -60,14 +69,12 @@ async function mostrarRecetas(filtros = {}) {
 }
 mostrarRecetas();
 
-
-
-
 async function toggleLike(recetaId) {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
             alert('Debes iniciar sesión para dar like');
+            return;
         }
 
         const response = await fetch(`${API_URL}/recetas/${recetaId}/like`, {
@@ -78,8 +85,8 @@ async function toggleLike(recetaId) {
             }
         });
 
-        let data;
         const contentType = response.headers.get('content-type');
+        let data;
         if (contentType && contentType.includes('application/json')) {
             data = await response.json();
         } else {
@@ -88,18 +95,10 @@ async function toggleLike(recetaId) {
             throw new Error('Respuesta del servidor no es JSON');
         }
 
-        
         if (!response.ok) {
             console.error('Error del servidor:', data);
             alert(data.error || 'Error al dar like');
             return;
-        }
-
-        // Actualizar el contador de likes
-        const card = document.querySelector(`.card button[onclick="toggleLike('${recetaId}')"]`);
-        if (card) {
-            const likeCount = card.nextElementSibling; 
-            likeCount.textContent = data.likes;
         }
 
         return data;

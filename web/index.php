@@ -42,8 +42,8 @@
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/logicaRecetas.js"></script>
-    <script src="js/logicaHeader.js"></script>
+    <script type="module" src="js/logicaRecetas.js"></script>
+    <script type="module" src="js/logicaHeader.js"></script>
     <script>
         function revisar(){
             const token = localStorage.getItem("token");

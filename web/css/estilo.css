@@ -849,7 +849,7 @@ body.perfil-page nav a:hover {
     background: linear-gradient(135deg, #f47a6a, #e05b49);
     color: white;
     text-align: center;
-    padding: 25px 20px;
+    padding: 55px 280px;
     border-radius: 15px;
 }
 
@@ -1018,7 +1018,7 @@ body.perfil-page .like-count {
     cursor: pointer;
     transition: background-color 0.3s;
     display: block;     
-    margin: 20px auto;  
+    margin: 20px auto 120px;  
 }
 
 .btn_sesion:hover {

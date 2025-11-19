@@ -30,7 +30,7 @@
         <!-- Pestañas -->
         <div class="tabs">
             <button class="tab activa">Mis Recetas</button>
-            <button class="tab">Guardadas</button>
+            <button class="tab">Mis Favoritos</button>
             <button class="tab">Configuración</button>
         </div>
 
@@ -42,10 +42,10 @@
         </div>
     </section>
 
-    <button class="btn_sesion" onclick="cerrarSesion()">Cerrar sesión</button>
+    <button class="btn_sesion">Cerrar sesión</button>
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/logicaPerfil.js"></script>
+    <script type="module" src="js/logicaPerfil.js"></script>
 </body>
 </html>

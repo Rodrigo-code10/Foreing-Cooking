@@ -155,7 +155,7 @@
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/logicaCreaReceta.js"></script>
-    <script src="js/logicaHeader.js"></script>  
+    <script type="module" src="js/logicaCreaReceta.js"></script>
+    <script type="module" src="js/logicaHeader.js"></script>  
 </body>
 </html>

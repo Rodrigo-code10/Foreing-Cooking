@@ -63,8 +63,7 @@
         </div>
     </div>
 
-    <script src="js/animacion.js"></script>
-    <script src="js/logicaSesion.js"></script>
-    <script src="js/logicaHeader.js"></script>
+    <script type="module" src="js/animacion.js"></script>
+    <script type="module" src="js/logicaSesion.js"></script>
 </body>
 </html>

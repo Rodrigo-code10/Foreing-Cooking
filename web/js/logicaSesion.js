@@ -1,4 +1,5 @@
 import API_URL from './config.js';
+import { CambiarHeader } from "./logicaHeader.js";
 //// REGISTRO ////
 document.addEventListener("DOMContentLoaded", () => {
     const registerForm = document.querySelector("#registerForm form");

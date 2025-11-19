@@ -1,4 +1,5 @@
 import API_URL from './config.js';
+import { CambiarHeader } from "./logicaHeader.js";
 // Crear nueva receta
 async function nuevaReceta() {
     try {

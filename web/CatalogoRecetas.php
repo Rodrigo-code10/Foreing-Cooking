@@ -40,8 +40,8 @@
 
     <?php include 'includes/footer.php'; ?>
 
-    <script src="js/animacion.js"></script>
-    <script src="js/logicaRecetas.js"></script>
-    <script src="js/logicaHeader.js"></script>
+    <script type="module" src="js/animacion.js"></script>
+    <script type="module" src="js/logicaRecetas.js"></script>
+    <script type="module" src="js/logicaHeader.js"></script>
 </body>
 </html>
