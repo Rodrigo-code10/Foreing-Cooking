@@ -146,7 +146,7 @@
                     style="padding: 12px; cursor: pointer;">
 
                 <div class="botones">
-                    <button type="submit" class="enviar" onclick="nuevaReceta()">Enviar Solicitud</button>
+                    <button type="submit" class="enviar">Enviar Solicitud</button>
                     <button type="button" class="cancelar" onclick="window.location.href='index.php'">Cancelar</button>
                 </div>
             </form>
