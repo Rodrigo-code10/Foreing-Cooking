@@ -1,5 +1,5 @@
+import API_URL from './config.js';
 //// FUNCIÓN PARA CAMBIAR HEADER ////
-const BACKEND_URL = "http://localhost:3000"
 
 function CambiarHeader(fotoPerfil){
     const btnLogin = document.getElementById("btn-login");
@@ -13,7 +13,7 @@ function CambiarHeader(fotoPerfil){
     if(btnRegister) btnRegister.style.display = "none";
 
     if(perfil && img){        
-        img.src = BACKEND_URL + fotoPerfil ;
+        img.src = `${API_URL}` + fotoPerfil ;
         perfil.style.display = "block";
         receta.style.display = "block";
     }

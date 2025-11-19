@@ -394,12 +394,27 @@ h1 {
 
 /*crear_rec.html*/
 .section-titleCR {
-    background-color: #F5F1ED;
     display: grid;
     grid-template-columns: 1fr;
     gap: 40px;
     align-items: center;
     margin-bottom: 20px;
+}
+
+.Formulario_contenedor #formCrearReceta #dificultad {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #CDCDCD;
+    font-size: 15px;
+    margin-bottom: 15px;
+}
+
+.Formulario_contenedor .Formulario_Receta #formCrearReceta #Categoria {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    text-align: center;
+
 }
 
 .section-titleCR .contenido h1 {
@@ -409,7 +424,7 @@ h1 {
 }
 
 .Formulario_contenedor {
-    background-color: #F5F1ED;
+    background-color: #FFEFE9;
     padding: 10px 0;
     text-align: center;
     margin-bottom: 10px;

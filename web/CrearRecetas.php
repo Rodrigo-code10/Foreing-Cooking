@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="/css/estilo.css?v=1.0">
     <title>Agregar Receta</title>
 </head>
 
@@ -41,12 +41,99 @@
 
                 <label for="dificultad">Dificultad *</label>
                 <select name="dificultad" id="dificultad" required>
-                    <option value="">Seleccionar...</option>    
+                    <option value="">Seleccionar...</option>
                     <option value="Fácil">Fácil</option>
                     <option value="Medio">Medio</option>
                     <option value="Difícil">Difícil</option>
                 </select>
+                <!---Modificacion-->
+                <label>Etiquetas *</label>
+                <div id="Categoria">
+                    <label>
+                        <input type="checkbox" name="categoria[]" value="Saludable">
+                        Saludable
+                    </label>
+                    <label>
+                        <input type="checkbox"  name="categoria[]" value="Nutritivo">
+                        Nutritivo
+                    </label>
+                    <label>
+                        <input type="checkbox" name="categoria[]" value="Grasoso">
+                        Grasoso
+                    </label>
+                    <label>
+                        <input type="checkbox" name="categoria[]" value="Vegetariano">
+                        Vegetariano
+                    </label>
+                    <label>
+                        <input type="checkbox" name="categoria[]" value="Dulce">
+                        Dulce
+                    </label>
+                    <label>
+                        <input type="checkbox" name="categoria[]" value="Salado">
+                        Salado
+                    </label>
+                    <label>
+                        <input type="checkbox" name="categoria[]" value="Picante">
+                        Picante
+                </label>
+                <label>
+                    <input type="checkbox" name="categoria[]" value="Vegana">
+                    Vegana
+                </label>                                            
 
+                    <!-- Adjunto Fragmento de codigo
+                     const tipos = document.querySelectorAll('.Tipo_platillo');
+
+                            tipos.forEach(chk => {
+                                chk.addEventListener('change', () => {
+                                    if (chk.checked) {
+                                        tipos.forEach(other => {
+                                            if (other !== chk) other.checked = false;
+                                        });
+                                    }
+                                });
+                            });
+                            -->
+                    <label>
+                        <input type="checkbox" class="Tipo_platillo"   name="categoria[]" value="Entrada">
+                        Entrada
+                    </label>
+                    <label>
+                        <input type="checkbox" class="Tipo_platillo"   name="categoria[]" value="Postre">
+                        Postre
+                    </label>
+                    <label>
+                        <input type="checkbox" class="Tipo_platillo"   name="categoria[]" value="Plato Fuerte">
+                        Plato Fuerte
+                    </label>
+                </div>
+                
+                    <!-- para lista de ingredientes
+                     const textarea = document.getElementById("ingredientes");
+                        //usamos el submit para llamar a la funcion antes de que el usuario haga el enviado
+
+                        //usamos spit para dividir el texto en partes por medio de salto de linea
+                        document.getElementById("formCrearReceta").addEventListener("submit", (e) => {
+                            const lineas = textarea.value.split("\n").map(l => l.trim()).filter(l => l !== "");
+
+                            if (lineas.length < 1) {
+                                alert("Debes ingresar al menos un ingrediente.");
+                                e.preventDefault();
+                                return;
+                            }
+
+                            // Si quieres forzar que cada línea tenga mínimo 2 palabras: opcional
+                            for (const linea of lineas) {
+                                if (linea.split(" ").length < 1) {
+                                    alert("Cada ingrediente debe escribirse en una línea distinta.");
+                                    e.preventDefault();
+                                    return;
+                                }
+                            }
+                        });
+                        -->
+                        <!--- Fin Modificacion-->
                 <label for="ingredientes">Ingredientes *</label>
                 <textarea name="ingredientes" id="ingredientes" placeholder="Cada ingrediente en una línea" rows="6"
                     required></textarea>
@@ -59,7 +146,7 @@
                     style="padding: 12px; cursor: pointer;">
 
                 <div class="botones">
-                    <button type="button" class="enviar" onclick="nuevaReceta()">Enviar Solicitud</button>
+                    <button type="submit" class="enviar" onclick="nuevaReceta()">Enviar Solicitud</button>
                     <button type="button" class="cancelar" onclick="window.location.href='index.php'">Cancelar</button>
                 </div>
             </form>

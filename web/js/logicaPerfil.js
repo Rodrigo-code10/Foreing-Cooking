@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:3000"
+import API_URL from './config.js';
 
 ///Funcion pa cerrar sesion
 function cerrarSesion(){
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function CambiarPerfil(fotoPerfil,usuario){
     const perfil = document.getElementById("foto-perfil");
     if(perfil){        
-        perfil.src = BACKEND_URL + fotoPerfil ;
+        perfil.src = `${API_URL}${fotoPerfil}` ;
     }
 
     const nombre = document.getElementById("nombre");
@@ -35,7 +35,7 @@ async function CambiarPerfil(fotoPerfil,usuario){
 
     try {
         // Hacer petición al backend para obtener recetas del usuario
-        const response = await fetch(`${BACKEND_URL}/muestrarecetas?autor=${usuario.id}`);
+        const response = await fetch(`${API_URL}/muestrarecetas?autor=${usuario.id}`);
         const recetas = await response.json();
 
         if (recetas.length === 0) {
@@ -48,7 +48,7 @@ async function CambiarPerfil(fotoPerfil,usuario){
 
             card.innerHTML = `
                 <div class="card-image">
-                    <img src="${BACKEND_URL}${receta.imagen}" alt="${receta.nombre}">
+                    <img src="${API_URL }${receta.imagen}" alt="${receta.nombre}">
                 </div>
                 <div class="card-content">
                     <div class="card-rating">
@@ -85,7 +85,7 @@ async function CambiarPerfil(fotoPerfil,usuario){
 
         const Favoritas = document.getElementById("Favoritas");
         try {
-            const responseFav = await fetch(`${BACKEND_URL}/obtenerfavoritos`, {
+            const responseFav = await fetch(`${API_URL}/obtenerfavoritos`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
@@ -101,7 +101,7 @@ async function CambiarPerfil(fotoPerfil,usuario){
 
         const seguidores = document.getElementById("Seguidores");
         try {
-            const resposeSeg = await fetch(`${BACKEND_URL}/obtenerseguidores`, {
+            const resposeSeg = await fetch(`${API_URL}/obtenerseguidores`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
@@ -128,7 +128,7 @@ async function eliminarReceta(id) {
         try {
             const token = localStorage.getItem('token');
             
-            const response = await fetch(`${BACKEND_URL}/rmiRecetas/${id}`, {
+            const response = await fetch(`${API_URL}/rmiRecetas/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -153,33 +153,6 @@ async function eliminarReceta(id) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function CambiarHeader(fotoPerfil){
     const btnLogin = document.getElementById("btn-login");
     const btnRegister = document.getElementById("btn-register");
@@ -192,7 +165,7 @@ function CambiarHeader(fotoPerfil){
     if(btnRegister) btnRegister.style.display = "none";
 
     if(perfil && img){        
-        img.src = BACKEND_URL + fotoPerfil ;
+        img.src = `${API_URL}${fotoPerfil}`;
         perfil.style.display = "block";
         receta.style.display = "block";
     }

@@ -1,3 +1,4 @@
+import API_URL from './config.js';
 // Crear nueva receta
 async function nuevaReceta() {
     try {
@@ -9,7 +10,7 @@ async function nuevaReceta() {
         const form = document.getElementById("formCrearReceta");
         const formData = new FormData(form);
 
-        const response = await fetch('http://localhost:3000/newreceta', {
+        const response = await fetch(`${API_URL}/newreceta`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`

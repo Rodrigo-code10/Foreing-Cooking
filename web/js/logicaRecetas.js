@@ -1,8 +1,9 @@
+import API_URL from './config.js';
+
 async function mostrarRecetas(filtros = {}) {
     try {
-        const BACKEND_URL = "http://localhost:3000"
         const queryString = new URLSearchParams(filtros).toString();
-        const url = `${BACKEND_URL}/muestrarecetas${queryString ? `?${queryString}` : ''}`;
+        const url = `${API_URL}/muestrarecetas${queryString ? `?${queryString}` : ''}`;
 
         const response = await fetch(url);
         const recetas = await response.json();
@@ -16,7 +17,7 @@ async function mostrarRecetas(filtros = {}) {
 
             card.innerHTML = `
                 <div class="card-image">
-                    <img src="http://localhost:3000${receta.imagen}" alt="${receta.nombre}">
+                    <img src="${API_URL}${receta.imagen}" alt="${receta.nombre}">
                     <span class="card-badge">Nuevo</span>
                 </div>
 
@@ -64,13 +65,12 @@ mostrarRecetas();
 
 async function toggleLike(recetaId) {
     try {
-        const BACKEND_URL = "http://localhost:3000";
         const token = localStorage.getItem('token');
         if (!token) {
             alert('Debes iniciar sesión para dar like');
         }
 
-        const response = await fetch(`${BACKEND_URL}/recetas/${recetaId}/like`, {
+        const response = await fetch(`${API_URL}/recetas/${recetaId}/like`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

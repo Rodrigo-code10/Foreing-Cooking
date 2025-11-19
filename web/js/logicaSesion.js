@@ -1,3 +1,4 @@
+import API_URL from './config.js';
 //// REGISTRO ////
 document.addEventListener("DOMContentLoaded", () => {
     const registerForm = document.querySelector("#registerForm form");
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             try{
-                const res = await fetch('http://localhost:3000/registrar', {
+                const res = await fetch(`${API_URL}/registrar`, {
                     method: 'POST',
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ nombre, email, password })
@@ -81,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             try{
-                const res = await fetch('http://localhost:3000/login', {
+                const res = await fetch(`${API_URL}/login`, {
                     method: 'POST',
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password })
