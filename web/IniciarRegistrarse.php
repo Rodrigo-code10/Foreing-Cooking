@@ -21,7 +21,7 @@
                 <div class="input-group password">
                     <input type="password" name="password" id="login_password" placeholder="Contraseña" required />
                 </div>
-                <button type="submit" class="submit-btn" onclick="login()">Iniciar Sesión</button>
+                <button type="submit" class="submit-btn">Iniciar Sesión</button>
             </form>
         </div>
 
@@ -39,7 +39,7 @@
                 <div class="input-group password">
                     <input type="password" name="password" id="register_password" placeholder="Contraseña" required />
                 </div>
-                <button type="submit" class="submit-btn" onclick="Registra()">Registrarse</button>
+                <button type="submit" class="submit-btn">Registrarse</button>
             </form>
         </div>
 
@@ -63,7 +63,7 @@
         </div>
     </div>
 
-    <script type="module" src="js/animacion.js"></script>
+    <script src="js/animacion.js"></script>
     <script type="module" src="js/logicaSesion.js"></script>
 </body>
 </html>

@@ -1,0 +1,89 @@
+/*CatalogoRecetas.php*/
+h1 {
+    text-align: center;
+    color: #E74D4E;
+    padding: 20px;
+    background-color: #FFEFE9;
+}
+
+.Buscador {
+    background-color: #FFEFE9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.Buscador_recetas {
+    width: 30%;
+    padding: 15px 20px;
+    border-radius: 16px;
+    border: 3px solid #CBB7B7;
+    font-size: 20px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.Buscador_recetas:focus {
+    border-color: #E74D4E;
+    box-shadow: 0 0 8px rgba(231, 77, 78, 0.3);
+}
+
+.catalogo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+    padding: 40px;
+    background-color: #FFEFE9;
+}
+
+.Entrada {
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    height: 300px;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.Entrada:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.Entrada img {
+    width: 250px;
+    height: 160px;
+    object-fit: cover;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.Entrada h3 {
+    color: #E74D4E;
+    margin: 15px 0 5px 0;
+}
+
+.Entrada p {
+    color: #555;
+    padding: 0 15px;
+    font-size: 15px;
+}
+
+.btn-ver {
+    display: inline-block;
+    margin: 15px 0 20px 0;
+    background-color: #E74D4E;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.btn-ver:hover {
+    background-color: #ff6f70;
+}
