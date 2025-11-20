@@ -745,3 +745,85 @@ body.auth-page {
         height: 100px;
     }
 }
+/* Animación del mensaje de éxito */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+.calificacion-usuario {
+    margin-top: 20px;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.calificacion-usuario p {
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin: 5px 0 0 0;
+    color: #666;
+    text-align: center;
+    width: 100%;
+}
+
+.estrellas-clickeables {
+    display: flex;
+    gap: 8px;
+    font-size: 2rem;
+    justify-content: flex-start;
+}
+.estrellas{
+    color: #FFC107;
+}
+
+
+.estrella-clickeable {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #ddd;
+    user-select: none;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.estrella-clickeable:hover {
+    transform: scale(1.3);
+    filter: drop-shadow(0 0 8px rgba(232, 83, 79, 0.5));
+}
+
+.estrella-clickeable:active {
+    transform: scale(1.1);
+}
+
+/* Layout de la calificación en verReceta */
+.receta-calificacion {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.receta-calificacion .estrellas {
+    font-size: 1.5rem;
+}
+
+.receta-calificacion .calificacion-numero {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Animación del mensaje de éxito */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}

@@ -166,3 +166,93 @@ export const obtenerRecetaPorId = async (req, res) => {
         res.status(500).json({ error: 'Error del servidor al obtener receta' });
     }
 };
+
+import { Calificacion } from "../models/calificacion.js";
+
+// Calificar una receta
+export async function calificarReceta(req, res) {
+    try {
+        const recetaId = req.params.id;
+        const { puntuacion } = req.body;
+        const usuarioId = req.usuarioId;
+
+        // Validar puntuación
+        if (!puntuacion || puntuacion < 1 || puntuacion > 5) {
+            return res.status(400).json({ error: 'La puntuación debe estar entre 1 y 5' });
+        }
+
+        // Verificar que la receta existe
+        const receta = await Receta.findById(recetaId);
+        if (!receta) {
+            return res.status(404).json({ error: 'Receta no encontrada' });
+        }
+
+        // Verificar que no está calificando su propia receta
+        if (receta.autor.toString() === usuarioId) {
+            return res.status(400).json({ error: 'No puedes calificar tu propia receta' });
+        }
+
+        // Buscar si ya calificó antes
+        let calificacion = await Calificacion.findOne({ 
+            recetaId: recetaId, 
+            usuarioId: usuarioId 
+        });
+
+        if (calificacion) {
+            // Actualizar calificación existente
+            calificacion.puntuacion = puntuacion;
+            await calificacion.save();
+        } else {
+            // Crear nueva calificación
+            calificacion = await Calificacion.create({
+                recetaId: recetaId,
+                usuarioId: usuarioId,
+                puntuacion: puntuacion
+            });
+        }
+
+        // Recalcular promedio de calificaciones
+        const todasCalificaciones = await Calificacion.find({ recetaId: recetaId });
+        const suma = todasCalificaciones.reduce((acc, cal) => acc + cal.puntuacion, 0);
+        const promedio = suma / todasCalificaciones.length;
+
+        // Actualizar receta
+        receta.calificacion = Math.round(promedio * 10) / 10; // Redondear a 1 decimal
+        receta.numCalificaciones = todasCalificaciones.length;
+        await receta.save();
+
+        res.json({
+            mensaje: 'Calificación guardada exitosamente',
+            calificacion: receta.calificacion,
+            numCalificaciones: receta.numCalificaciones,
+            tuCalificacion: puntuacion
+        });
+
+    } catch (error) {
+        console.error('Error al calificar receta:', error);
+        res.status(500).json({ error: 'Error al calificar receta', detalle: error.message });
+    }
+}
+
+// Obtener la calificación del usuario actual para una receta
+export async function obtenerMiCalificacion(req, res) {
+    try {
+        const recetaId = req.params.id;
+        const usuarioId = req.usuarioId;
+
+        const calificacion = await Calificacion.findOne({
+            recetaId: recetaId,
+            usuarioId: usuarioId
+        });
+
+        if (calificacion) {
+            res.json({ puntuacion: calificacion.puntuacion });
+        } else {
+            res.json({ puntuacion: 0 });
+        }
+
+    } catch (error) {
+        console.error('Error al obtener calificación:', error);
+        res.status(500).json({ error: 'Error al obtener calificación' });
+    }
+}

@@ -1,6 +1,7 @@
 import API_URL from './config.js';
 
 let recetaIdActual = null;
+let miCalificacionActual = 0;
 
 // Obtener el ID de la receta desde la URL
 const urlParams = new URLSearchParams(window.location.search);
@@ -31,6 +32,27 @@ async function cargarReceta(id) {
     }
 }
 
+async function cargarMiCalificacion(id) {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) return; // Si no está logueado, no cargar calificación
+
+        const response = await fetch(`${API_URL}/recetas/${id}/mi-calificacion`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            miCalificacionActual = data.puntuacion || 0;
+            actualizarEstrellasClickeables(miCalificacionActual);
+        }
+    } catch (error) {
+        console.error('Error al cargar mi calificación:', error);
+    }
+}
+
 function mostrarReceta(receta) {
     // Actualizar título
     document.getElementById('nombreReceta').textContent = receta.nombre;
@@ -40,11 +62,11 @@ function mostrarReceta(receta) {
     const numCalificaciones = receta.numCalificaciones || 0;
     document.getElementById('calificacionTexto').textContent = `${calificacion} / 5.0`;
 
-    // Actualizar estrellas
     const estrellas = document.querySelector('.estrellas');
-    const estrellasLlenas = Math.round(calificacion);
-    estrellas.textContent = '★'.repeat(estrellasLlenas) + '☆'.repeat(5 - estrellasLlenas);
+    actualizarEstrellasVisuales(estrellas, calificacion);
 
+    // Crear estrellas clickeables
+    crearEstrellasClickeables();
     // Actualizar imagen principal
     const imagenPrincipal = document.getElementById('imagenPrincipal');
     imagenPrincipal.src = `${API_URL}${receta.imagen}`;
@@ -128,6 +150,131 @@ function mostrarReceta(receta) {
     // Configurar botón de like
     const btnLike = document.getElementById('btnLike');
     btnLike.onclick = darLike;
+}
+
+function actualizarEstrellasVisuales(contenedor, calificacion) {
+    const estrellasLlenas = Math.round(calificacion);
+    contenedor.textContent = '★'.repeat(estrellasLlenas) + '☆'.repeat(5 - estrellasLlenas);
+}
+
+function crearEstrellasClickeables() {
+    const contenedor = document.querySelector('.receta-calificacion');
+    
+    // Buscar si ya existe el contenedor de calificación del usuario
+    let calificacionUsuario = contenedor.querySelector('.calificacion-usuario');
+    
+    if (!calificacionUsuario) {
+        calificacionUsuario = document.createElement('div');
+        calificacionUsuario.className = 'calificacion-usuario';
+        calificacionUsuario.innerHTML = `
+            <div class="estrellas-clickeables">
+                ${[1, 2, 3, 4, 5].map(num => 
+                    `<span class="estrella-clickeable" data-valor="${num}">☆</span>`
+                ).join('')}
+            </div>
+            <p style="font-size: 0.85rem; margin: 5px 0 0 0; color: #666;">Tu calificación</p>
+        `;
+        contenedor.appendChild(calificacionUsuario);
+    }
+
+    // Agregar eventos a las estrellas
+    const estrellasClickeables = calificacionUsuario.querySelectorAll('.estrella-clickeable');
+    
+    estrellasClickeables.forEach(estrella => {
+        // Hover
+        estrella.addEventListener('mouseenter', (e) => {
+            const valor = parseInt(e.target.dataset.valor);
+            actualizarEstrellasClickeables(valor);
+        });
+
+        // Click
+        estrella.addEventListener('click', async (e) => {
+            const valor = parseInt(e.target.dataset.valor);
+            await enviarCalificacion(valor);
+        });
+    });
+
+    // Restaurar calificación al salir del hover
+    calificacionUsuario.addEventListener('mouseleave', () => {
+        actualizarEstrellasClickeables(miCalificacionActual);
+    });
+}
+
+function actualizarEstrellasClickeables(valor) {
+    const estrellas = document.querySelectorAll('.estrella-clickeable');
+    estrellas.forEach((estrella, index) => {
+        if (index < valor) {
+            estrella.textContent = '★';
+            estrella.style.color = '#FFC107';
+        } else {
+            estrella.textContent = '☆';
+            estrella.style.color = '##FFC107';
+        }
+    });
+}
+
+async function enviarCalificacion(puntuacion) {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Debes iniciar sesión para calificar');
+            window.location.href = 'IniciarRegistrarse.php?mode=login';
+            return;
+        }
+
+        const response = await fetch(`${API_URL}/recetas/${recetaIdActual}/calificar`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ puntuacion })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error || 'Error al calificar');
+            return;
+        }
+
+        // Actualizar calificación actual del usuario
+        miCalificacionActual = puntuacion;
+        actualizarEstrellasClickeables(puntuacion);
+
+        // Actualizar calificación general mostrada
+        document.getElementById('calificacionTexto').textContent = 
+            `${data.calificacion} / 5.0 (${data.numCalificaciones} ${data.numCalificaciones === 1 ? 'voto' : 'votos'})`;
+        
+        const estrellas = document.querySelector('.estrellas');
+        actualizarEstrellasVisuales(estrellas, data.calificacion);
+
+        // Mensaje de éxito
+        mostrarMensajeExito('¡Calificación guardada!');
+
+    } catch (error) {
+        console.error('Error al calificar:', error);
+        alert('Error al enviar calificación');
+    }
+}
+
+function mostrarMensajeExito(mensaje) {
+    const div = document.createElement('div');
+    div.textContent = mensaje;
+    div.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #4CAF50;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        z-index: 1000;
+        animation: fadeIn 0.3s, fadeOut 0.3s 2.5s;
+    `;
+    document.body.appendChild(div);
+    setTimeout(() => div.remove(), 3000);
 }
 
 function cambiarImagenPrincipal(src, miniaturaElement) {

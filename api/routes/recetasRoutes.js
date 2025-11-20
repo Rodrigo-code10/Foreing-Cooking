@@ -34,6 +34,18 @@ router.post("/recetas/:id/like",verificarToken, like);
 router.delete("/rmiRecetas/:id",verificarToken,eliminarReceta);
 
 
+import { 
+    calificarReceta, 
+    obtenerMiCalificacion 
+} from '../controllers/recetasController.js';
+
+// Calificar una receta
+router.post("/recetas/:id/calificar", verificarToken, calificarReceta);
+
+// Obtener mi calificación de una receta
+router.get("/recetas/:id/mi-calificacion", verificarToken, obtenerMiCalificacion);
+
+
 
 console.log("rutas ok");
 

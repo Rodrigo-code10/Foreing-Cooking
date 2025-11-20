@@ -1,5 +1,11 @@
 import API_URL from './config.js';
 
+// Función para generar estrellas visuales
+function generarEstrellas(calificacion) {
+    const estrellasLlenas = Math.round(calificacion);
+    return '★'.repeat(estrellasLlenas) + '☆'.repeat(5 - estrellasLlenas);
+}
+
 export async function mostrarRecetas(filtros = {}) {
     try {
         const queryString = new URLSearchParams(filtros).toString();
@@ -23,7 +29,7 @@ export async function mostrarRecetas(filtros = {}) {
 
                 <div class="card-content">
                     <div class="card-rating">
-                        <span class="star">★★★★★</span>
+                        <span class="estrellas">${generarEstrellas(receta.calificacion)}</span>
                         <span class="rating-number">${receta.calificacion} (${receta.numCalificaciones})</span>
                     </div>
                     <h3 class="card-title">${receta.nombre}</h3>

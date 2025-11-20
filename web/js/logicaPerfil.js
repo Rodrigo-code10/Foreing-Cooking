@@ -9,6 +9,10 @@ function cerrarSesion(){
         window.location.href = 'index.php';
     }
 }
+function generarEstrellas(calificacion) {
+    const estrellasLlenas = Math.round(calificacion);
+    return '★'.repeat(estrellasLlenas) + '☆'.repeat(5 - estrellasLlenas);
+}
 
 function renderizarRecetas(recetas, mostrarEliminar = false) {
     const recetasContainer = document.getElementById("muestra-recetas");
@@ -29,8 +33,8 @@ function renderizarRecetas(recetas, mostrarEliminar = false) {
             </div>
             <div class="card-content">
                 <div class="card-rating">
-                    <span class="star">★★★★★</span>
-                    <span class="rating-number">${receta.calificacion || 0} (${receta.numCalificaciones || 0})</span>
+                    <span class="estrellas">${generarEstrellas(receta.calificacion)}</span>
+                    <span class="rating-number">${receta.calificacion} (${receta.numCalificaciones})</span>
                 </div>
                 <h3 class="card-title">${receta.nombre}</h3>
                 <div class="card-info">
