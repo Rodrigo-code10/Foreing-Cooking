@@ -49,7 +49,7 @@ function renderizarRecetas(recetas, mostrarEliminar = false) {
                 </div>
             </div>
             <div class="card-footer">
-                <button class="btn-receta" onclick="window.location.href='ver_receta.php?id=${receta._id}'">Ver Receta</button>
+                <button class="btn-receta" onclick="window.location.href='VerReceta.php?id=${receta._id}'">Ver Receta</button>
                 ${mostrarEliminar ? '<button class="btn-receta eliminar">Eliminar</button>' : ''}
             </div>
         `;

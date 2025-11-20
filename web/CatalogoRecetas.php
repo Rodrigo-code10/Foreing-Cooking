@@ -23,7 +23,7 @@
                 <input type="text" id="buscar_recetas" name="buscar" placeholder="Buscar recetas" class="Buscador_recetas">
             </div>
 
-            <label>Seleccione una Categoria*</label>
+            <label>Seleccione una Categoria</label>
 
             <!-- Botones de categorías -->
             <div class="botones">
@@ -37,7 +37,7 @@
 
             <!-- Etiquetas -->
             <div class="Etiquetas">
-                <label>Etiquetas *</label>
+                <label>Etiquetas</label>
                 <div id="Categoria">
                     <label><input type="checkbox" name="categoria[]" value="Saludable"> Saludable</label>
                     <label><input type="checkbox" name="categoria[]" value="Nutritivo"> Nutritivo</label>
@@ -52,37 +52,16 @@
 
             <!-- Botones de acción -->
             <div class="botonesBuscador">
-                <button type="submit" class="Buscar">Buscar</button>
-                <button type="reset" class="Limpiar">Limpiar</button>
+                <button type="reset" class="Limpiar" onclick="location.reload()">Limpiar</button>
             </div>
         </form>
     </section>
 
-    <div class="cards">
+    <div class="otro">
+        <div class="cards">
             
+        </div>
     </div>
-
-    <script>
-    const botones = document.querySelectorAll('.botonCategoria');
-    const contenedor = document.getElementById('contenedorCategoria');
-
-    const imagenes = {
-        "Entrada": "src/Entrada.png",
-        "Plato Fuerte": "src/Comida.png",
-        "Postre": "src/Postre.png"
-    };
-
-    botones.forEach(boton => {
-        boton.addEventListener('click', () => {
-            const categoria = boton.dataset.categoria;
-            contenedor.innerHTML = `
-                <img src="${imagenes[categoria]}" alt="${categoria}">
-                <p>${categoria}</p>
-            `;
-        });
-    });
-    </script>
-
 
     <?php include 'includes/footer.php'; ?>
 

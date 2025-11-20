@@ -46,7 +46,7 @@ export async function mostrarRecetas(filtros = {}) {
                 </div>
 
                 <div class="card-footer">
-                    <button class="btn-receta" onclick="window.location.href='ver_receta.php?id=${receta._id}'">Ver Receta</button>
+                    <button class="btn-receta" onclick="window.location.href='VerReceta.php?id=${receta._id}'">Ver Receta</button>
                     <button class="btn-heart">❤️</button>
                     <span class="like-count">${receta.likes}</span>
                 </div>
