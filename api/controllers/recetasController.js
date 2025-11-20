@@ -1,6 +1,7 @@
 import { Receta } from "../models/nuevaReceta.js";
 import { Usuario } from "../models/usuario.js";
 import { Favorito } from "../models/favoritos.js";
+import { Calificacion } from "../models/calificacion.js";
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET
@@ -70,6 +71,10 @@ export async function mostrarRecetas(req, res) {
 
         if (req.query.autor) {
             filtros.autor = req.query.autor;
+        }
+
+        if (req.query.nombre) {
+            filtros.nombre = req.query.nombre;
         }
 
         if (req.query.categoria) {
@@ -167,7 +172,7 @@ export const obtenerRecetaPorId = async (req, res) => {
     }
 };
 
-import { Calificacion } from "../models/calificacion.js";
+
 
 // Calificar una receta
 export async function calificarReceta(req, res) {
