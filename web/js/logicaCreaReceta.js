@@ -38,13 +38,18 @@ function obtenerToken() {
     return localStorage.getItem('token');
 }
 
+let enviando = false;
 
 document.getElementById("formCrearReceta").addEventListener("submit", async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
+
+    if (enviando) return; 
+    enviando = true;
+
     try {
         await nuevaReceta();
-    } catch (error) {
-        console.error("Error al crear receta:", error);
+    } finally {
+        enviando = false;
     }
 });
 

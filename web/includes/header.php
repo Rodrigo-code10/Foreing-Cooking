@@ -1,9 +1,8 @@
 <header>
         <nav id>
             <a href="index.php"><img id="logo" src="src/Logo.png" width="100" height="100" alt="Logo"></a>
-            <a href="">Recetas Recientes</a>
             <a href="CatalogoRecetas.php">Catalogo de recetas</a>
-            <a href="">Acerca de nosotros</a>
+            <a href="AcercaNosotros.php">Acerca de nosotros</a>
             <a id="btn-login" href="IniciarRegistrarse.php"><button class="btn-secondary">Iniciar Sesión</button></a>
             <a id="btn-register" href="IniciarRegistrarse.php?mode=register"><button class="btn-primary">Registrarse</button></a>
             <a id="CreaReceta" href="CrearRecetas.php" style="display:none;">Crear Receta</a>

@@ -32,11 +32,18 @@
                 <button type="button" class="botonCategoria" data-categoria="Postre">Postre</button>
             </div>
 
-            <!-- Contenedor donde se mostrará la imagen y el nombre -->
-            <div class="contenedorCategoria" id="contenedorCategoria"></div>
+            <!-- Lista desplegable para seleccionar tipo de filtro -->
+            <div class="Etiquetas selector-filtro">
+                <label>Seleccione el tipo de filtro</label>
+                <select id="tipoFiltro" class="select-filtro">
+                    <option value="">Seleccione una opción</option>
+                    <option value="etiquetas">Etiquetas</option>
+                    <option value="ingredientes">Ingredientes</option>
+                </select>
+            </div>
 
             <!-- Etiquetas -->
-            <div class="Etiquetas">
+            <div class="Etiquetas filtro-contenedor" id="contenedor-etiquetas" style="display: none;">
                 <label>Etiquetas</label>
                 <div id="Categoria">
                     <label><input type="checkbox" name="categoria[]" value="Saludable"> Saludable</label>
@@ -49,8 +56,26 @@
                     <label><input type="checkbox" name="categoria[]" value="Vegana"> Vegana</label>
                 </div>
             </div>
-   
 
+            <!-- Ingredientes -->
+            <div class="Etiquetas ingredientes-seccion filtro-contenedor" id="contenedor-ingredientes" style="display: none;">
+                <label>Ingredientes</label>
+                <div id="Ingredientes">
+                    <label><input type="checkbox" name="ingredientes[]" value="Pollo"> Pollo</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Carne"> Carne</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Pescado"> Pescado</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Verduras"> Verduras</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Pasta"> Pasta</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Arroz"> Arroz</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Huevo"> Huevo</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Queso"> Queso</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Zanahoria"> Zanahoria</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Tomate"> Tomate</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Cebolla"> Cebolla</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Especies"> Especies</label>
+                    <label><input type="checkbox" name="ingredientes[]" value="Chile"> Chile</label>
+                </div>
+            </div>
             
             <!-- Botones de acción -->
             <div class="botonesBuscador">

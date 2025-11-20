@@ -74,7 +74,7 @@ export async function mostrarRecetas(req, res) {
         }
 
         if (req.query.nombre) {
-            filtros.nombre = req.query.nombre;
+            filtros.nombre = { $regex: req.query.nombre, $options: "i" };
         }
 
         if (req.query.categoria) {
