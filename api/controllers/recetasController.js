@@ -7,6 +7,11 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 export async function crearReceta(req,res) {
     try {
+
+        if (!req.body.nombre_receta || !req.body.descripcion) {
+            return res.status(400).json({ error: 'Faltan campos requeridos' });
+        }
+
         const usuario = await Usuario.findById(req.usuarioId);
 
         const nuevaReceta = new Receta({
@@ -53,7 +58,7 @@ export function verificarToken(req, res, next) {
         req.usuarioId = decoded.id;
         next(); 
     } catch (error) {
-        //res.status(403).json({ error: "Token inválido o expirado" });
+        res.status(403).json({ error: "Token inválido o expirado" });
     }
 }
 

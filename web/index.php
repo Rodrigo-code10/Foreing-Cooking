@@ -42,7 +42,7 @@
 
     <?php include 'includes/footer.php'; ?>
 
-    <script type="module" src="js/logicaRecetas.js"></script>
+    <script type="module" src="js/logicaRecetasRecientes.js"></script>
     <script type="module" src="js/logicaHeader.js"></script>
     <script>
         function revisar(){

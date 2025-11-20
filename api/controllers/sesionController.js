@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET
 
-
 export async function registrarUsuario(req, res) {
     try {
         const { nombre, email, password } = req.body;
@@ -26,7 +25,7 @@ export async function registrarUsuario(req, res) {
         });
 
         // Crear token JWT
-        const token = jwt.sign({ id: nuevoUsuario._id }, JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign({ id: nuevoUsuario._id }, JWT_SECRET, { expiresIn: '7 days' });
 
         // Responder al cliente
         res.status(201).json({
@@ -66,7 +65,7 @@ export async function iniciarSesion(req, res){
         }
 
         // Crear token JWT
-        const token = jwt.sign({ id: usuario._id }, JWT_SECRET, { expiresIn: '7d' });
+        const token = jwt.sign({ id: usuario._id }, JWT_SECRET, { expiresIn: '7 days' });
 
         res.json({
             mensaje: 'Login exitoso',

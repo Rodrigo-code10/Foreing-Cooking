@@ -1,4 +1,6 @@
 /*CatalogoRecetas.php*/
+
+/* Títulos */
 h1 {
     text-align: center;
     color: #E74D4E;
@@ -6,6 +8,7 @@ h1 {
     background-color: #FFEFE9;
 }
 
+/* Buscador general */
 .Buscador {
     background-color: #FFEFE9;
     display: flex;
@@ -15,13 +18,13 @@ h1 {
 }
 
 .Buscador_recetas {
-    width: 30%;
-    padding: 15px 20px;
-    border-radius: 16px;
-    border: 3px solid #CBB7B7;
-    font-size: 20px;
-    outline: none;
-    transition: 0.3s;
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 1px solid #ec1e1e;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: .3s;
 }
 
 .Buscador_recetas:focus {
@@ -29,61 +32,123 @@ h1 {
     box-shadow: 0 0 8px rgba(231, 77, 78, 0.3);
 }
 
-.catalogo {
+/* Contenedores principales */
+.Mostrar,
+.Etiquetas #formCrearReceta {
+    padding: 20px 0;
+    margin-bottom: 10px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px;
-    padding: 40px;
-    background-color: #FFEFE9;
-}
-
-.Entrada {
-    background-color: #fff;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    height: 300px;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
     text-align: center;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.Entrada:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+/* Formulario principal */
+.formRecetas {
+    background: #fff;
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
-.Entrada img {
-    width: 250px;
-    height: 160px;
-    object-fit: cover;
-    margin-top: 10px;
-    border-radius: 10px;
+.formRecetas h2 {
+    text-align: center;
+    color: #e51515;
+    font-size: 32px;
+    margin: 0;
 }
 
-.Entrada h3 {
-    color: #E74D4E;
-    margin: 15px 0 5px 0;
-}
-
-.Entrada p {
-    color: #555;
-    padding: 0 15px;
-    font-size: 15px;
-}
-
-.btn-ver {
-    display: inline-block;
-    margin: 15px 0 20px 0;
-    background-color: #E74D4E;
-    color: white;
-    text-decoration: none;
-    padding: 8px 16px;
+/* Select */
+.Mostrar select {
+    background: #F5F1ED;
+    width: 200px;
+    padding: 8px;
     border-radius: 12px;
-    transition: 0.3s;
+    border: 1px solid #e2cfcf;
 }
 
-.btn-ver:hover {
-    background-color: #ff6f70;
+/* Checkboxes */
+#Categoria {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    gap: 10px 20px;
+    padding: 10px;
+}
+
+#Categoria label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Botones de categoría */
+.botonCategoria {
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: none;
+    background: #ffddc7;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.botonCategoria:hover {
+    background: #ffc0c0;
+}
+
+/* Imagen + texto */
+.contenedorCategoria {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #ffd0af;
+}
+
+.contenedorCategoria img {
+    width: 35px;
+    border-radius: 15px;
+    transition: .2s;
+}
+
+.contenedorCategoria img:hover {
+    transform: scale(1.1);
+}
+
+.contenedorCategoria p {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Botones generales */
+.botonesBuscador {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.botonesBuscador button {
+    padding: 12px 25px;
+    border-radius: 25px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    background: rgb(246, 131, 131);
+    transition: .3s;
+}
+
+.botonesBuscador button:hover {
+    transform: translateY(-3px);
+    background: rgb(221, 239, 203);
 }

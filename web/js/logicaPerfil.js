@@ -144,8 +144,7 @@ async function ConfigPerfil() {
 
         const usuario = JSON.parse(localStorage.getItem("usuario"));
 
-        recetasContainer.innerHTML = `
-            
+        recetasContainer.innerHTML = `  
         <div class="formulario-editar-perfil">
             <!-- Encabezado con decoración -->
             <div class="formulario-header">
@@ -179,9 +178,9 @@ async function ConfigPerfil() {
                         Foto de perfil
                     </label>
                     <div class="formulario-file-wrapper">
-                        <input type="file" id="foto" name="foto" accept="image/*" class="formulario-file">
+                        <input type="file" id="foto" name="foto" accept="image/jpeg, image/png" class="formulario-file">
                     </div>
-                    <p class="formulario-ayuda">Formatos aceptados: JPG, PNG, GIF</p>
+                    <p class="formulario-ayuda">Formatos aceptados: JPG, PNG</p>
                 </div>
 
                 <!-- Campo Descripción -->

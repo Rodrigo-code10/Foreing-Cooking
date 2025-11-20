@@ -13,36 +13,80 @@
     
     <?php include 'includes/header.php'; ?> 
 
-    <h1>Explora Nuestro Catálogo</h1>
+    <section class="Mostrar">
+        <form id="formRecetas" class="formRecetas">
 
-    <section class="Buscador">
-        <input type="text" id="buscar_recetas" name="buscar" placeholder="Buscar recetas" class="Buscador_recetas">
+            <h2>Explora Nuestro Catálogo</h2>
+
+            <!-- Buscador -->
+            <div class="Buscador">
+                <input type="text" id="buscar_recetas" name="buscar" placeholder="Buscar recetas" class="Buscador_recetas">
+            </div>
+
+            <label>Seleccione una Categoria*</label>
+
+            <!-- Botones de categorías -->
+            <div class="botones">
+                <button type="button" class="botonCategoria" data-categoria="Entrada">Entrada</button>
+                <button type="button" class="botonCategoria" data-categoria="Plato Fuerte">Plato Fuerte</button>
+                <button type="button" class="botonCategoria" data-categoria="Postre">Postre</button>
+            </div>
+
+            <!-- Contenedor donde se mostrará la imagen y el nombre -->
+            <div class="contenedorCategoria" id="contenedorCategoria"></div>
+
+            <!-- Etiquetas -->
+            <div class="Etiquetas">
+                <label>Etiquetas *</label>
+                <div id="Categoria">
+                    <label><input type="checkbox" name="categoria[]" value="Saludable"> Saludable</label>
+                    <label><input type="checkbox" name="categoria[]" value="Nutritivo"> Nutritivo</label>
+                    <label><input type="checkbox" name="categoria[]" value="Grasoso"> Grasoso</label>
+                    <label><input type="checkbox" name="categoria[]" value="Vegetariano"> Vegetariano</label>
+                    <label><input type="checkbox" name="categoria[]" value="Dulce"> Dulce</label>
+                    <label><input type="checkbox" name="categoria[]" value="Salado"> Salado</label>
+                    <label><input type="checkbox" name="categoria[]" value="Picante"> Picante</label>
+                    <label><input type="checkbox" name="categoria[]" value="Vegana"> Vegana</label>
+                </div>
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="botonesBuscador">
+                <button type="submit" class="Buscar">Buscar</button>
+                <button type="reset" class="Limpiar">Limpiar</button>
+            </div>
+        </form>
     </section>
 
-    <section class="catalogo">
-        <!-- Las recetas se cargarán dinámicamente desde la base de datos -->
-        
-        <div class="Entrada" data-receta-id="1">
-            <img src="src/fajitas_res.png" alt="Fajitas de Res">
-            <h3>Fajitas de Res</h3>
-            <p>por @Manuel</p>
-            <a href="php/ver_receta.php?id=1" class="btn-ver">Ver receta</a>
-        </div>
+    <div class="cards">
+            
+    </div>
 
-        <div class="Entrada" data-receta-id="2">
-            <img src="src/pasta_carbonara.png" alt="Pasta Carbonara">
-            <h3>Pasta Carbonara</h3>
-            <p>por @Josesito</p>
-            <a href="php/ver_receta.php?id=2" class="btn-ver">Ver receta</a>
-        </div>
+    <script>
+    const botones = document.querySelectorAll('.botonCategoria');
+    const contenedor = document.getElementById('contenedorCategoria');
 
-        <!-- Más recetas aquí -->
-    </section>
+    const imagenes = {
+        "Entrada": "src/Entrada.png",
+        "Plato Fuerte": "src/Comida.png",
+        "Postre": "src/Postre.png"
+    };
+
+    botones.forEach(boton => {
+        boton.addEventListener('click', () => {
+            const categoria = boton.dataset.categoria;
+            contenedor.innerHTML = `
+                <img src="${imagenes[categoria]}" alt="${categoria}">
+                <p>${categoria}</p>
+            `;
+        });
+    });
+    </script>
+
 
     <?php include 'includes/footer.php'; ?>
 
-    <script type="module" src="js/animacion.js"></script>
-    <script type="module" src="js/logicaRecetas.js"></script>
+    <script type="module" src="js/logicaCatalogoRecetas.js"></script>
     <script type="module" src="js/logicaHeader.js"></script>
 </body>
 </html>

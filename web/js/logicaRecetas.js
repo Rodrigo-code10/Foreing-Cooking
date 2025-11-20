@@ -1,6 +1,6 @@
 import API_URL from './config.js';
 
-async function mostrarRecetas(filtros = {}) {
+export async function mostrarRecetas(filtros = {}) {
     try {
         const queryString = new URLSearchParams(filtros).toString();
         const url = `${API_URL}/muestrarecetas${queryString ? `?${queryString}` : ''}`;
@@ -67,9 +67,8 @@ async function mostrarRecetas(filtros = {}) {
         console.error('Error al mostrar recetas:', error);
     }
 }
-mostrarRecetas();
 
-async function toggleLike(recetaId) {
+export async function toggleLike(recetaId) {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
