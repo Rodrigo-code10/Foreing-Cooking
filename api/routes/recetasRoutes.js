@@ -4,6 +4,7 @@ import {
     verificarToken,
     crearReceta,
     mostrarRecetas,
+    obtenerRecetaPorId,
     like,
     eliminarReceta,
 } from '../controllers/recetasController.js'; // Controlador para manejar la lógica de las recetas
@@ -25,6 +26,8 @@ const upload = multer({ storage });
 router.post("/newreceta", verificarToken, upload.single("imagen_receta"), crearReceta);   
 
 router.get("/muestrarecetas", mostrarRecetas);
+
+router.get("/recetas/:id", obtenerRecetaPorId);
 
 router.post("/recetas/:id/like",verificarToken, like);
 

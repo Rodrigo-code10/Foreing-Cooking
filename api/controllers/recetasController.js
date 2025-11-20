@@ -142,3 +142,27 @@ export async function eliminarReceta(req, res) {
         res.status(500).json({ error: 'Error al eliminar receta', detalle: error.message });
     }
 }
+
+// Obtener una receta específica por ID
+export const obtenerRecetaPorId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Validar que el ID sea válido (formato MongoDB ObjectId)
+        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+            return res.status(400).json({ error: 'ID de receta inválido' });
+        }
+
+        // Buscar la receta y popular el autor
+        const receta = await Receta.findById(id).populate('autor', 'nombre foto');
+        
+        if (!receta) {
+            return res.status(404).json({ error: 'Receta no encontrada' });
+        }
+
+        res.json(receta);
+    } catch (error) {
+        console.error('Error al obtener receta:', error);
+        res.status(500).json({ error: 'Error del servidor al obtener receta' });
+    }
+};
