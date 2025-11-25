@@ -62,6 +62,32 @@ const NewRecetaSchema = new mongoose.Schema({
   likes: { 
     type:Number, 
     default:0 
+  },
+  estado: {
+    type: String,
+    enum: ['pendiente', 'aprobada', 'rechazada'],
+    default: 'pendiente'
   }
+});
+
+NewRecetaSchema.pre('save', function(next) {
+
+  const limpiar = (arr) => {
+    if (!arr || !Array.isArray(arr)) return arr;
+
+    return arr
+      .map(i => 
+        i
+          .replace(/\s+/g, ' ') // convierte saltos de línea y tabs en un solo espacio
+          .trim()               // quita espacios inicio/fin
+      )
+      .filter(i => i.length > 0); // elimina strings vacíos
+  };
+
+  this.ingredientes = limpiar(this.ingredientes);
+  this.pasos = limpiar(this.pasos);
+  this.categoria = limpiar(this.categoria);
+
+  next();
 });
 export const Receta = mongoose.model('Receta', NewRecetaSchema);

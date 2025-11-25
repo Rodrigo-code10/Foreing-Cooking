@@ -1,4 +1,5 @@
 import API_URL from './config.js';
+import { mostrarMensaje} from './mensajes.js';
 
 let recetaIdActual = null;
 let miCalificacionActual = 0;
@@ -250,31 +251,12 @@ async function enviarCalificacion(puntuacion) {
         actualizarEstrellasVisuales(estrellas, data.calificacion);
 
         // Mensaje de éxito
-        mostrarMensajeExito('¡Calificación guardada!');
+        mostrarMensaje('¡Calificación guardada!','#4CAF50');
 
     } catch (error) {
         console.error('Error al calificar:', error);
         alert('Error al enviar calificación');
     }
-}
-
-function mostrarMensajeExito(mensaje) {
-    const div = document.createElement('div');
-    div.textContent = mensaje;
-    div.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #4CAF50;
-        color: white;
-        padding: 15px 25px;
-        border-radius: 5px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        z-index: 1000;
-        animation: fadeIn 0.3s, fadeOut 0.3s 2.5s;
-    `;
-    document.body.appendChild(div);
-    setTimeout(() => div.remove(), 3000);
 }
 
 function cambiarImagenPrincipal(src, miniaturaElement) {

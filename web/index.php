@@ -19,7 +19,7 @@
                 comunidad con tus creaciones culinarias.</p>
             <div class="buttons">
                 <button class="btn-primary" onclick="window.location.href='CatalogoRecetas.php'">Explorar Recetas</button>
-                <button class="btn-secondary" onclick="revisar()">Crear Receta</button>
+                <button class="btn-secondary" onclick="revisar()">Publicar Receta</button>
             </div>
         </div>
 
@@ -47,7 +47,6 @@
     <script>
         function revisar(){
             const token = localStorage.getItem("token");
-
             if (token) {
                 window.location.href = "CrearRecetas.php"; 
             } else {

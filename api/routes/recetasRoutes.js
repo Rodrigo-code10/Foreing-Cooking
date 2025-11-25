@@ -7,7 +7,19 @@ import {
     obtenerRecetaPorId,
     like,
     eliminarReceta,
+    soloAdmin,
+    Aprobar,
+    Rechazar,
+    Pendiente,
+    ContarRecetas,
+    Ver,
+    Editar,
 } from '../controllers/recetasController.js'; // Controlador para manejar la lógica de las recetas
+
+import { 
+    calificarReceta, 
+    obtenerMiCalificacion 
+} from '../controllers/recetasController.js';
 
 const router = express.Router();
 
@@ -33,12 +45,6 @@ router.post("/recetas/:id/like",verificarToken, like);
 
 router.delete("/rmiRecetas/:id",verificarToken,eliminarReceta);
 
-
-import { 
-    calificarReceta, 
-    obtenerMiCalificacion 
-} from '../controllers/recetasController.js';
-
 // Calificar una receta
 router.post("/recetas/:id/calificar", verificarToken, calificarReceta);
 
@@ -46,6 +52,19 @@ router.post("/recetas/:id/calificar", verificarToken, calificarReceta);
 router.get("/recetas/:id/mi-calificacion", verificarToken, obtenerMiCalificacion);
 
 
+//Panel Administrativo
+
+router.put('/recetas/:id/aprobar',verificarToken, soloAdmin, Aprobar);
+
+router.put('/recetas/:id/rechazar',verificarToken, soloAdmin, Rechazar);
+
+router.get('/recetas/:id/ver',verificarToken, soloAdmin, Ver);
+
+router.put('/recetas/:id/editar',verificarToken, Editar);
+
+router.get('/pendiente',verificarToken, soloAdmin, Pendiente)
+
+router.get('/CuentaRecetas', ContarRecetas)
 
 console.log("rutas ok");
 

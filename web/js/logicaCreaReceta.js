@@ -1,5 +1,4 @@
 import API_URL from './config.js';
-import { CambiarHeader } from "./logicaHeader.js";
 // Crear nueva receta
 async function nuevaReceta() {
     try {
@@ -25,10 +24,11 @@ async function nuevaReceta() {
             throw new Error(data.error || 'Error al crear receta');
         }
 
-        alert("¡Receta creada exitosamente!");
+        mostrarMensaje("Solicitud de receta enviada exitosamente!",'#4CAF50');
         window.location.href = "index.php";
 
     } catch (error) {
+        mostrarMensaje(`Ocurrio un error: ${error}`,'#E01616');
         console.error('Error:', error);
         throw error;
     }

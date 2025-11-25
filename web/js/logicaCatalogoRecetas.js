@@ -1,4 +1,5 @@
 import { mostrarRecetas } from './logicaRecetas.js';
+import API_URL from './config.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const buscador = document.getElementById('buscar_recetas');
@@ -12,31 +13,31 @@ document.addEventListener('DOMContentLoaded', () => {
         let tipo = selectFiltro.value;
 
         if (tipo === "etiquetas") {
-            const checks = document.querySelectorAll('input[name="categoria[]"]:checked');
+            const checks = document.querySelectorAll('input[name="categoria"]:checked');
             const valores = [...checks].map(c => c.value);
 
             if (valores.length > 0) {
-                mostrarRecetas({ categoria: valores.join(',') });
+                mostrarRecetas({ categoria: valores });
             }
 
         } else if (tipo === "ingredientes") {
-            const checks = document.querySelectorAll('input[name="ingredientes[]"]:checked');
+            const checks = document.querySelectorAll('input[name="ingredientes"]:checked');
             const valores = [...checks].map(c => c.value);
 
             if (valores.length > 0) {
-                mostrarRecetas({ ingredientes: valores.join(',') });
+                mostrarRecetas({ ingredientes: valores });
             }
         }
     }
 
     document.addEventListener('change', e => {
-        if (e.target.matches('input[name="categoria[]"]') ||
-            e.target.matches('input[name="ingredientes[]"]')) {
+        if (e.target.matches('input[name="categoria"]') ||
+            e.target.matches('input[name="ingredientes"]')) {
             procesarCheckboxes();
         }
     });
 
-    selectFiltro.addEventListener('change', function() {
+    selectFiltro.addEventListener('change', function() {    //Solo pa mostara que filtro poder ver
         contenedorEtiquetas.style.display = 'none';
         contenedorIngredientes.style.display = 'none';
 
@@ -62,7 +63,34 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        mostrarRecetas({ nombre: texto});
+        buscarRecetaTodas(texto)
     });
 
 });
+
+async function buscarRecetaTodas(texto){
+
+    let resultados = await fetch(`${API_URL}/muestrarecetas?nombre=${texto}`)
+        .then(r => r.json())
+        .catch(() => []);
+
+    if (resultados.length > 0) {
+        mostrarRecetas({ nombre: texto });
+        return;
+    }
+
+    resultados = await fetch(`${API_URL}/muestrarecetas?ingredientes=${texto}`)
+        .then(r => r.json())
+        .catch(() => []);
+
+    if (resultados.length > 0) {
+        mostrarRecetas({ ingredientes: texto });
+        return;
+    }
+
+    resultados = await fetch(`${API_URL}/muestrarecetas?categoria=${texto}`)
+        .then(r => r.json())
+        .catch(() => []);
+
+    mostrarRecetas({ categoria: texto });
+}

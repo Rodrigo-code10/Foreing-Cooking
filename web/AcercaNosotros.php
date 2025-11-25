@@ -51,17 +51,17 @@
 
             <div class="card">
                 <h3>Soporte</h3>
-                <p>rodrigo@gmail.com</p>
+                <p>rodrigo.rolandogs@gmail.com</p>
             </div>
 
             <div class="card">
                 <h3>Telefono</h3>
-                <p>951-394-24-09</p>
+                <p>951-418-52-75</p>
             </div>
         </section>
 
         <section class="contacto">
-            <h2>A quien va dirigida la pagina</h2>
+            <h2>A quien va dirigida la página</h2>
             <div class="contacto-info">
              <p>
                 Bienvenido a este rincón donde los sabores viajan sin pasaporte.
@@ -78,5 +78,6 @@
     </main>
 
     <?php include 'includes/footer.php'; ?>
+    <script type="module" src="js/logicaHeader.js"></script>
 </body>
 </html>

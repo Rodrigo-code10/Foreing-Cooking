@@ -1,7 +1,6 @@
-
 import { mostrarRecetas} from './logicaRecetas.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    mostrarRecetas();
+    mostrarRecetas({limit:10});
 });

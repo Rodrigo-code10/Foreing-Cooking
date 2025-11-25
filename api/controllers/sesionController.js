@@ -25,7 +25,7 @@ export async function registrarUsuario(req, res) {
         });
 
         // Crear token JWT
-        const token = jwt.sign({ id: nuevoUsuario._id }, JWT_SECRET, { expiresIn: '7 days' });
+        const token = jwt.sign({ id: nuevoUsuario._id ,rol: nuevoUsuario.rol }, JWT_SECRET, { expiresIn: '7 days' });
 
         // Responder al cliente
         res.status(201).json({
@@ -65,7 +65,7 @@ export async function iniciarSesion(req, res){
         }
 
         // Crear token JWT
-        const token = jwt.sign({ id: usuario._id }, JWT_SECRET, { expiresIn: '7 days' });
+        const token = jwt.sign({ id: usuario._id, rol: usuario.rol  }, JWT_SECRET, { expiresIn: '7 days' });
 
         res.json({
             mensaje: 'Login exitoso',
@@ -74,6 +74,7 @@ export async function iniciarSesion(req, res){
                 id: usuario._id,
                 nombre: usuario.nombre,
                 email: usuario.email,
+                rol: usuario.rol,
                 foto: usuario.foto,
                 status: usuario.status,
             }

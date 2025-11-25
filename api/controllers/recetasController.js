@@ -57,6 +57,7 @@ export function verificarToken(req, res, next) {
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
         req.usuarioId = decoded.id;
+        req.usuarioRol = decoded.rol;
         next(); 
     } catch (error) {
         res.status(403).json({ error: "Token inválido o expirado" });
@@ -78,15 +79,48 @@ export async function mostrarRecetas(req, res) {
         }
 
         if (req.query.categoria) {
-            filtros.categoria = req.query.categoria;
+            const categorias = Array.isArray(req.query.categoria)
+                ? req.query.categoria
+                : req.query.categoria.split(',');
+        
+            filtros.categoria = { $all: categorias};
         }
-        if (req.query.ingrediente) {
-            filtros.ingredientes = { $in: [req.query.ingrediente] }; 
+        
+        if (req.query.ingredientes) {
+            const ingredientes = Array.isArray(req.query.ingredientes)
+                ? req.query.ingredientes
+                : req.query.ingredientes.split(',');
+
+            const regexIngredientes = ingredientes.map(ing => {
+                const base = ing.trim()
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, ""); // sin acentos
+                         return new RegExp(`^${base}(es|s)?$`, "i");    //i=Minuscula,Mayuscula,   s?$ Me da con plural o no
+            });
+           
+            filtros.ingredientes = { $all: regexIngredientes };
         }
 
-        const recetas = await Receta.find(filtros)
-            .populate('autor', 'nombre');
+        let orden = {};
 
+        switch (req.query.orden) {
+            case "viejas":
+                orden = { fechaCreacion: 1 }; //De las mas antiguas
+                break;
+            default:
+                orden = { fechaCreacion: -1 }; //Recientes
+        }
+
+        let query = Receta.find(filtros).populate('autor', 'nombre').sort(orden);
+
+        if (req.query.limit) {
+            const limit = parseInt(req.query.limit);
+            if (!isNaN(limit) && limit > 0) { //Verifia sino muestra todas 
+                query = query.limit(limit);
+            }
+        }
+
+        const recetas = await query;
         res.json(recetas);
     } catch (error) {
         console.error(error);
@@ -260,4 +294,83 @@ export async function obtenerMiCalificacion(req, res) {
         console.error('Error al obtener calificación:', error);
         res.status(500).json({ error: 'Error al obtener calificación' });
     }
+}
+
+export function soloAdmin(req, res, next) {
+    if (req.usuarioRol !== "admin") {
+      return res.status(403).json({ error: "No tienes permisos" });
+    }
+    next();
+}
+  
+export async function Aprobar(req, res){
+    try {
+      const receta = await Receta.findByIdAndUpdate(
+        req.params.id,
+        { estado: 'aprobada' },
+        { new: true }   //Devuleve el documento nuevo
+      );
+      res.json(receta);
+    } catch (err) {
+      res.status(500).json({ error: 'Error al aprobar receta' });
+    }
+}
+
+export async function Rechazar(req, res){
+    try {
+        const receta = await Receta.findByIdAndUpdate(
+          req.params.id,
+          { estado: 'rechazada' },
+          { new: true }
+        );
+        res.json(receta);
+      } catch (err) {
+        res.status(500).json({ error: 'Error al rechazar receta' });
+      }
+}
+
+export async function Pendiente(req, res) {
+    try {
+      const recetas = await Receta.find({ estado: 'pendiente' }).populate('autor', 'nombre');
+      res.json(recetas);
+    } catch (err) {
+      console.error("Error en Pendiente:", err);
+      res.status(500).json({ error: "Error obteniendo recetas pendientes" });
+    }
+}
+
+export async function ContarRecetas(req, res){
+    try {
+        const contar = await Receta.countDocuments({});
+        res.json(contar);
+
+    }catch(error){
+        res.status(500).json({ error: "Error contando las recetas" });
+    }
+}
+
+
+export async function Ver(req, res) {
+    try {
+      const receta = await Receta.findById(req.params.id).populate('autor', 'nombre');
+      if (!receta) return res.status(404).json({ error: "Receta no encontrada" });
+      res.json(receta);
+    } catch (err) {
+      res.status(500).json({ error: "Error obteniendo receta" });
+    }
+  }
+
+
+export async function Editar(req, res) {
+  try {
+    const receta = await Receta.findByIdAndUpdate(
+      req.params.id,
+      req.body,      // body debe contener solo los campos que quieres editar
+      { new: true }  
+    );
+    if (!receta) return res.status(404).json({ error: "Receta no encontrada" });
+    res.json(receta);
+  } catch (err) {
+    res.status(500).json({ error: "Error editando receta" });
+  }
 }
