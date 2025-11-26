@@ -583,8 +583,6 @@ body.auth-page {
     display: flex;
 }
 
-
-
 @media (max-width: 968px) {
     .cards {
         grid-template-columns: repeat(2, 1fr);

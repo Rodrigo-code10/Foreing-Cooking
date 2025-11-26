@@ -21,10 +21,18 @@ export async function mostrarRecetas(filtros = {}) {
             const card = document.createElement('div');
             card.classList.add('card');
 
+            const hoy = new Date();
+            const fechaCreacion = new Date(receta.fechaCreacion);
+
+            const esNueva =
+                fechaCreacion.getDate() === hoy.getDate() &&
+                fechaCreacion.getMonth() === hoy.getMonth() &&
+                fechaCreacion.getFullYear() === hoy.getFullYear();
+
             card.innerHTML = `
                 <div class="card-image">
                     <img src="${API_URL}${receta.imagen}" alt="${receta.nombre}">
-                    <span class="card-badge">Nuevo</span>
+                    ${esNueva ? '<span class="card-badge">Nuevo</span>' : ''}
                 </div>
 
                 <div class="card-content">

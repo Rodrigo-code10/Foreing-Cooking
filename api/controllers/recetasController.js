@@ -70,6 +70,8 @@ export async function mostrarRecetas(req, res) {
         // Obtenemos los filtros desde query params
         const filtros = {};
 
+        filtros.estado = "aprobada";
+
         if (req.query.autor) {
             filtros.autor = req.query.autor;
         }

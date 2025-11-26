@@ -24,7 +24,7 @@
         </div>
 
         <div class="imagen">
-            <img src="src/Tacos.jfif" alt="Tacos">
+
         </div>
     </section>
 
