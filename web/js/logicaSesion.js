@@ -1,6 +1,6 @@
 import API_URL from './config.js';
 import { CambiarHeader } from "./logicaHeader.js";
-import { mostrarMensaje } from './mensajes.js';
+import { mostrarMensaje, mostrarMensajeBloqueo } from './mensajes.js';
 
 //// REGISTRO ////
 const dominiosPermitidos = ["gmail.com", "hotmail.com", "outlook.com"];
@@ -126,10 +126,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
             }catch(err){
-                mostrarMensaje(`Error: ${err.message}`,'#E01616');
-                if(submitBtn){
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = "Iniciar Sesión";
+                if (err.message.includes("desactivada")) {
+                    mostrarMensajeBloqueo(err.message, '#E8534F');
+                    setTimeout(() => {
+                        window.location.href = "index.php";
+                    }, 1000); 
+                } else {
+                    mostrarMensaje(`Error: ${err.message}`, '#E01616'); 
                 }
             }
         });

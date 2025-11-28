@@ -37,48 +37,61 @@ nav a {
 }
 
 .btn-ver {
-    color: #000f62 ;
-    border:2px solid #0020d6;
+    color: #0020d6;
+    border: 2px solid #0020d6;
     padding: 10px 20px;
     border-radius: 14px;
     background-color: #ffffff;
     cursor: pointer;
     font-weight: bold;
+    transition: all 0.3s ease;
 }
+
 .btn-ver:hover {
-    background-color: #4c66e9;
-    border-color: #0d066b;
-    color: #000f62 ;
+    background-color: #0020d6;
+    border-color: #000f62;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 32, 214, 0.3);
 }
 
-.btn-aprobar{
-    padding:10px 10px;
-    color: #003e05;
-    background-color:#ffffff;
+.btn-aprobar {
+    padding: 10px 20px;
+    color: #006908;
+    background-color: #ffffff;
     border-radius: 14px;
-    border:2px solid #04640c80;
+    border: 2px solid #00a310;
     cursor: pointer;
     font-weight: bold;
+    transition: all 0.3s ease;
 }
+
 .btn-aprobar:hover {
-    background-color: #83ff7e;
-    border-color: #008300;
+    background-color: #00a310;
+    border-color: #006908;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 163, 16, 0.3);
 }
 
-.btn-rechazar{
-    padding:10px 10px;
-    color: #560300;
-    background-color:#ffffff;
+.btn-rechazar {
+    padding: 10px 20px;
+    color: #c41e1a;
+    background-color: #ffffff;
     border-radius: 14px;
-    border:2px solid #E8534F;
+    border: 2px solid #E8534F;
     cursor: pointer;
     font-weight: bold;
-}
-.btn-rechazar:hover{
-    background-color: #ff4242;
-    border-color: #ff0800;
+    transition: all 0.3s ease;
 }
 
+.btn-rechazar:hover {
+    background-color: #E8534F;
+    border-color: #c41e1a;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(232, 83, 79, 0.3);
+}
 
 .hero-nosotros {
     text-align:center;

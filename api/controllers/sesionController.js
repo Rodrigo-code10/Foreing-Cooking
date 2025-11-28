@@ -47,7 +47,6 @@ export async function registrarUsuario(req, res) {
     }
 }
 
-
 export async function iniciarSesion(req, res){
     try {
         const { email, password } = req.body;
@@ -56,6 +55,11 @@ export async function iniciarSesion(req, res){
         const usuario = await Usuario.findOne({ email });
         if (!usuario) {
             return res.status(400).json({ error: 'Credenciales incorrectas' });
+        }
+
+        // Verificar si está desactivado
+        if (usuario.estado === "desactive") {
+            return res.status(403).json({ error: "Tu cuenta está desactivada. Contacta al administrador." });
         }
 
         // Verificar contraseña
@@ -105,3 +109,71 @@ export async function ModificarPerfil(req, res) {
     }
 }
 
+export async function EstadoPerfil(req, res) {
+    try {
+        const { estado } = req.body;
+
+        if (!estado) {
+            return res.status(400).json({ error: "Debes enviar el estado" });
+        }
+
+        const usuario = await Usuario.findByIdAndUpdate(
+            req.params.id,
+            { estado }, 
+            { new: true }
+        );
+
+        if (!usuario) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+
+        res.json(usuario);
+    } catch (err) {
+        console.error("Error al actualizar estado:", err);
+        res.status(500).json({ error: "Error al actualizar estado del usuario" });
+    }
+}
+
+export async function TotalUsuarios(req, res) {
+    try {
+        // Agrupo por estado
+        const porEstado = await Usuario.aggregate([
+            {
+                $group: {
+                    _id: "$estado",
+                    total: { $sum: 1 }
+                }
+            }
+        ]);
+        const total = await Usuario.countDocuments(); //General
+        const respuesta = {
+            total,
+            active: porEstado.find(x => x._id === "active")?.total || 0,
+            desactive: porEstado.find(x => x._id === "desactive")?.total || 0,
+        };
+      res.json(respuesta);
+    } catch (err) {
+      console.error("Error en Pendiente:", err);
+      res.status(500).json({ error: "Error obteniendo usuarios" });
+    }
+}
+
+export async function BuscarUsuario(req, res) {
+    try {
+        const { nombre } = req.query;
+
+        if (!nombre) {
+            return res.status(400).json({ error: "Debes enviar el nombre a buscar" });
+        }
+
+        const usuarios = await Usuario.find({
+            nombre: { $regex: nombre, $options: "i" }
+        });
+
+        res.json(usuarios);
+
+    } catch (err) {
+        console.error("Error", err);
+        res.status(500).json({ error: "Error obteniendo usuario" });
+    }
+}

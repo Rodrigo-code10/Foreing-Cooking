@@ -60,11 +60,11 @@ router.put('/recetas/:id/rechazar',verificarToken, soloAdmin, Rechazar);
 
 router.get('/recetas/:id/ver',verificarToken, soloAdmin, Ver);
 
-router.put('/recetas/:id/editar',verificarToken, Editar);
+router.put('/recetas/:id/editar',verificarToken,soloAdmin, Editar);
 
 router.get('/pendiente',verificarToken, soloAdmin, Pendiente)
 
-router.get('/CuentaRecetas', ContarRecetas)
+router.get('/CuentaRecetas',verificarToken, soloAdmin, ContarRecetas)
 
 console.log("rutas ok");
 

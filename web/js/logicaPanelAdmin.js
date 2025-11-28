@@ -3,46 +3,114 @@ import { mostrarMensaje } from './mensajes.js';
 
 const token = localStorage.getItem("token");
 
-document.addEventListener('DOMContentLoaded', async () => {
-    const ContarReceta = document.getElementById('ContReceta');
-    const solicitudes = document.getElementById('Solicitudes');
-    const tablaBody = document.getElementById('tabla-body');
-
+document.addEventListener('DOMContentLoaded', () => {
     crearModal();
+    cargarCartas('recetas');          
+    SolicitudesRecetas();   
+    inicializarTabs();     
+});
 
+
+async function cargarCartas(modo = "recetas") {
+    const ContenedorReceta = document.querySelector('.contenedor-cartas');
     try {
-        const response = await fetch(`${API_URL}/CuentaRecetas`);
-        const data = await response.json();
-        ContarReceta.innerHTML = data;
+        let response;
+        let data;
+        let cartas = [];
+
+        if (modo === "recetas") {
+            response = await fetch(`${API_URL}/CuentaRecetas`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            data = await response.json();
+
+            cartas = [
+                { titulo: "Recetas Totales", valor: data.total},
+                { titulo: "Solicitudes de Recetas", valor: data.pendiente},
+                { titulo: "Recetas Aprobadas", valor: data.aprobada},
+                { titulo: "Recetas Rechazadas", valor: data.rechazada},
+            ];
+        }
+
+        if (modo === "usuarios") {
+            response = await fetch(`${API_URL}/CuentaUsuarios`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            data = await response.json();
+
+            cartas = [
+                { titulo: "Usuarios Totales", valor: data.total},
+                { titulo: "Activos", valor: data.active},
+                { titulo: "Bloqueados", valor: data.desactive},
+            ];
+        }
+
+        // Render
+        ContenedorReceta.innerHTML = "";
+
+        cartas.forEach(c => {
+            const div = document.createElement("div");
+            div.classList.add("carta");
+            div.innerHTML = `
+                <h3>${c.valor}</h3>
+                <p>${c.titulo}</p>
+            `;
+            ContenedorReceta.appendChild(div);
+        });
+
     } catch (error) {
-        console.error("Error obteniendo recetas:", error);
-        ContarReceta.innerHTML = "0";
+        console.error("Error obteniendo datos:", error);
     }
+}
+
+
+async function SolicitudesRecetas() {
+    const tablaBody = document.getElementById('tabla-body');
+    const tablaHead = document.getElementById('tabla-encabezado');
+
+    tablaBody.innerHTML = `
+        <tr><td colspan="4">Cargando...</td></tr>
+    `;
 
     try {
-        const pendiente = await fetch(`${API_URL}/pendiente`, {
+        const response = await fetch(`${API_URL}/pendiente`, {
             headers: {
                 "Authorization": `Bearer ${token}`
             }
         });
 
-        const pendienteData = await pendiente.json();
-        solicitudes.innerHTML = pendienteData.length;
+        const data = await response.json();
 
         tablaBody.innerHTML = "";
+        tablaHead.innerHTML = "";
+        const trh = document.createElement("tr");
+        trh.innerHTML = `
+                <th>Usuario</th>
+                <th>Correo</th>
+                <th>Receta</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            `;
+        tablaHead.appendChild(trh);
 
-        // INSERTAR FILAS
-        pendienteData.forEach(receta => {
+        data.forEach(receta => {
             const tr = document.createElement("tr");
 
-            // Normalizar fecha
-            const fecha = receta.fechaCreacion ? new Date(receta.fechaCreacion).toLocaleString("es-MX", {
-                dateStyle: "medium",
-                timeStyle: "short"
-            }) : "Sin fecha";
+            // Formatear fecha
+            const fecha = receta.fechaCreacion
+                ? new Date(receta.fechaCreacion).toLocaleString("es-MX", {
+                    dateStyle: "medium",
+                    timeStyle: "short"
+                })
+                : "Sin fecha";
 
             tr.innerHTML = `
-                <td>${receta.autor.nombre || "Sin nombre"}</td>
+                <td>${receta.autor?.nombre || "Sin nombre"}</td>
+                <td>${receta.autor?.email || "Sin correo"}</td>
                 <td>${receta.nombre || "N/A"}</td>
                 <td>${fecha}</td>
                 <td>
@@ -61,9 +129,120 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     } catch (error) {
         console.error("Error obteniendo Pendientes:", error);
-        solicitudes.innerHTML = "0";
+        tablaBody.innerHTML = `
+            <tr><td colspan="4">Error al cargar</td></tr>
+        `;
     }
-});
+}
+
+function inicializarTabs() {
+    const tabs = document.querySelectorAll(".tabs .tab");
+    const contBuscador = document.getElementById("contenedor-buscador");
+
+    tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => {
+            tabs.forEach(t => t.classList.remove("activa"));
+            tab.classList.add("activa");
+
+            if (index === 0) {
+                contBuscador.innerHTML = "";
+                document.getElementById("tabla-encabezado").innerHTML = "";
+                document.getElementById("tabla-body").innerHTML = "";
+                cargarCartas('recetas'); 
+                SolicitudesRecetas();
+            } else if (index === 1) {
+                contBuscador.innerHTML = `
+                    <input 
+                        type="text" 
+                        id="buscar-usuario" 
+                        class="input-modern" 
+                        placeholder="Buscar usuario por nombre..."
+                    >
+                `;
+
+                document.getElementById("tabla-encabezado").innerHTML = `
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                `;
+
+                document
+                    .getElementById("buscar-usuario")
+                    .addEventListener("input", buscarUsuario);
+                cargarCartas('usuarios');
+                buscarUsuario();
+            }
+        });
+    });
+}
+
+async function buscarUsuario() {
+    const nombre = document.getElementById("buscar-usuario").value.trim();
+
+    const tbody = document.getElementById("tabla-body");
+    tbody.innerHTML = ""; 
+
+    if (!nombre) return; 
+    try {
+        const response = await fetch(`${API_URL}/BuscarUsuario?nombre=${encodeURIComponent(nombre)}`, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="3" style="text-align:center;">No se encontraron usuarios</td>
+                </tr>
+            `;
+            return;
+        }
+
+        data.forEach(user => {
+            const accion = user.estado === "active" 
+                ? { texto: "Bloquear", clase: "btn-rechazar" }
+                : { texto: "Desbloquear", clase: "btn-aprobar" };
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${user.nombre}</td>
+                <td>${user.email}</td>
+                <td>
+                    <button class="${accion.clase}" data-id="${user._id}">
+                        ${accion.texto}
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+            tr.querySelector("button").addEventListener("click", () => {
+                cambiarEstadoUsuario(user._id, user.estado);
+            });
+        });
+
+    } catch (error) {
+        console.error("Error buscando usuario:", error);
+    }
+}
+
+async function cambiarEstadoUsuario(id, estadoActual) {
+    const nuevoEstado = estadoActual === "active" ? "desactive" : "active";
+
+    await fetch(`${API_URL}/usuario/${id}/Estado`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ estado: nuevoEstado })
+    });
+    cargarCartas('usuarios');
+    buscarUsuario(); 
+}
 
 function crearModal() {
     const modalHTML = `
@@ -78,39 +257,36 @@ function crearModal() {
                 
                 <form id="formReceta" class="modal-form">
                     <input type="hidden" id="recetaId">
-                    
+
                     <div class="form-grid">
                         <div class="form-field">
-                            <label for="recetaNombre">
-                                Nombre de la Receta
-                            </label>
-                            <input type="text" id="recetaNombre" class="input-modern" required placeholder="Ingresa el nombre de la receta">
+                            <label>Nombre de la Receta</label>
+                            <input type="text" id="recetaNombre" class="input-modern" required>
                         </div>
-                        
+
                         <div class="form-field">
-                            <label for="recetaAutor"> Autor </label>
+                            <label>Autor</label>
                             <input type="text" id="recetaAutor" class="input-modern input-readonly" readonly>
                         </div>
                     </div>
-                    
+
                     <div class="form-field">
-                        <label for="recetaDescripcion"> Descripción </label>
-                        <textarea id="recetaDescripcion" class="textarea-modern" rows="3" placeholder="Describe brevemente esta receta..."></textarea>
+                        <label>Descripción</label>
+                        <textarea id="recetaDescripcion" class="textarea-modern"></textarea>
                     </div>
 
                     <div class="form-field">
-                        <label for="recetaTiempoPreparación">  Tiempo de Preparación </label>
+                        <label>Tiempo de Preparación</label>
                         <input type="number" id="recetaTiempoPreparación" class="input-modern" min="1">
                     </div>
 
                     <div class="form-field">
-                        <label for="recetaPorciones">  Porciones </label>
+                        <label>Porciones</label>
                         <input type="number" id="recetaPorciones" class="input-modern" min="1">
-
                     </div>
 
                     <div class="form-field">
-                        <label for="recetaDificultad">  Dificultad </label>
+                        <label>Dificultad</label>
                         <select id="recetaDificultad" class="input-modern">
                             <option value="">Seleccionar...</option>
                             <option value="Fácil">Fácil</option>
@@ -120,8 +296,8 @@ function crearModal() {
                     </div>
 
                     <div class="form-field">
-                        <label for="recetaCategoria">  Categoria </label>
-                         <div class="checkbox-container">
+                        <label>Categoría</label>
+                        <div class="checkbox-container">
                             <label><input type="checkbox" name="categoria" value="Saludable"> Saludable</label>
                             <label><input type="checkbox" name="categoria" value="Nutritivo"> Nutritivo</label>
                             <label><input type="checkbox" name="categoria" value="Grasoso"> Grasoso</label>
@@ -130,33 +306,29 @@ function crearModal() {
                             <label><input type="checkbox" name="categoria" value="Salado"> Salado</label>
                             <label><input type="checkbox" name="categoria" value="Picante"> Picante</label>
                             <label><input type="checkbox" name="categoria" value="Vegana"> Vegana</label>
-                            <label><input type="checkbox" class="Tipo_platillo" name="categoria" value="Entrada"> Entrada</label>
-                            <label><input type="checkbox" class="Tipo_platillo" name="categoria" value="Postre"> Postre</label>
-                            <label><input type="checkbox" class="Tipo_platillo" name="categoria" value="Plato Fuerte"> Plato Fuerte</label>
+                            <label><input type="checkbox" name="categoria" value="Entrada"> Entrada</label>
+                            <label><input type="checkbox" name="categoria" value="Postre"> Postre</label>
+                            <label><input type="checkbox" name="categoria" value="Plato Fuerte"> Plato Fuerte</label>
                         </div>
                     </div>
 
                     <div class="form-field">
-                        <label for="recetaIngredientes">  Ingredientes </label>
-                        <textarea id="recetaIngredientes" class="textarea-modern" rows="5" placeholder="Escribe cada ingrediente en una línea nueva..."></textarea>
-                        <span class="field-hint">Separa cada ingrediente en una nueva línea</span>
+                        <label>Ingredientes</label>
+                        <textarea id="recetaIngredientes" class="textarea-modern"></textarea>
                     </div>
-                    
+
                     <div class="form-field">
-                        <label for="recetaInstrucciones"> Instrucciones de Preparación </label>
-                        <textarea id="recetaInstrucciones" class="textarea-modern" rows="5" placeholder="Escribe cada paso en una línea nueva..."></textarea>
-                        <span class="field-hint">Escribe cada paso de preparación en una nueva línea</span>
+                        <label>Instrucciones</label>
+                        <textarea id="recetaInstrucciones" class="textarea-modern"></textarea>
                     </div>
-                    
+
                     <div class="form-field">
-                        <label for="recetaFecha"> Fecha de Creación </label>
+                        <label>Fecha de Creación</label>
                         <input type="text" id="recetaFecha" class="input-modern input-readonly" readonly>
                     </div>
-                    
+
                     <div class="modal-footer">
-                        <button type="submit" class="btn-primary">
-                            Guardar Cambios
-                        </button>
+                        <button type="submit" class="btn-primary">Guardar Cambios</button>
                     </div>
                 </form>
             </div>
@@ -166,15 +338,13 @@ function crearModal() {
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
     const modal = document.getElementById('modalReceta');
-    const cerrar = document.querySelector('.modal-close');
+    const cerrar = modal.querySelector('.modal-close');
     const form = document.getElementById('formReceta');
 
-    cerrar.addEventListener('click', () => cerrarModal());
+    cerrar.addEventListener('click', cerrarModal);
 
     window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            cerrarModal();
-        }
+        if (e.target === modal) cerrarModal();
     });
 
     form.addEventListener('submit', async (e) => {
@@ -184,20 +354,14 @@ function crearModal() {
 
     function cerrarModal() {
         modal.classList.remove('show');
-        setTimeout(() => {
-            modal.style.display = 'none';
-        }, 300);
+        setTimeout(() => modal.style.display = 'none', 300);
     }
 }
 
-// Función para ver y editar receta
 async function Ver(id) {
     try {
         const response = await fetch(`${API_URL}/recetas/${id}`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+            headers: { "Authorization": `Bearer ${token}` }
         });
         const data = await response.json();
 
@@ -208,54 +372,48 @@ async function Ver(id) {
         document.getElementById('recetaTiempoPreparación').value = data.tiempoPreparacion || '';
         document.getElementById('recetaPorciones').value = data.porciones || '';
         document.getElementById('recetaDificultad').value = data.dificultad || '';
-        
-        const categorias = data.categoria || [];
+
+        // Categorías
         document.querySelectorAll('input[name="categoria"]').forEach(chk => {
-            chk.checked = categorias.includes(chk.value);
+            chk.checked = data.categoria?.includes(chk.value);
         });
 
-        const ingredientes = Array.isArray(data.ingredientes)
-            ? data.ingredientes.join('\n')
-            : data.ingredientes || '';
-        document.getElementById('recetaIngredientes').value = ingredientes;
+        // Ingredientes
+        document.getElementById('recetaIngredientes').value =
+            Array.isArray(data.ingredientes) ? data.ingredientes.join("\n") : data.ingredientes || "";
 
-        const pasos = Array.isArray(data.pasos)
-            ? data.pasos.join('\n')
-            : data.pasos || '';
-        document.getElementById('recetaInstrucciones').value = pasos;
+        // Pasos
+        document.getElementById('recetaInstrucciones').value =
+            Array.isArray(data.pasos) ? data.pasos.join("\n") : data.pasos || "";
 
-        const fecha = data.fechaCreacion
-            ? new Date(data.fechaCreacion).toLocaleString("es-MX", {
-                dateStyle: "medium",
-                timeStyle: "short"
-            })
+        // Fecha
+        document.getElementById('recetaFecha').value = data.fechaCreacion
+            ? new Date(data.fechaCreacion).toLocaleString("es-MX")
             : "Sin fecha";
-        document.getElementById('recetaFecha').value = fecha;
 
+        // Mostrar modal
         const modal = document.getElementById('modalReceta');
         modal.style.display = 'block';
-        setTimeout(() => {
-            modal.classList.add('show');
-        }, 10);
-
+        setTimeout(() => modal.classList.add('show'), 10);
     } catch (error) {
         console.error("Error al ver receta:", error);
-        mostrarMensaje('Error al cargar la receta', '#E01616');
+        mostrarMensaje("Error al cargar la receta", "#E01616");
     }
 }
 
 async function guardarCambios() {
     const id = document.getElementById('recetaId').value;
-    const nombre = document.getElementById('recetaNombre').value;
-    const descripcion = document.getElementById('recetaDescripcion').value;
-    const ingredientes = document.getElementById('recetaIngredientes').value.split('\n').filter(i => i.trim());
-    const pasos = document.getElementById('recetaInstrucciones').value.split('\n').filter(i => i.trim());
 
-    const tiempoPreparacion = document.getElementById('recetaTiempoPreparación').value;
-    const porciones = document.getElementById('recetaPorciones').value;
-    const dificultad = document.getElementById('recetaDificultad').value;
-    const categoria = Array.from(document.querySelectorAll('input[name="categoria"]:checked'))
-                      .map(chk => chk.value);
+    const payload = {
+        nombre: document.getElementById('recetaNombre').value,
+        descripcion: document.getElementById('recetaDescripcion').value,
+        ingredientes: document.getElementById('recetaIngredientes').value.split("\n").filter(i => i.trim()),
+        pasos: document.getElementById('recetaInstrucciones').value.split("\n").filter(i => i.trim()),
+        tiempoPreparacion: document.getElementById('recetaTiempoPreparación').value,
+        porciones: document.getElementById('recetaPorciones').value,
+        dificultad: document.getElementById('recetaDificultad').value,
+        categoria: [...document.querySelectorAll('input[name="categoria"]:checked')].map(c => c.value)
+    };
 
     try {
         const response = await fetch(`${API_URL}/recetas/${id}/editar`, {
@@ -264,71 +422,46 @@ async function guardarCambios() {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                nombre,
-                descripcion,
-                ingredientes,
-                pasos,
-                tiempoPreparacion,
-                porciones,
-                dificultad,
-                categoria
-            })
+            body: JSON.stringify(payload)
         });
 
-        if (response.ok) {
-            const data = await response.json();
-            mostrarMensaje('Receta actualizada correctamente', '#4CAF50');
-            
-            const modal = document.getElementById('modalReceta');
-            modal.classList.remove('show');
-            setTimeout(() => {
-                modal.style.display = 'none';
-                location.reload();
-            }, 300);
-        } else {
-            throw new Error('Error al actualizar la receta');
-        }
+        if (!response.ok) throw new Error("Error al actualizar");
 
-    } catch (error) {
-        console.error("Error al guardar cambios:", error);
-        mostrarMensaje('Error al guardar los cambios', '#E01616');
-    }
-}
-
-
-async function Aprobar(id) {
-    try {
-        const response = await fetch(`${API_URL}/recetas/${id}/aprobar`, {
-            method: "PUT",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
-        });
-
-        const data = await response.json();
-        mostrarMensaje(`Receta aprobada: ${data.nombre}`, '#4CAF50');
+        mostrarMensaje("Receta actualizada correctamente", "#4CAF50");
         location.reload();
 
     } catch (error) {
-        mostrarMensaje(`Error: ${error.message}`, '#E01616');
+        mostrarMensaje("Error al guardar cambios", "#E01616");
+    }
+}
+
+async function Aprobar(id) {
+    try {
+        const res = await fetch(`${API_URL}/recetas/${id}/aprobar`, {
+            method: "PUT",
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        const data = await res.json();
+        mostrarMensaje(`Receta aprobada: ${data.nombre}`, "#4CAF50");
+        location.reload();
+
+    } catch (error) {
+        mostrarMensaje("Error al aprobar", "#E01616");
     }
 }
 
 async function Rechazar(id) {
     try {
-        const response = await fetch(`${API_URL}/recetas/${id}/rechazar`, {
+        const res = await fetch(`${API_URL}/recetas/${id}/rechazar`, {
             method: "PUT",
-            headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
-            }
+            headers: { "Authorization": `Bearer ${token}` }
         });
-        const data = await response.json();
-        mostrarMensaje(`Receta rechazada: ${data.nombre}`, '#4CAF50');
+
+        const data = await res.json();
+        mostrarMensaje(`Receta rechazada: ${data.nombre}`, "#4CAF50");
         location.reload();
     } catch (error) {
-        mostrarMensaje(`Error: ${error.message}`, '#E01616');
+        mostrarMensaje("Error al rechazar", "#E01616");
     }
 }

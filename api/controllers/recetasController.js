@@ -333,7 +333,7 @@ export async function Rechazar(req, res){
 
 export async function Pendiente(req, res) {
     try {
-      const recetas = await Receta.find({ estado: 'pendiente' }).populate('autor', 'nombre');
+      const recetas = await Receta.find({ estado: 'pendiente' }).populate('autor', ['nombre', 'email']);
       res.json(recetas);
     } catch (err) {
       console.error("Error en Pendiente:", err);
@@ -341,16 +341,33 @@ export async function Pendiente(req, res) {
     }
 }
 
-export async function ContarRecetas(req, res){
+export async function ContarRecetas(req, res) {
     try {
-        const contar = await Receta.countDocuments({});
-        res.json(contar);
+        // Agrupo por estado
+        const porEstado = await Receta.aggregate([
+            {
+                $group: {
+                    _id: "$estado",
+                    total: { $sum: 1 }
+                }
+            }
+        ]);
 
-    }catch(error){
+        const total = await Receta.countDocuments(); //General
+        const respuesta = {
+            total,
+            pendiente: porEstado.find(x => x._id === "pendiente")?.total || 0,
+            aprobada: porEstado.find(x => x._id === "aprobada")?.total || 0,
+            rechazada: porEstado.find(x => x._id === "rechazada")?.total || 0,
+        };
+
+        res.json(respuesta);
+
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ error: "Error contando las recetas" });
     }
 }
-
 
 export async function Ver(req, res) {
     try {

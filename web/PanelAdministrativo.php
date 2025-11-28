@@ -17,15 +17,7 @@
         </section>
 
         <section class="contenedor-cartas">
-            <div class="carta">
-                <h3 id="ContReceta">0</h3>
-                <p>Recetas Totales</p>
-            </div>
 
-            <div class="carta">
-                <h3 id="Solicitudes">0</h3>
-                <p>Solicitudes de Recetas</p>
-            </div>
 
         </section>
 
@@ -35,14 +27,11 @@
         </div>
 
         <section class="contacto">
+            <div id="contenedor-buscador"></div>
+
             <table class="tabla">
-                <thead>
-                    <tr>
-                        <th>Usuario</th>
-                        <th>Receta</th>
-                        <th>Fecha</th>
-                        <th>Acciones</th>
-                    </tr>
+                <thead id="tabla-encabezado">
+                    
                 </thead>
 
                 <tbody id="tabla-body">
