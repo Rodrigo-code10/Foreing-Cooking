@@ -1,4 +1,5 @@
 import API_URL from './config.js';
+import { mostrarMensaje } from './mensajes.js';
 // Crear nueva receta
 async function nuevaReceta() {
     try {
@@ -25,7 +26,9 @@ async function nuevaReceta() {
         }
 
         mostrarMensaje("Solicitud de receta enviada exitosamente!",'#4CAF50');
-        window.location.href = "index.php";
+        setTimeout(() => {
+            window.location.href = "index.php";
+        }, 2000); 
 
     } catch (error) {
         mostrarMensaje(`Ocurrio un error: ${error}`,'#E01616');

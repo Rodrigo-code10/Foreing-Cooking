@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     inicializarTabs();     
 });
 
-
 async function cargarCartas(modo = "recetas") {
     const ContenedorReceta = document.querySelector('.contenedor-cartas');
     try {
@@ -323,8 +322,14 @@ function crearModal() {
                     </div>
 
                     <div class="form-field">
+                        <label>Imagen</label>
+                        <img id="recetaImagenVista" style="max-width: 300px; border-radius: 10px; display: block; margin-top: 10px;">
+                    </div>
+
+                    <div class="form-field">
                         <label>Fecha de Creación</label>
                         <input type="text" id="recetaFecha" class="input-modern input-readonly" readonly>
+                        <img id="previewReceta" style="max-width: 200px; margin-top: 10px; display: none; border-radius: 8px;">
                     </div>
 
                     <div class="modal-footer">
@@ -372,7 +377,14 @@ async function Ver(id) {
         document.getElementById('recetaTiempoPreparación').value = data.tiempoPreparacion || '';
         document.getElementById('recetaPorciones').value = data.porciones || '';
         document.getElementById('recetaDificultad').value = data.dificultad || '';
+        const imgVista = document.getElementById('recetaImagenVista');
 
+        if (data.imagen) {
+            imgVista.src = `${API_URL}${data.imagen}`;
+        } else {
+            imgVista.src = `${API_URL}/public/default/admmin.png`;
+        }
+        
         // Categorías
         document.querySelectorAll('input[name="categoria"]').forEach(chk => {
             chk.checked = data.categoria?.includes(chk.value);

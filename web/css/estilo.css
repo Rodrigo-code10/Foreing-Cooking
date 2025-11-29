@@ -112,22 +112,6 @@ section {
     line-height: 1.6;
 }
 
-.imagen {
-    text-align: center;
-    background-color: #EE7F58;
-    padding: 30px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.imagen img {
-    width: 100%;
-    max-width: 300px;
-    border-radius: 10px;
-}
-
 .buttons {
     display: flex;
     gap: 15px;

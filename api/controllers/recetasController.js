@@ -393,3 +393,18 @@ export async function Editar(req, res) {
     res.status(500).json({ error: "Error editando receta" });
   }
 }
+
+export async function ImagenRecetas(req, res) {
+    try {
+        const cantidad = Number(req.query.cantidad) || 10;
+
+        const recetas = await Receta.find({estado: "aprobada"}, "imagen")   
+            .sort({ fechaCreacion: -1 })                  
+            .limit(cantidad);                             
+
+        res.json(recetas);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al obtener recetas" });
+    }
+}

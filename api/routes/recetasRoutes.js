@@ -14,6 +14,7 @@ import {
     ContarRecetas,
     Ver,
     Editar,
+    ImagenRecetas,
 } from '../controllers/recetasController.js'; // Controlador para manejar la lógica de las recetas
 
 import { 
@@ -38,6 +39,8 @@ const upload = multer({ storage });
 router.post("/newreceta", verificarToken, upload.single("imagen_receta"), crearReceta);   
 
 router.get("/muestrarecetas", mostrarRecetas);
+
+router.get("/imagenrecetas", ImagenRecetas);
 
 router.get("/recetas/:id", obtenerRecetaPorId);
 
