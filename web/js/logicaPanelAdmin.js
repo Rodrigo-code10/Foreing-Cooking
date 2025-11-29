@@ -439,8 +439,14 @@ async function guardarCambios() {
 
         if (!response.ok) throw new Error("Error al actualizar");
 
+        const modal = document.getElementById('modalReceta');
+        modal.classList.remove('show');
+        setTimeout(() => modal.style.display = 'none', 300);
+
         mostrarMensaje("Receta actualizada correctamente", "#4CAF50");
-        location.reload();
+        setTimeout(() => {
+            location.reload();
+        }, 1000);
 
     } catch (error) {
         mostrarMensaje("Error al guardar cambios", "#E01616");
@@ -456,7 +462,9 @@ async function Aprobar(id) {
 
         const data = await res.json();
         mostrarMensaje(`Receta aprobada: ${data.nombre}`, "#4CAF50");
-        location.reload();
+        setTimeout(() => {
+            location.reload();
+        }, 2000);
 
     } catch (error) {
         mostrarMensaje("Error al aprobar", "#E01616");
@@ -472,7 +480,9 @@ async function Rechazar(id) {
 
         const data = await res.json();
         mostrarMensaje(`Receta rechazada: ${data.nombre}`, "#4CAF50");
-        location.reload();
+        setTimeout(() => {
+            location.reload();
+        }, 2000);
     } catch (error) {
         mostrarMensaje("Error al rechazar", "#E01616");
     }
