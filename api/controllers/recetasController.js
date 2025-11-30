@@ -1,4 +1,4 @@
-import { Receta } from "../models/nuevaReceta.js";
+import { Receta, parseIngrediente } from "../models/nuevaReceta.js";
 import { Usuario } from "../models/usuario.js";
 import { Favorito } from "../models/favoritos.js";
 import { Calificacion } from "../models/calificacion.js";
@@ -13,15 +13,27 @@ export async function crearReceta(req,res) {
             return res.status(400).json({ error: 'Faltan campos requeridos' });
         }
 
-        const usuario = await Usuario.findById(req.usuarioId);
+        let ingredientesArray = [];
+        if (req.body.ingredientes) {
+          if (Array.isArray(req.body.ingredientes)) {
+            ingredientesArray = req.body.ingredientes;
+          } else {
+            ingredientesArray = req.body.ingredientes.split('\n');
+          }
+          ingredientesArray = ingredientesArray
+            .map(i => i.trim())
+            .filter(i => i.length > 0)
+            .map(parseIngrediente);
+        }
 
+        const usuario = await Usuario.findById(req.usuarioId);        
         const nuevaReceta = new Receta({
             nombre: req.body.nombre_receta,
             descripcion: req.body.descripcion,
             tiempoPreparacion: req.body.tiempo_preparacion, 
             porciones: req.body.porciones,
             dificultad: req.body.dificultad, 
-            ingredientes: req.body.ingredientes.split('\n'), 
+            ingredientes: ingredientesArray,
             pasos: req.body.pasos.split('\n'),
             imagen: req.file ? `/uploads/${req.file.filename}` : null,
             autor: req.usuarioId,
@@ -92,17 +104,16 @@ export async function mostrarRecetas(req, res) {
             const ingredientes = Array.isArray(req.query.ingredientes)
                 ? req.query.ingredientes
                 : req.query.ingredientes.split(',');
-
+        
             const regexIngredientes = ingredientes.map(ing => {
                 const base = ing.trim()
                     .normalize("NFD")
-                    .replace(/[\u0300-\u036f]/g, ""); // sin acentos
-                         return new RegExp(`^${base}(es|s)?$`, "i");    //i=Minuscula,Mayuscula,   s?$ Me da con plural o no
+                    .replace(/[\u0300-\u036f]/g, "");
+                return new RegExp(`^${base}(es|s)?$`, "i");
             });
-           
-            filtros.ingredientes = { $all: regexIngredientes };
+        
+            filtros["ingredientes.nombre"] = { $all: regexIngredientes };
         }
-
         let orden = {};
 
         switch (req.query.orden) {
@@ -377,8 +388,7 @@ export async function Ver(req, res) {
     } catch (err) {
       res.status(500).json({ error: "Error obteniendo receta" });
     }
-  }
-
+}
 
 export async function Editar(req, res) {
   try {

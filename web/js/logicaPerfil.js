@@ -103,7 +103,9 @@ async function editarReceta(id) {
 
         // Ingredientes
         document.getElementById('recetaIngredientes').value =
-            Array.isArray(data.ingredientes) ? data.ingredientes.join("\n") : data.ingredientes || "";
+        Array.isArray(data.ingredientes) 
+            ? data.ingredientes.map(i => i.texto || i.nombre).join("\n")
+            : data.ingredientes || "";
 
         // Pasos
         document.getElementById('recetaInstrucciones').value =
@@ -231,10 +233,38 @@ function crearModal() {
 async function guardarCambios() {
     const id = document.getElementById('recetaId').value;
 
+    const lineasIngredientes = document.getElementById('recetaIngredientes').value
+    .split("\n")
+    .filter(linea => linea.trim() !== "");
+
+    const unidadesComunes = ["taza","tazas","cucharada","cucharadas","gramo","gramos","kg","ml","pieza","piezas"];
+
+    const ingredientes = lineasIngredientes.map(linea => {
+        const partes = linea.trim().split(" ");
+        let cantidad = null;
+        let unidad = null;
+
+        if (!isNaN(partes[0])) {
+            cantidad = Number(partes.shift());
+        }
+
+        if (partes.length && unidadesComunes.includes(partes[0].toLowerCase())) {
+            unidad = partes.shift();
+        }
+
+        const nombre = partes.join(" ").trim();
+        return {
+            nombre,      
+            cantidad,    
+            unidad,      
+            texto: linea.trim()  
+        };
+    });
+
     const payload = {
         nombre: document.getElementById('recetaNombre').value,
         descripcion: document.getElementById('recetaDescripcion').value,
-        ingredientes: document.getElementById('recetaIngredientes').value.split("\n").filter(i => i.trim()),
+        ingredientes: ingredientes,
         pasos: document.getElementById('recetaInstrucciones').value.split("\n").filter(i => i.trim()),
         tiempoPreparacion: document.getElementById('recetaTiempoPreparación').value,
         porciones: document.getElementById('recetaPorciones').value,
@@ -265,7 +295,6 @@ async function guardarCambios() {
         setTimeout(() => {
             location.reload();
         }, 2000);
-
 
     } catch (error) {
         mostrarMensaje("Error al guardar cambios", "#E01616");

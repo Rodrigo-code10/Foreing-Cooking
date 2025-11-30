@@ -1,5 +1,6 @@
 import API_URL from './config.js';
 import { mostrarMensaje } from './mensajes.js';
+
 // Crear nueva receta
 async function nuevaReceta() {
     try {

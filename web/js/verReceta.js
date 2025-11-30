@@ -126,7 +126,7 @@ function mostrarReceta(receta) {
             const li = document.createElement('li');
             li.innerHTML = `
                 <span class="ingrediente-icono"></span>
-                <span>${ingrediente}</span>
+                <span>${ingrediente.texto}</span>
             `;
             listaIngredientes.appendChild(li);
         });
