@@ -163,26 +163,36 @@ footer img:hover {
 }
 
 /* ===== ÚLTIMAS RECETAS ===== */
-.ultimas-recetas, .mejores-recetas, .viejas-recetas {
+.ultimas-recetas,
+.mejores-recetas,
+.viejas-recetas {
     margin-bottom: 60px;
 }
 
-.ultimas-recetas, .mejores-recetas, .viejas-recetas .contenido {
+.ultimas-recetas .contenido,
+.mejores-recetas .contenido,
+.viejas-recetas .contenido {
     margin-bottom: 40px;
 }
 
-.ultimas-recetas, .mejores-recetas, .viejas-recetas  h1 {
+.ultimas-recetas h1,
+.mejores-recetas h1,
+.viejas-recetas h1 {
     font-size: 36px;
     margin-bottom: 10px;
 }
 
-.ultimas-recetas, .mejores-recetas, .viejas-recetas  p {
+.ultimas-recetas p,
+.mejores-recetas p,
+.viejas-recetas p {
     color: #666;
     font-size: 1rem;
 }
 
 /* ===== CARDS ===== */
-.cards, .mejores-cards, .viejas-cards {
+.cards,
+.mejores-cards,
+.viejas-cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
@@ -921,22 +931,24 @@ body.auth-page {
         width: 100%;
     }
 
-    .ultimas-recetas {
-        padding: 20px 10px;
-    }
+
 
     .ultimas-recetas h1 {
         font-size: 28px;
     }
 
     /* Cards */
-    .cards, .mejores-cards, .viejas-cards {
+    .cards,
+    .mejores-cards,
+    .viejas-cards {
         grid-template-columns: 1fr;
         gap: 20px;
         padding: 0 10px;
     }
 
-    .card {
+    .card,
+    .mejores-cards,
+    .viejas-cards {
         max-width: 100%;
     }
 
