@@ -28,16 +28,15 @@
 
         <section class="contacto">
             <div id="contenedor-buscador"></div>
-
-            <table class="tabla">
-                <thead id="tabla-encabezado">
-                    
-                </thead>
-
-                <tbody id="tabla-body">
-
-                </tbody>
-            </table>
+            <div class="tabla-container">
+                <table class="tabla">
+                    <thead id="tabla-encabezado">
+                        
+                    </thead>
+                    <tbody id="tabla-body">
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
 

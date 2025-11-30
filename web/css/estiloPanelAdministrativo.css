@@ -549,3 +549,176 @@ nav a {
         min-height: 45px;
     }
 }
+
+@media (max-width: 968px) {
+    .hero-nosotros h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-nosotros p {
+        font-size: 1rem;
+    }
+
+    .contenedor-cartas {
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    .carta {
+        width: calc(50% - 10px);
+        min-width: 250px;
+    }
+
+    .tabs {
+        gap: 40px;
+        flex-wrap: wrap;
+    }
+
+    .tab {
+        font-size: 0.9em;
+    }
+
+    .tabla {
+        font-size: 0.9rem;
+    }
+
+    .tabla th,
+    .tabla td {
+        padding: 12px 8px;
+    }
+
+    .modal-container {
+        max-width: 90%;
+        margin: 20px auto;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 768px) {
+    nav{
+        height: 70px;
+    }
+    .contacto {
+        padding: 15px 10px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tabla-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -10px;
+        padding: 0 10px;
+    }
+
+    .tabla {
+        min-width: 700px; 
+        font-size: 0.85rem;
+        display: table;
+        width: auto;
+    }
+
+    .tabla th,
+    .tabla td {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        white-space: nowrap;
+    }
+
+    .tabla th {
+        font-size: 0.9rem;
+        min-width: 100px; 
+    }
+
+    .tabla th:first-child,
+    .tabla td:first-child {
+        min-width: 120px; 
+    }
+
+    .tabla th:nth-child(2),
+    .tabla td:nth-child(2) {
+        min-width: 150px;
+    }
+
+    .tabla th:nth-child(3),
+    .tabla td:nth-child(3) {
+        min-width: 120px;
+    }
+
+    .tabla th:nth-child(4),
+    .tabla td:nth-child(4) {
+        min-width: 100px;
+    }
+
+    .tabla th:last-child,
+    .tabla td:last-child {
+        min-width: 180px;
+    }
+
+    .tabla td button {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        margin: 2px;
+        white-space: nowrap;
+    }
+
+    .btn-ver,
+    .btn-aprobar,
+    .btn-rechazar {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+
+    .contacto::after {
+        content: '← Desliza para ver más →';
+        display: block;
+        text-align: center;
+        font-size: 0.75rem;
+        color: #999;
+        margin-top: 10px;
+        font-style: italic;
+    }
+}
+
+@media (max-width: 600px) {
+    .tabla {
+        min-width: 650px;
+        font-size: 0.8rem;
+    }
+
+    .tabla th,
+    .tabla td {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+
+    .tabla th {
+        font-size: 0.85rem;
+    }
+
+    .tabla td button {
+        padding: 5px 8px;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .tabla {
+        min-width: 600px;
+        font-size: 0.75rem;
+    }
+
+    .tabla th,
+    .tabla td {
+        padding: 6px 8px;
+        font-size: 0.75rem;
+    }
+
+    .tabla td button {
+        padding: 4px 6px;
+        font-size: 0.65rem;
+    }
+}

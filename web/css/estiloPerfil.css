@@ -107,10 +107,10 @@ body.perfil-page nav a:hover {
 body.perfil-page .cards {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px; 
-    justify-content: center; 
-    max-width: 960px; 
-    margin: 0 auto; 
+    gap: 10px;
+    justify-content: center;
+    max-width: 960px;
+    margin: 0 auto;
 }
 
 body.perfil-page .card {
@@ -193,8 +193,8 @@ body.perfil-page .like-count {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s;
-    display: block;     
-    margin: 20px auto 120px;   
+    display: block;
+    margin: 20px auto 120px;
 }
 
 .btn_sesion:hover {
@@ -204,16 +204,15 @@ body.perfil-page .like-count {
 .formulario-editar-perfil {
     max-width: none;
     width: 100%;
-    margin: 2rem 0; 
+    margin: 2rem 0;
     background: white;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     border-radius: 1.5rem;
     padding: 3rem;
     border: 1px solid #f3f4f6;
-    
     display: block;
-    grid-column: 1 / -1;  
-    flex: 0 0 100%;     
+    grid-column: 1 / -1;
+    flex: 0 0 100%;
 }
 
 .formulario-header {
@@ -341,7 +340,6 @@ body.perfil-page .like-count {
     background: #e0e7ff;
 }
 
-/* Firefox */
 .formulario-file::file-selector-button {
     margin-right: 1.25rem;
     padding: 0.625rem 1.25rem;
@@ -416,4 +414,85 @@ body.perfil-page .like-count {
     width: 1.375rem;
     height: 1.375rem;
     flex-shrink: 0;
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 968px) {
+    .perfil {
+        max-width: 90%;
+        margin-top: 100px;
+    }
+
+    .perfil-header {
+        padding: 40px 60px;
+    }
+
+    body.perfil-page .cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .perfil {
+        max-width: 100%;
+        margin-top: 80px;
+        padding: 0 10px;
+    }
+
+    .perfil-header {
+        padding: 30px 20px;
+    }
+
+    .perfil-foto {
+        width: 60px;
+        height: 60px;
+    }
+
+    .perfil-estadisticas {
+        gap: 20px;
+    }
+
+    .tabs {
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    body.perfil-page .cards {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    body.perfil-page .card {
+        max-width: 100%;
+    }
+
+    .btn_sesion {
+        width: 90%;
+        max-width: 300px;
+    }
+
+    .formulario-editar-perfil {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .perfil {
+        margin-top: 70px;
+    }
+
+    .perfil-header {
+        padding: 25px 15px;
+    }
+
+    .perfil-foto {
+        width: 55px;
+        height: 55px;
+    }
+
+    .btn_sesion {
+        width: 95%;
+    }
 }

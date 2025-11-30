@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/estilo.css">
     <link rel="stylesheet" href="css/estiloAcercaNosotros.css">
+    <link rel="stylesheet" href="css/estilo.css">
     <title>Acerca de nosotros</title>
 </head>
 <body>
@@ -63,7 +65,7 @@
         <section class="contacto">
             <h2>A quien va dirigida la página</h2>
             <div class="contacto-info">
-             <p>
+            <p>
                 Bienvenido a este rincón donde los sabores viajan sin pasaporte.
                 Aquí, cada receta es un mapa y cada plato, un destino.
 

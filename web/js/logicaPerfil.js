@@ -260,15 +260,23 @@ async function ConfigPerfil() {
 // Inicialización al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
     const usuario = JSON.parse(localStorage.getItem("usuario"));
-    if (!usuario) return;
+    if (!usuario) {
+        // Si no hay usuario, redirigir inmediatamente
+        window.location.href = 'index.php';
+        return;
+    }
 
     CambiarHeader(usuario.foto);
     cargarPerfil(usuario);
 
     // Botón cerrar sesión
     const btnCerrarSesion = document.querySelector(".btn_sesion");
-    if(btnCerrarSesion) btnCerrarSesion.addEventListener("click", cerrarSesion);
-
+    if(btnCerrarSesion) {
+        console.log("Botón encontrado"); // Debug
+        btnCerrarSesion.addEventListener("click", cerrarSesion);
+    } else {
+        console.error("No se encontró el botón de cerrar sesión"); // Debug
+    }
     // Pestañas
     const tabs = document.querySelectorAll(".tabs .tab");
     tabs.forEach((tab, index) => {

@@ -7,8 +7,8 @@
     <title>Perfil de Usuario - Foreign Cooking</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="css/estilo.css">
     <link rel="stylesheet" href="css/estiloPerfil.css">
+    <link rel="stylesheet" href="css/estilo.css">
 </head>
 
 <body class="perfil-page">
