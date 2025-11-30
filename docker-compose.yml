@@ -1,48 +1,43 @@
 services:
-  mongodb:
-    image: mongo:7
-    container_name: mongo_srv
-    restart: always
-    volumes:
-      - ./mongo/init.js:/docker-entrypoint-initdb.d/init.js
-      - ./mongo/data:/data/db   #Carpeta de persistencia
-
-    ports:
-      - "${MONGO_PORT}:27017"
-    networks:
-      - services_net
+  # mongodb:
+  #   image: mongo:latest
+  #   ...
 
   api:
     build: ./api
     container_name: api_srv
     restart: always
-    depends_on:
-      - mongodb
+    # depends_on:
+    #   - mongodb
     environment:
-      MONGO_URI:  mongodb://${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}
+      MONGO_URI: ${MONGO_URI}
       NODE_ENV: ${NODE_ENV}
+      PORT: ${PORT}
       JWT_SECRET: ${JWT_SECRET}
-      API_PORT: ${API_PORT}
+      FRONTEND_URL: ${FRONTEND_URL}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      CLOUDINARY_URL: ${CLOUDINARY_URL}
     ports:
       - "${API_PORT}:3000"
-    volumes:      
-      - ./api:/usr/src/app  # Mounts the API source code
-      - /usr/src/app/node_modules  # Prevents overwriting node_modules
-
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
     command: ["npm", "run", "dev"]
     networks:
       - services_net
 
   web:
     image: php:8.3-apache
-    container_name: web_srv
-    restart: always
-    depends_on:
-      - api
+    container_name: web_foreign_cooking
     volumes:
       - ./web:/var/www/html
     ports:
       - "${WEB_PORT}:80"
+    depends_on:
+      - api
+    restart: always
     networks:
       - services_net
 

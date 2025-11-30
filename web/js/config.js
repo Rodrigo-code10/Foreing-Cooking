@@ -1,4 +1,6 @@
-const API_URL = window.location.hostname === "localhost"
-  ? "http://localhost:3000"
-  : "https://mi-backend.onrender.com";
+const API_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000"        
+    : window.location.origin + "/api"; 
+
 export default API_URL;
