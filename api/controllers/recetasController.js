@@ -26,7 +26,8 @@ export async function crearReceta(req,res) {
             .map(parseIngrediente);
         }
 
-        const usuario = await Usuario.findById(req.usuarioId);        
+        const usuario = await Usuario.findById(req.usuarioId);  
+        const imagenCloudinary = req.file ? req.file.path : null;      
         const nuevaReceta = new Receta({
             nombre: req.body.nombre_receta,
             descripcion: req.body.descripcion,
@@ -35,7 +36,7 @@ export async function crearReceta(req,res) {
             dificultad: req.body.dificultad, 
             ingredientes: ingredientesArray,
             pasos: req.body.pasos.split('\n'),
-            imagen: req.file ? `/uploads/${req.file.filename}` : null,
+            imagen: imagenCloudinary,
             autor: req.usuarioId,
             categoria: req.body.categoria 
         });
@@ -51,10 +52,6 @@ export async function crearReceta(req,res) {
         res.status(500).json({ error: 'Error al crear receta', detalle: error.message });
     }  
 }
-
-
-
-
 
 export async function mostrarRecetas(req, res) {
     try {

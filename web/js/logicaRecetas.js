@@ -32,7 +32,7 @@ export async function mostrarRecetas(contenedorSelector,filtros = {}) {
 
             card.innerHTML = `
                 <div class="card-image">
-                    <img src="${API_URL}${receta.imagen}" alt="${receta.nombre}">
+                    <img src="${receta.imagen}" alt="${receta.nombre}">
                     ${esNueva ? '<span class="card-badge">Nuevo</span>' : ''}
                 </div>
 

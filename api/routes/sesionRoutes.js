@@ -1,5 +1,7 @@
 import express from 'express';
 import multer from "multer";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "../config/cloudinary.js";
 import {
     registrarUsuario,
     iniciarSesion,
@@ -9,19 +11,15 @@ import {
     EstadoPerfil,
 } from '../controllers/sesionController.js'; // Controlador para manejar la lógica de registro
 
-import {
-    verificarToken,
-    soloAdmin,
-} from '../middleware/auth.js'; 
+import { verificarToken, soloAdmin, } from '../middleware/auth.js'; 
 
 // Configuración de multer para guardar fotos
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "public/uploads/");
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: "Dynamic folders", // carpeta en cloudinary
+        allowed_formats: ["jpg", "jpeg", "png"],
     },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + "-" + file.originalname);
-    }
 });
 
 const upload = multer({ storage });

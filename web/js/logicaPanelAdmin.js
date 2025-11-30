@@ -385,9 +385,9 @@ async function Ver(id) {
         const imgVista = document.getElementById('recetaImagenVista');
 
         if (data.imagen) {
-            imgVista.src = `${API_URL}${data.imagen}`;
+            imgVista.src = `${data.imagen}`;
         } else {
-            imgVista.src = `${API_URL}/public/default/admmin.png`;
+            imgVista.src = 'https://res.cloudinary.com/ddnarqecz/image/upload/v1764494906/samples/coffee.jpg';
         }
         
         //Categorias

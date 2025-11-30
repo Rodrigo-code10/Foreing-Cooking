@@ -1,5 +1,7 @@
 import express from 'express';
 import multer from "multer";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "../config/cloudinary.js";
 import {
     crearReceta,
     mostrarRecetas,
@@ -15,26 +17,18 @@ import {
     ImagenRecetas,
 } from '../controllers/recetasController.js'; // Controlador para manejar la lógica de las recetas
 
-import {
-    verificarToken,
-    soloAdmin,
-} from '../middleware/auth.js';
-
-
-import { 
-    calificarReceta, 
-    obtenerMiCalificacion 
-} from '../controllers/recetasController.js';
+import { verificarToken, soloAdmin,} from '../middleware/auth.js';
+import { calificarReceta, obtenerMiCalificacion } from '../controllers/recetasController.js';
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "public/uploads/");
+// Configuración de multer para guardar fotos
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: "Dynamic folders", // carpeta en cloudinary
+        allowed_formats: ["jpg", "jpeg", "png"],
     },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + "-" + file.originalname);
-    }
 });
 
 const upload = multer({ storage });

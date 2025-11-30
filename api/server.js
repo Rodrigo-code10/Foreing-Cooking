@@ -29,7 +29,6 @@ const swaggerOptions = {
 
 
 dotenv.config(); // Cargar variables de entorno
-
 const app = express();
 
 // Middleware
@@ -68,22 +67,14 @@ app.get("/health", async (req, res) => {
     }
 });
 
-
-
 // Rutas 
 app.use("/", sesionRoutes);
-
 app.use("/", recetasRoutes);
-app.use('/uploads', express.static('public/uploads'));
-app.use('/default', express.static('public/default'));
-
 app.use("/", favoritasRoutes);
 
- 
 // Instancia de swagger
 const swaggerDocs = swaggerJSDoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
 
 // Inicio del servidor
 const PORT = process.env.PORT || 3000;

@@ -14,7 +14,7 @@ export function CambiarHeader(fotoPerfil,rol){
     if(btnRegister) btnRegister.style.display = "none";
 
     if(perfil && img){        
-        img.src = `${API_URL}` + fotoPerfil ;
+        img.src = fotoPerfil;
         perfil.style.display = "block";
         receta.href="CrearRecetas.php";
     }

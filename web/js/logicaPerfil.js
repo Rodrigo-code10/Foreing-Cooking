@@ -31,7 +31,7 @@ function renderizarRecetas(recetas, mostrarEliminar = false, mostrarEditar = fal
 
         card.innerHTML = `
             <div class="card-image">
-                <img src="${API_URL}${receta.imagen}" alt="${receta.nombre}">
+                <img src="${receta.imagen}" alt="${receta.nombre}">
             </div>
             <div class="card-content">
                 <div class="card-rating">
@@ -98,9 +98,9 @@ async function editarReceta(id) {
         const imgVista = document.getElementById('recetaImagenVista');
 
         if (data.imagen) {
-            imgVista.src = `${API_URL}${data.imagen}`;
+            imgVista.src = `${data.imagen}`;
         } else {
-            imgVista.src = `${API_URL}/public/default/admmin.png`;
+            imgVista.src = 'https://res.cloudinary.com/ddnarqecz/image/upload/v1764494906/samples/coffee.jpg';
         }
         
         //Categorias
@@ -365,7 +365,7 @@ async function guardarCambios() {
 
 // Función para cargar perfil y recetas propias
 async function cargarPerfil(usuario) {
-    document.getElementById("foto-perfil").src = `${API_URL}${usuario.foto}`;
+    document.getElementById("foto-perfil").src = `${usuario.foto}`;
     document.getElementById("nombre").innerHTML = usuario.nombre;
     document.getElementById("descripcion").innerHTML = usuario.status || "...";
 
@@ -531,7 +531,7 @@ async function ConfigPerfil() {
                     return; 
                 }
 
-                const data = await res.json();
+                const data = await response.json();
 
                 if (data.success) {
                     mostrarMensaje("Perfil actualizado correctamente",'#4CAF50');

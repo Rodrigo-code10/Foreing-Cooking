@@ -97,8 +97,10 @@ export async function ModificarPerfil(req, res) {
         const updateData = {};
         if(nombre) updateData.nombre = nombre;
         if(status) updateData.status = status;
-        if(req.file) updateData.foto = `/uploads/${req.file.filename}`;
-
+        if (req.file && req.file.path) {
+            updateData.foto = req.file.path;
+        }
+        
         const modificaUsuario = await Usuario.findByIdAndUpdate(id, updateData, { new: true });
         if(!modificaUsuario) return res.status(404).json({ success: false, error: "Usuario no encontrado" });
 

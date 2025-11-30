@@ -24,7 +24,7 @@ async function mostrarImagenes() {
         if (index === 0) li.classList.add('active'); // Primera imagen visible
         
         const tag = document.createElement("img");
-        tag.src = `${API_URL}${img.imagen}`;
+        tag.src = `${img.imagen}`;
         li.appendChild(tag);
         ul.appendChild(li);
     });

@@ -46,8 +46,8 @@ async function cargarMiCalificacion(id) {
         });
 
         if (response.status === 403) {
-                    cerrarSesionAutomatica();
-                    return; 
+            cerrarSesionAutomatica();
+            return; 
         }
 
         if (response.ok) {
@@ -76,7 +76,7 @@ function mostrarReceta(receta) {
     crearEstrellasClickeables();
     // Actualizar imagen principal
     const imagenPrincipal = document.getElementById('imagenPrincipal');
-    imagenPrincipal.src = `${API_URL}${receta.imagen}`;
+    imagenPrincipal.src = `${receta.imagen}`;
     imagenPrincipal.alt = receta.nombre;
 
     // Crear miniaturas
@@ -84,10 +84,10 @@ function mostrarReceta(receta) {
     miniaturas.innerHTML = '';
     
     const miniatura = document.createElement('img');
-    miniatura.src = `${API_URL}${receta.imagen}`;
+    miniatura.src = `${receta.imagen}`;
     miniatura.alt = receta.nombre;
     miniatura.classList.add('miniatura', 'active');
-    miniatura.onclick = () => cambiarImagenPrincipal(`${API_URL}${receta.imagen}`, miniatura);
+    miniatura.onclick = () => cambiarImagenPrincipal(`${receta.imagen}`, miniatura);
     miniaturas.appendChild(miniatura);
 
     // Actualizar avatar y nombre del autor
@@ -96,15 +96,15 @@ function mostrarReceta(receta) {
     
     if (receta.autor) {
         // Si el autor tiene foto propia y NO es el placeholder
-        if (receta.autor.foto && receta.autor.foto !== '/default/SinFoto.png') {
-            autorAvatar.src = `${API_URL}${receta.autor.foto}`;
+        if (receta.autor.foto && receta.autor.foto !== 'https://res.cloudinary.com/ddnarqecz/image/upload/v1764514329/SinFoto_f1nbvo.png') {
+            autorAvatar.src = `${receta.autor.foto}`;
         }
         
         autorAvatar.alt = receta.autor.nombre || 'Usuario';
         autorNombre.textContent = `por @${receta.autor.nombre || 'Desconocido'}`;
     } else {
         // Si no hay autor, mantener el placeholder del PHP
-        autorAvatar.src = `${API_URL}/default/SinFoto.png`;
+        autorAvatar.src = `https://res.cloudinary.com/ddnarqecz/image/upload/v1764514329/SinFoto_f1nbvo.png`;
         autorNombre.textContent = 'por @Desconocido';
     }
 
