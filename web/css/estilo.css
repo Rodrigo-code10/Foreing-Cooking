@@ -738,7 +738,7 @@ body.auth-page {
     }
 
     /* Cards */
-    .cards {
+    .cards, .mejores-cards, .viejas-cards {
         grid-template-columns: repeat(2, 1fr);
         gap: 20px;
     }
@@ -930,7 +930,7 @@ body.auth-page {
     }
 
     /* Cards */
-    .cards {
+    .cards, .mejores-cards, .viejas-cards {
         grid-template-columns: 1fr;
         gap: 20px;
         padding: 0 10px;
