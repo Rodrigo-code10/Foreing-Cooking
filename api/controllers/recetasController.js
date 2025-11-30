@@ -53,28 +53,7 @@ export async function crearReceta(req,res) {
 }
 
 
-export function verificarToken(req, res, next) {
-    const header = req.headers['authorization'];
 
-    if (!header) {
-        return res.status(401).json({ error: "Token no proporcionado" });
-    }
-
-    const [bearer, token] = header.split(" ");
-
-    if (bearer !== "Bearer" || !token) {
-        return res.status(401).json({ error: "Formato de token inválido" });
-    }
-
-    try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        req.usuarioId = decoded.id;
-        req.usuarioRol = decoded.rol;
-        next(); 
-    } catch (error) {
-        res.status(403).json({ error: "Token inválido o expirado" });
-    }
-}
 
 
 export async function mostrarRecetas(req, res) {
@@ -221,8 +200,6 @@ export const obtenerRecetaPorId = async (req, res) => {
     }
 };
 
-
-
 // Calificar una receta
 export async function calificarReceta(req, res) {
     try {
@@ -309,13 +286,6 @@ export async function obtenerMiCalificacion(req, res) {
         console.error('Error al obtener calificación:', error);
         res.status(500).json({ error: 'Error al obtener calificación' });
     }
-}
-
-export function soloAdmin(req, res, next) {
-    if (req.usuarioRol !== "admin") {
-      return res.status(403).json({ error: "No tienes permisos" });
-    }
-    next();
 }
   
 export async function Aprobar(req, res){

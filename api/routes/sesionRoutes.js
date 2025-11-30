@@ -12,7 +12,7 @@ import {
 import {
     verificarToken,
     soloAdmin,
-} from '../controllers/recetasController.js';
+} from '../middleware/auth.js'; 
 
 // Configuración de multer para guardar fotos
 const storage = multer.diskStorage({
@@ -34,7 +34,7 @@ router.post('/login', iniciarSesion);
 // Ruta para registrar un nuevo usuario
 router.post('/registrar', registrarUsuario); 
 
-router.put('/editarperfil', upload.single("foto"), ModificarPerfil);
+router.put('/editarperfil', verificarToken,upload.single("foto"), ModificarPerfil);
 
 router.get('/BuscarUsuario',verificarToken, BuscarUsuario);
 

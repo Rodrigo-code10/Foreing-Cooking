@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const password = document.getElementById('login_password')?.value;
 
             if(!email || !password){
-                alert("Por favor completa todos los campos");
+                mostrarMensaje("Por favor completa todos los campos",'#C7A414');
                 return;
             }
 

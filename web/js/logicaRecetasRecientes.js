@@ -2,9 +2,9 @@ import { mostrarRecetas } from './logicaRecetas.js';
 import API_URL from './config.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    mostrarRecetas('.cards',{limit: 10});
-    mostrarRecetas('.mejores-cards',{limit: 10});
-    mostrarRecetas('.viejas-cards',{limit: 10});
+    mostrarRecetas('.cards',{limit: 8});
+    mostrarRecetas('.mejores-cards',{limit: 8});
+    mostrarRecetas('.viejas-cards',{limit: 8});
     mostrarImagenes();
 });
 

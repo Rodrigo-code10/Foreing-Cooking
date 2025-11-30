@@ -1,13 +1,11 @@
 import express from 'express';
 import multer from "multer";
 import {
-    verificarToken,
     crearReceta,
     mostrarRecetas,
     obtenerRecetaPorId,
     like,
     eliminarReceta,
-    soloAdmin,
     Aprobar,
     Rechazar,
     Pendiente,
@@ -16,6 +14,12 @@ import {
     Editar,
     ImagenRecetas,
 } from '../controllers/recetasController.js'; // Controlador para manejar la lógica de las recetas
+
+import {
+    verificarToken,
+    soloAdmin,
+} from '../middleware/auth.js';
+
 
 import { 
     calificarReceta, 

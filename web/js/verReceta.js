@@ -1,5 +1,6 @@
 import API_URL from './config.js';
 import { mostrarMensaje} from './mensajes.js';
+import {cerrarSesionAutomatica} from './logicaBloqueo.js';
 
 let recetaIdActual = null;
 let miCalificacionActual = 0;
@@ -12,7 +13,7 @@ if (recetaId) {
     recetaIdActual = recetaId;
     cargarReceta(recetaId);
 } else {
-    alert('No se especificó una receta');
+    mostrarMensaje('No se especificó una receta','#E01616');
     window.location.href = 'index.php';
 }
 
@@ -28,7 +29,7 @@ async function cargarReceta(id) {
         mostrarReceta(receta);
     } catch (error) {
         console.error('Error al cargar la receta:', error);
-        alert('Error al cargar la receta: ' + error.message);
+        mostrarMensaje('Error al cargar la receta: ' + error.message, '#E01616');
         window.location.href = 'CatalogoRecetas.php';
     }
 }
@@ -43,6 +44,11 @@ async function cargarMiCalificacion(id) {
                 'Authorization': `Bearer ${token}`
             }
         });
+
+        if (response.status === 403) {
+                    cerrarSesionAutomatica();
+                    return; 
+        }
 
         if (response.ok) {
             const data = await response.json();
@@ -218,7 +224,7 @@ async function enviarCalificacion(puntuacion) {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('Debes iniciar sesión para calificar');
+            mostrarMensaje('Debes iniciar sesión para calificar','#C7A414');
             window.location.href = 'IniciarRegistrarse.php?mode=login';
             return;
         }
@@ -232,10 +238,15 @@ async function enviarCalificacion(puntuacion) {
             body: JSON.stringify({ puntuacion })
         });
 
+        if (response.status === 403) {
+            cerrarSesionAutomatica();
+            return; 
+        }
+
         const data = await response.json();
 
         if (!response.ok) {
-            alert(data.error || 'Error al calificar');
+            mostrarMensaje(data.error || 'Error al calificar','#E01616');
             return;
         }
 
@@ -255,7 +266,7 @@ async function enviarCalificacion(puntuacion) {
 
     } catch (error) {
         console.error('Error al calificar:', error);
-        alert('Error al enviar calificación');
+        mostrarMensaje('Error al enviar calificación','#E01616');
     }
 }
 
@@ -279,7 +290,7 @@ async function darLike() {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('Debes iniciar sesión para dar like');
+            mostrarMensaje('Debes iniciar sesión para dar like','#C7A414');
             window.location.href = 'IniciarRegistrarse.php?mode=login';
             return;
         }
@@ -291,6 +302,11 @@ async function darLike() {
                 'Content-Type': 'application/json'
             }
         });
+
+        if (response.status === 403) {
+            cerrarSesionAutomatica();
+            return; 
+        }
 
         const contentType = response.headers.get('content-type');
         let data;
@@ -305,7 +321,7 @@ async function darLike() {
 
         if (!response.ok) {
             console.error('Error del servidor:', data);
-            alert(data.error || 'Error al dar like');
+            mostrarMensaje(data.error || 'Error al dar like','#E01616');
             return;
         }
 
@@ -314,6 +330,6 @@ async function darLike() {
 
     } catch (error) {
         console.error('Error al dar like:', error);
-        alert('Ocurrió un error al dar like');
+        mostrarMensaje('Ocurrió un error al dar like','#E01616');
     }
 }

@@ -1,5 +1,6 @@
 import API_URL from './config.js';
 import { mostrarMensaje } from './mensajes.js';
+import {cerrarSesionAutomatica} from './logicaBloqueo.js';
 
 const chkOtro = document.getElementById("categoriaOtro");
 const inputOtro = document.getElementById("inputOtro");
@@ -37,6 +38,11 @@ async function nuevaReceta() {
             },
             body: formData
         });
+
+        if (response.status === 403) {
+            cerrarSesionAutomatica();
+            return; 
+        }
 
         const data = await response.json();
 

@@ -31,7 +31,7 @@
             
             <div class="card">
                 <h3>Nuestra Comunidad</h3>
-                <p>Más de 10,000 personas están conectadas, utilizando y aprovechando nuestra plataforma para compartir sus creaciones culinarias.</p>
+                <p>Más de 10  personas están conectadas, utilizando y aprovechando nuestra plataforma para compartir sus creaciones culinarias.</p>
             </div>
             
             <div class="card">
@@ -48,7 +48,7 @@
         <section class="contenedor-cartas">
             <div class="card">
                 <h3>Gmail</h3>
-                <p>rruiz@gs.utm.mx</p>
+                <p>cookingf868@gmail.com</p>
             </div>
 
             <div class="card">

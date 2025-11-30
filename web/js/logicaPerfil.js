@@ -1,6 +1,7 @@
 import API_URL from './config.js';
 import { CambiarHeader } from "./logicaHeader.js";
 import { mostrarMensaje } from './mensajes.js';
+import {cerrarSesionAutomatica} from './logicaBloqueo.js';
 
 //Funcion pa cerrar sesion
 function cerrarSesion(){
@@ -80,6 +81,12 @@ async function editarReceta(id) {
         const response = await fetch(`${API_URL}/recetas/${id}/Ver`, {
             headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
         });
+
+        if (response.status === 403) {
+            cerrarSesionAutomatica();
+            return; 
+        }
+
         const data = await response.json();
 
         document.getElementById('recetaId').value = data._id;
@@ -332,6 +339,11 @@ async function guardarCambios() {
             body: JSON.stringify(payload)
         });
 
+        if (response.status === 403) {
+            cerrarSesionAutomatica();
+            return; 
+        }
+
         if (!response.ok) throw new Error("Error al actualizar");
 
         mostrarMensaje("Peticion de cambios enviada", "#4CAF50");
@@ -373,6 +385,12 @@ async function cargarPerfil(usuario) {
         const responseFav = await fetch(`${API_URL}/obtenerfavoritos`, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
+
+        if (responseFav.status === 403) {
+            cerrarSesionAutomatica();
+            return; 
+        }
+
         const recetasFav = await responseFav.json();
         document.getElementById("Favoritas").innerHTML = recetasFav.length || 0;
     } catch (error) {
@@ -387,6 +405,11 @@ async function Favoritos() {
         const responseFav = await fetch(`${API_URL}/obtenerfavoritos`, {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
+
+        if (responseFav.status === 403) {
+            cerrarSesionAutomatica();
+            return; 
+        }
         const recetasFav = await responseFav.json();
         renderizarRecetas(recetasFav); 
     } catch (error) {
@@ -404,6 +427,12 @@ async function eliminarReceta(id) {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
         });
+        
+        if (response.status === 403) {
+            cerrarSesionAutomatica();
+            return; 
+        }
+
         if (!response.ok) throw new Error("Error al eliminar receta");
         window.location.reload();
     } catch (error) {
@@ -491,15 +520,21 @@ async function ConfigPerfil() {
             formData.append("id", usuario.id);
 
             try {
-                const res = await fetch(`${API_URL}/editarperfil`, {
+                const response = await fetch(`${API_URL}/editarperfil`, {
                     method: "PUT",
                     body: formData,
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
                 });
+                
+                if (response.status === 403) {
+                    cerrarSesionAutomatica();
+                    return; 
+                }
+
                 const data = await res.json();
 
                 if (data.success) {
-                    alert("Perfil actualizado correctamente");
+                    mostrarMensaje("Perfil actualizado correctamente",'#4CAF50');
                     
                     const usuarioActualizado = {
                         ...usuario,
@@ -512,11 +547,11 @@ async function ConfigPerfil() {
                     // Recargar la página actual en lugar de redirigir
                     window.location.reload();
                 } else {
-                    alert("Error al actualizar perfil: " + (data.message || ""));
+                    mostrarMensaje("Error al actualizar perfil: " + (data.message || ""),' #E01616');
                 }
             } catch (err) {
                 console.error(err);
-                alert("Error en la conexión con el servidor");
+                mostrarMensaje("Error en la conexión con el servidor",' #E01616');
             }
         });
 

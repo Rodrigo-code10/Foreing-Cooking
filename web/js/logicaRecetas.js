@@ -1,4 +1,5 @@
 import API_URL from './config.js';
+import { mostrarMensaje } from './mensajes.js';
 
 // Función para generar estrellas visuales
 function generarEstrellas(calificacion) {
@@ -86,7 +87,7 @@ export async function toggleLike(recetaId) {
     try {
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('Debes iniciar sesión para dar like');
+            mostrarMensaje('Debes iniciar sesión para dar like','#C7A414');
             return;
         }
 
@@ -97,6 +98,11 @@ export async function toggleLike(recetaId) {
                 'Content-Type': 'application/json'
             }
         });
+
+        if (response.status === 403) {
+            cerrarSesionAutomatica();
+            return; 
+        }
 
         const contentType = response.headers.get('content-type');
         let data;
@@ -110,7 +116,7 @@ export async function toggleLike(recetaId) {
 
         if (!response.ok) {
             console.error('Error del servidor:', data);
-            alert(data.error || 'Error al dar like');
+            mostrarMensaje(data.error || 'Error al dar like','#E01616');
             return;
         }
 
@@ -118,6 +124,6 @@ export async function toggleLike(recetaId) {
 
     } catch (error) {
         console.error('Error en toggleLike:', error);
-        alert('Ocurrió un error al dar like');
+        mostrarMensaje('Ocurrió un error al dar like','#E01616');
     }
 }
