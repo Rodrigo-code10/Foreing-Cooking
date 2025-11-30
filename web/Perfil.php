@@ -23,7 +23,6 @@
             <p id="descripcion">...</p>
             <div class="perfil-estadisticas">
                 <div><strong id="recetas-creadas"></strong><br>Recetas Creadas</div>
-                <div><strong id="Seguidores"></strong><br>Seguidores</div>
                 <div><strong id="Favoritas"></strong><br>Favoritas</div>
             </div>
         </div>

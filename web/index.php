@@ -31,7 +31,6 @@
         </div>
     </section>
 
-
     <section class="ultimas-recetas">
         <div class="contenido">
             <h1><span class="highlight">Últimas</span> Recetas</h1>
@@ -39,6 +38,28 @@
         </div>
 
         <div class="cards">
+            
+        </div>
+    </section>
+
+    <section class="mejores-recetas">
+        <div class="contenido">
+            <h1><span class="highlight">Mejores</span> Recetas</h1>
+            <p>Estas son las recetas mejor calificadas compartidas por nuestra comunidad</p>
+        </div>
+
+        <div class="mejores-cards">
+            
+        </div>
+    </section>
+
+    <section class="viejas-recetas">
+        <div class="contenido">
+            <h1><span class="highlight">Viejas</span> Recetas</h1>
+            <p>Estas son las más antiguas recetas compartidas por nuestra comunidad</p>
+        </div>
+
+        <div class="viejas-cards">
             
         </div>
     </section>

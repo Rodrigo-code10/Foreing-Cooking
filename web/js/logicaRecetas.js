@@ -6,7 +6,7 @@ function generarEstrellas(calificacion) {
     return '★'.repeat(estrellasLlenas) + '☆'.repeat(5 - estrellasLlenas);
 }
 
-export async function mostrarRecetas(filtros = {}) {
+export async function mostrarRecetas(contenedorSelector,filtros = {}) {
     try {
         const queryString = new URLSearchParams(filtros).toString();
         const url = `${API_URL}/muestrarecetas${queryString ? `?${queryString}` : ''}`;
@@ -14,7 +14,7 @@ export async function mostrarRecetas(filtros = {}) {
         const response = await fetch(url);
         const recetas = await response.json();
 
-        const contenedor = document.querySelector('.cards');
+        const contenedor = document.querySelector(contenedorSelector);
         contenedor.innerHTML = ''; // Limpiar contenedor antes de cargar
 
         recetas.forEach(receta => {

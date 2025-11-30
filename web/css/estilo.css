@@ -120,6 +120,21 @@ footer {
     bottom: 0;
     left: 0;
     width: 100%;
+    display: flex;              
+    align-items: center;       
+    justify-content: center;    
+    gap: 20px;                  
+}
+
+footer img {
+    width: 35px;               
+    height: 35px;
+    vertical-align: middle;    
+    transition: transform 0.3s;
+}
+
+footer img:hover {
+    transform: scale(1.2);     
 }
 
 /* ===== INDEX - SECCIÓN TÍTULO ===== */
@@ -148,26 +163,26 @@ footer {
 }
 
 /* ===== ÚLTIMAS RECETAS ===== */
-.ultimas-recetas {
-    margin-bottom: 50px;
+.ultimas-recetas, .mejores-recetas, .viejas-recetas {
+    margin-bottom: 60px;
 }
 
-.ultimas-recetas .contenido {
+.ultimas-recetas, .mejores-recetas, .viejas-recetas .contenido {
     margin-bottom: 40px;
 }
 
-.ultimas-recetas h1 {
+.ultimas-recetas, .mejores-recetas, .viejas-recetas  h1 {
     font-size: 36px;
     margin-bottom: 10px;
 }
 
-.ultimas-recetas p {
+.ultimas-recetas, .mejores-recetas, .viejas-recetas  p {
     color: #666;
     font-size: 1rem;
 }
 
 /* ===== CARDS ===== */
-.cards {
+.cards, .mejores-cards, .viejas-cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;

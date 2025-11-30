@@ -9,7 +9,7 @@ import swaggerUi from "swagger-ui-express";
 import sesionRoutes from "./routes/sesionRoutes.js";
 import recetasRoutes from "./routes/recetasRoutes.js";
 import favoritasRoutes from "./routes/favoritasRoutes.js";
-import seguidoresRoutes from "./routes/seguidoresRoutes.js";
+
 
 const swaggerOptions = {
     definition: {
@@ -78,9 +78,6 @@ app.use('/uploads', express.static('public/uploads'));
 app.use('/default', express.static('public/default'));
 
 app.use("/", favoritasRoutes);
-
-app.use("/", seguidoresRoutes);
-
 
  
 // Instancia de swagger

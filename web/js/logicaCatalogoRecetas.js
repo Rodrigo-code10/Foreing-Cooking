@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const checksIng = [...document.querySelectorAll('input[name="ingredientes"]:checked')]
             .map(c => c.value);
 
-        const filtros = {};
+        const filtros = {orden: 'top', limit: 10 };
 
         if (checksCat.length > 0) filtros.categoria = checksCat;
         if (checksIng.length > 0) filtros.ingredientes = checksIng;
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.cards').innerHTML = "";
             return;
         }
-        mostrarRecetas(filtros);
+        mostrarRecetas('.cards',filtros);
         setTimeout(enfocarRecetas, 200);
     }
 
@@ -43,34 +43,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
         buscarRecetaTodas(texto);
     });
-
 });
 
 async function buscarRecetaTodas(texto) {
-    let resultados = await fetch(`${API_URL}/muestrarecetas?nombre=${texto}`)
+    let resultados = await fetch(`${API_URL}/muestrarecetas?nombre=${texto}&orden=top&limit=10`)
         .then(r => r.json())
         .catch(() => []);
     if (resultados.length > 0) {
-        mostrarRecetas({ nombre: texto });
+        mostrarRecetas('.cards',{ nombre: texto });
         // Esperar un poco para que se rendericen las tarjetas
         setTimeout(enfocarRecetas, 100);
         return;
     }
 
-    resultados = await fetch(`${API_URL}/muestrarecetas?ingredientes=${texto}`)
+    resultados = await fetch(`${API_URL}/muestrarecetas?ingredientes=${texto}&orden=top&limit=10`)
         .then(r => r.json())
         .catch(() => []);
     if (resultados.length > 0) {
-        mostrarRecetas({ ingredientes: texto });
+        mostrarRecetas('.cards',{ ingredientes: texto });
         setTimeout(enfocarRecetas, 100);
         return;
     }
 
-    resultados = await fetch(`${API_URL}/muestrarecetas?categoria=${texto}`)
+    resultados = await fetch(`${API_URL}/muestrarecetas?categoria=${texto}&orden=top&limit=10`)
         .then(r => r.json())
         .catch(() => []);
 
-    mostrarRecetas({ categoria: texto });
+    mostrarRecetas('.cards',{ categoria: texto });
     setTimeout(enfocarRecetas, 100);
 }
 

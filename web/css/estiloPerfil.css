@@ -491,9 +491,7 @@ body.perfil-page .btn-receta {
         width: 95%;
     }
 
-
-
-
+}
 .modal-overlay {
     display: none;
     position: fixed;
@@ -685,4 +683,162 @@ body.perfil-page .btn-receta {
     padding-top: 20px;
     border-top: 2px solid #f3f4f6;
     margin-top: 30px;
-}}
+}
+
+.btn-primary{
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #e4453f 0%, #c9423d 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(194, 54, 38, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+    .modal-container {
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .modal-form {
+        padding: 25px 20px;
+    }
+
+    .modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .btn-primaryy{
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.form-field[for="recetaCategoria"] {
+    margin-bottom: 20px;
+}
+
+.checkbox-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas iguales */
+    grid-auto-rows: 1fr; 
+    gap: 12px;
+    margin-top: 12px;
+    align-items: stretch;
+}
+
+.form-field input[type="checkbox"] {
+    display: none;
+}
+
+.form-field label:has(input[type="checkbox"]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: 14px;
+    color: #4b5563;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0;
+    height: 100%;
+    box-sizing: border-box;
+    min-height: 45px;
+}
+#inputOtro {
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: none;
+    background-color: #EDE3DF;
+    font-size: 14px;
+    color: #666;
+    outline: none;
+    transition: all 0.3s ease;
+    width: auto;
+    max-width: 200px;
+    margin-left: 5px;
+}
+
+#inputOtro:focus {
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(232, 83, 79, 0.1);
+}
+.form-field label:has(input[type="checkbox"]):hover {
+    border-color: #E8534F;
+    background: #fff5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(232, 83, 79, 0.15);
+}
+
+.form-field label:has(input[type="checkbox"]:checked) {
+    background: linear-gradient(135deg, #E8534F 0%, #df3a34 100%);
+    border-color: #E8534F;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(232, 83, 79, 0.3);
+}
+
+.form-field label:has(input[type="checkbox"])::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    border: 2px solid #d1d5db;
+    border-radius: 5px;
+    background: white;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.form-field label:has(input[type="checkbox"]:checked)::before {
+    content: '✓';
+    background: white;
+    border-color: white;
+    color: #E8534F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-field label:has(input[type="checkbox"]):active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 640px) {
+    .checkbox-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-field label:has(input[type="checkbox"]) {
+        padding: 10px 12px;
+        font-size: 13px;
+        min-height: 45px;
+    }
+}

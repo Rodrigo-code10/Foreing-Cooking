@@ -96,9 +96,39 @@ async function editarReceta(id) {
             imgVista.src = `${API_URL}/public/default/admmin.png`;
         }
         
-        // Categorías
-        document.querySelectorAll('input[name="categoria"]').forEach(chk => {
-            chk.checked = data.categoria?.includes(chk.value);
+        //Categorias
+        const categorias = data.categoria || [];
+        const checkboxes = [...document.querySelectorAll('input[name="categoria"]')];
+        const inputOtro = document.getElementById('inputOtro');
+        const chkOtro = document.getElementById('categoriaOtro');
+        
+        const predefinidas = checkboxes
+          .filter(c => c.id !== 'categoriaOtro')
+          .map(c => c.value.toLowerCase().trim());
+        
+        checkboxes.forEach(c => c.checked = false);
+        inputOtro.value = '';
+        inputOtro.disabled = true;
+        
+        // Marcar predefinidas
+        categorias.forEach(cat => {
+            const match = checkboxes.find(c => c.value.toLowerCase().trim() === cat.toLowerCase().trim());
+            if (match) match.checked = true;
+        });
+        
+        // Manejar “Otro”
+        const otras = categorias.filter(c => !predefinidas.includes(c.toLowerCase().trim()));
+        if (otras.length > 0) {
+            chkOtro.checked = true;
+            inputOtro.disabled = false;
+            inputOtro.value = otras.join(", ");
+        }
+        
+        chkOtro.replaceWith(chkOtro.cloneNode(true)); // eliminar listeners antiguos
+        const nuevoChkOtro = document.getElementById('categoriaOtro');
+        nuevoChkOtro.addEventListener('change', () => {
+            inputOtro.disabled = !nuevoChkOtro.checked;
+            if (!nuevoChkOtro.checked) inputOtro.value = "";
         });
 
         // Ingredientes
@@ -181,6 +211,11 @@ function crearModal() {
                             <label><input type="checkbox" name="categoria" value="Entrada"> Entrada</label>
                             <label><input type="checkbox" name="categoria" value="Postre"> Postre</label>
                             <label><input type="checkbox" name="categoria" value="Plato Fuerte"> Plato Fuerte</label>
+                            <label>
+                                <input type="checkbox" id="categoriaOtro" value="">
+                                Otro:
+                                <input type="text" id="inputOtro" placeholder="Escribe tu categoría" style="margin-left:5px;" disabled>
+                            </label>
                         </div>
                     </div>
 
@@ -233,6 +268,20 @@ function crearModal() {
 async function guardarCambios() {
     const id = document.getElementById('recetaId').value;
 
+    // Recoger todas las categorías seleccionadas
+    let categoriasSeleccionadas = [...document.querySelectorAll('input[name="categoria"]:checked')].map(c => c.value);
+
+    // Si "Otro" está marcado, asegurarse de enviar su valor real
+    const chkOtro = document.getElementById("categoriaOtro");
+    const inputOtro = document.getElementById("inputOtro");
+
+    if (chkOtro.checked) {
+        const valorOtro = inputOtro.value.trim();
+        if (valorOtro) {
+            categoriasSeleccionadas.push(valorOtro); // tomar lo que dice el input
+        }
+    }
+
     const lineasIngredientes = document.getElementById('recetaIngredientes').value
     .split("\n")
     .filter(linea => linea.trim() !== "");
@@ -269,7 +318,7 @@ async function guardarCambios() {
         tiempoPreparacion: document.getElementById('recetaTiempoPreparación').value,
         porciones: document.getElementById('recetaPorciones').value,
         dificultad: document.getElementById('recetaDificultad').value,
-        categoria: [...document.querySelectorAll('input[name="categoria"]:checked')].map(c => c.value),
+        categoria: categoriasSeleccionadas,
         estado:"pendiente"
     };
 
@@ -329,18 +378,6 @@ async function cargarPerfil(usuario) {
     } catch (error) {
         console.error("Error al cargar favoritos:", error);
         document.getElementById("Favoritas").innerHTML = 0;
-    }
-
-    // Cargar seguidores
-    try {
-        const responseSeg = await fetch(`${API_URL}/obtenerseguidores`, {
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        });
-        const listseguidores = await responseSeg.json();
-        document.getElementById("Seguidores").innerHTML = listseguidores.length || 0;
-    } catch (error) {
-        console.error("Error al cargar seguidores:", error);
-        document.getElementById("Seguidores").innerHTML = 0;
     }
 }
 

@@ -1,6 +1,24 @@
 import API_URL from './config.js';
 import { mostrarMensaje } from './mensajes.js';
 
+const chkOtro = document.getElementById("categoriaOtro");
+const inputOtro = document.getElementById("inputOtro");
+
+chkOtro.addEventListener("change", () => {
+    inputOtro.disabled = !chkOtro.checked;
+    if (!chkOtro.checked) {
+        inputOtro.value = "";
+        chkOtro.value = "";
+    } else {
+        // Cuando se habilita, actualizar el valor del checkbox al escribir
+        inputOtro.focus();
+    }
+});
+
+inputOtro.addEventListener("input", () => {
+    chkOtro.value = inputOtro.value; // sincroniza el valor del checkbox
+});
+
 // Crear nueva receta
 async function nuevaReceta() {
     try {

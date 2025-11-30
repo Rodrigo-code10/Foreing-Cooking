@@ -96,7 +96,6 @@ export async function mostrarRecetas(req, res) {
             const categorias = Array.isArray(req.query.categoria)
                 ? req.query.categoria
                 : req.query.categoria.split(',');
-        
             filtros.categoria = { $all: categorias};
         }
         
@@ -119,6 +118,9 @@ export async function mostrarRecetas(req, res) {
         switch (req.query.orden) {
             case "viejas":
                 orden = { fechaCreacion: 1 }; //De las mas antiguas
+                break;
+            case "top":
+                orden = { calificacion: -1 }; //Mejores Calificacion
                 break;
             default:
                 orden = { fechaCreacion: -1 }; //Recientes

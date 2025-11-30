@@ -48,7 +48,7 @@
                     <option value="Difícil">Difícil</option>
                 </select>
 
-                <label>Etiquetas *</label>
+                <label>Tipo de platillo *</label>
                 <div id="Categoria">
                     <label>
                         <input type="checkbox" name="categoria[]" value="Saludable">
@@ -93,6 +93,12 @@
                     <label>
                         <input type="checkbox" class="Tipo_platillo" name="categoria[]" value="Plato Fuerte">
                         Plato Fuerte
+                    </label>
+
+                    <label>
+                        <input type="checkbox" id="categoriaOtro" name="categoria[]" value="">
+                        Otro:
+                        <input type="text" id="inputOtro" placeholder="Escribe tu categoría" style="margin-left:5px;" disabled>
                     </label>
                 </div>
 

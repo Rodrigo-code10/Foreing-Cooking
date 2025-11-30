@@ -214,7 +214,6 @@ nav a {
     margin: 3px;
 }
 
-
 .modal-overlay {
     display: none;
     position: fixed;
@@ -469,7 +468,6 @@ nav a {
     align-items: stretch;
 }
 
-
 .form-field input[type="checkbox"] {
     display: none;
 }
@@ -495,7 +493,24 @@ nav a {
     box-sizing: border-box;
     min-height: 45px;
 }
+#inputOtro {
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: none;
+    background-color: #EDE3DF;
+    font-size: 14px;
+    color: #666;
+    outline: none;
+    transition: all 0.3s ease;
+    width: auto;
+    max-width: 200px;
+    margin-left: 5px;
+}
 
+#inputOtro:focus {
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(232, 83, 79, 0.1);
+}
 .form-field label:has(input[type="checkbox"]):hover {
     border-color: #E8534F;
     background: #fff5f5;

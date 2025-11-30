@@ -3,7 +3,6 @@ let isAnimating = false;
 
 const container = document.getElementById('authContainer');
 
-
 document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
     const mode = urlParams.get('mode');
