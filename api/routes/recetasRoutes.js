@@ -54,6 +54,9 @@ router.post("/recetas/:id/calificar", verificarToken, calificarReceta);
 // Obtener mi calificación de una receta
 router.get("/recetas/:id/mi-calificacion", verificarToken, obtenerMiCalificacion);
 
+router.get('/MisRecetas/:id/Ver',verificarToken, Ver);
+
+router.put('/MisRecetas/:id/Editar',verificarToken, Editar);
 
 //Panel Administrativo
 
