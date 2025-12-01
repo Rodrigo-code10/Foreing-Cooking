@@ -46,6 +46,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function buscarRecetaTodas(texto) {
+    
+    const textoNormalizado = texto.trim().toLowerCase();
+    if (textoNormalizado === "todas") {
+        await mostrarRecetas('.cards', { orden: 'top' }); // sin limit = todas
+        setTimeout(enfocarRecetas, 100);
+        return;
+    }
+
     let resultados = await fetch(`${API_URL}/muestrarecetas?nombre=${texto}&orden=top&limit=10`)
         .then(r => r.json())
         .catch(() => []);
