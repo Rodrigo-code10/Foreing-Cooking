@@ -132,7 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         window.location.href = "index.php";
                     }, 1000); 
                 } else {
-                    mostrarMensaje(`Error: ${err.message}`, '#E01616'); 
+                    mostrarMensaje(`Error: ${err.message}`, '#E01616');
+                     // Habilitar el botón para reintentar
+                     if(submitBtn){
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = "Iniciar sesión";
+                    } 
                 }
             }
         });
