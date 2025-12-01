@@ -3,7 +3,7 @@ import API_URL from './config.js';
 
 let filtrosActuales = null;   
 let paginaActual = 1;         
-const LIMIT = 4;             
+const LIMIT = 8;             
 
 document.addEventListener('DOMContentLoaded', () => {
     const buscador = document.getElementById('buscar_recetas');
