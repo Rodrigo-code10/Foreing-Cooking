@@ -103,7 +103,7 @@
                 </div>
 
                 <label for="ingredientes">Ingredientes *</label>
-                <textarea name="ingredientes" id="ingredientes" placeholder="Cada ingrediente en una línea" rows="6"
+                <textarea name="ingredientes" id="ingredientes" placeholder="Cada ingrediente en una línea (Ejemplo: 1 kg de cebolla)" rows="6"
                     required></textarea>
 
                 <label for="pasos">Pasos de preparación *</label>

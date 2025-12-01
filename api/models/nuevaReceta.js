@@ -76,25 +76,68 @@ export function parseIngrediente(linea) {
   const original = linea.trim();
 
   const sinAcentos = original
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
-  const partes = sinAcentos.split(" ");
-
-  // Cantidad si hay número al inicio
+  let partes = sinAcentos.split(/\s+/);
   let cantidad = null;
-  if (!isNaN(partes[0])) {
-      cantidad = Number(partes.shift());
+
+  const esFraccion = v => /^\d+\/\d+$/.test(v);
+  const esDecimal = v => /^\d+(\.\d+)?$/.test(v);
+  const esRango = v => /^\d+(-|\–)\d+$/.test(v);
+
+  if (partes.length) {
+    const p0 = partes[0];
+
+    if (esFraccion(p0)) {
+      const [a, b] = p0.split("/").map(Number);
+      cantidad = a / b;
+      partes.shift();
+    } else if (esDecimal(p0)) {
+      cantidad = Number(p0);
+      partes.shift();
+    } else if (esRango(p0)) {
+      const [a, b] = p0.split(/-|–/).map(Number);
+      cantidad = (a + b) / 2; 
+      partes.shift();
+    }
   }
 
-  // Unidad reconocida
-  const unidades = ["taza","tazas","cucharada","cucharadas","gramo","gramos","kg","ml","pieza","piezas"];
+  const unidades = [
+    "taza","tazas",
+    "cucharada","cucharadas",
+    "cucharadita","cucharaditas",
+    "gramo","gramos","g",
+    "kg","kilo","kilos",
+    "ml","l","litro","litros",
+    "pieza","piezas",
+    "paquete","paquetes",
+    "pizca","pizcas"
+  ];
+
   let unidad = null;
   if (partes.length && unidades.includes(partes[0])) {
-      unidad = partes.shift();
+    unidad = partes.shift();
   }
 
+  const stopwords = ["de", "del", "al", "a", "para", "por", "con", "en"];
+  while (partes.length && stopwords.includes(partes[0])) {
+    partes.shift();
+  }
+
+  const descriptores = [
+    "picado","picada","picados",
+    "finamente","fina","fino",
+    "troceado","troceada",
+    "molido","molida",
+    "pelado","pelada",
+    "cortado","cortada",
+    "entero","entera"
+  ];
+
+  partes = partes.filter(p => !descriptores.includes(p));
   const nombre = partes.join(" ").trim();
+
   return { nombre, cantidad, unidad, texto: original };
 }
 
