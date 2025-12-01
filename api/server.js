@@ -35,6 +35,14 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" })); // para entender peticiones JSON
 
+//proxy
+
+app.use("/api", (req, res, next) => {
+    req.url = req.url.replace("/api", "");
+    next();
+  });
+
+
 // Conexiones a bases de datos 
 await connectMongo();
 

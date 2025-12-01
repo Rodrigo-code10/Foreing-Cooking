@@ -41,7 +41,7 @@
         </section>
 
         <section class="hero-nosotros">
-            <h1>Informacion de Contacto</h1>
+            <h1>Información de Contacto</h1>
         </section>
 
 
