@@ -3,8 +3,8 @@ import API_URL from './config.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     mostrarRecetas('.cards',{limit: 8});
-    mostrarRecetas('.mejores-cards',{limit: 8});
-    mostrarRecetas('.viejas-cards',{limit: 8});
+    mostrarRecetas('.mejores-cards',{limit: 8, orden:'top'});
+    mostrarRecetas('.viejas-cards',{limit: 8, orden: 'viejas'});
     mostrarImagenes();
 });
 
