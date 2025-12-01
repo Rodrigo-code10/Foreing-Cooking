@@ -78,7 +78,7 @@ function renderizarRecetas(recetas, mostrarEliminar = false, mostrarEditar = fal
 
 async function editarReceta(id) {
     try {
-        const response = await fetch(`${API_URL}/recetas/${id}/Ver`, {
+        const response = await fetch(`${API_URL}/MisRecetas/${id}/Ver`, {
             headers: { "Authorization": `Bearer ${localStorage.getItem('token')}` }
         });
 
