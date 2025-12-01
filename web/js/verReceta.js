@@ -94,17 +94,14 @@ function mostrarReceta(receta) {
     const autorAvatar = document.getElementById('autorAvatar');
     const autorNombre = document.getElementById('autorNombre');
     
+    const PLACEHOLDER_FOTO = 'https://res.cloudinary.com/ddnarqecz/image/upload/v1764514329/SinFoto_f1nbvo.png';
     if (receta.autor) {
-        // Si el autor tiene foto propia y NO es el placeholder
-        if (receta.autor.foto && receta.autor.foto !== 'https://res.cloudinary.com/ddnarqecz/image/upload/v1764514329/SinFoto_f1nbvo.png') {
-            autorAvatar.src = `${receta.autor.foto}`;
-        }
-        
+        autorAvatar.src = receta.autor.foto || PLACEHOLDER_FOTO;
         autorAvatar.alt = receta.autor.nombre || 'Usuario';
         autorNombre.textContent = `por @${receta.autor.nombre || 'Desconocido'}`;
     } else {
-        // Si no hay autor, mantener el placeholder del PHP
-        autorAvatar.src = `https://res.cloudinary.com/ddnarqecz/image/upload/v1764514329/SinFoto_f1nbvo.png`;
+        autorAvatar.src = PLACEHOLDER_FOTO;
+        autorAvatar.alt = 'Usuario';
         autorNombre.textContent = 'por @Desconocido';
     }
 
