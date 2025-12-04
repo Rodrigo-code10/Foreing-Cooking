@@ -1,9 +1,14 @@
 import { mostrarRecetas } from './logicaRecetas.js';
 import API_URL from './config.js';
 
+let filtrosActuales = null;   
+let paginaActual = 1;        
+const LIMIT = 10;        
+
 document.addEventListener('DOMContentLoaded', () => {
     const buscador = document.getElementById('buscar_recetas');
 
+    // ---- Procesar checkboxes de categoría e ingredientes ----
     function procesarCheckboxes() {
 
         const checksCat = [...document.querySelectorAll('input[name="categoria"]:checked')]
@@ -12,17 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const checksIng = [...document.querySelectorAll('input[name="ingredientes"]:checked')]
             .map(c => c.value);
 
-        const filtros = {orden: 'top', limit: 10 };
+        if (checksCat.length === 0 && checksIng.length === 0) {
+            document.querySelector('.cards').innerHTML = "";
+            const pag = document.querySelector('.paginacion');
+            if (pag) pag.innerHTML = "";
+            filtrosActuales = null;
+            paginaActual = 1;
+            return;
+        }
+        const filtros = { orden: 'top' }; 
 
         if (checksCat.length > 0) filtros.categoria = checksCat;
         if (checksIng.length > 0) filtros.ingredientes = checksIng;
 
-        if (checksCat.length === 0 && checksIng.length === 0) {
-            document.querySelector('.cards').innerHTML = "";
-            return;
-        }
-        mostrarRecetas('.cards',filtros);
-        setTimeout(enfocarRecetas, 200);
+        filtrosActuales = filtros;
+        paginaActual = 1;
+        cargarPagina(paginaActual);
     }
 
     document.addEventListener('change', e => {
@@ -33,44 +43,154 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Buscador
     buscador.addEventListener('input', (e) => {
-        const texto = e.target.value.trim();
+        const textoCrudo = e.target.value;
+        const textoNormalizado = textoCrudo.trim().toLowerCase();
 
-        if (texto === "") {
+        if (textoNormalizado === "") {
+            // si se borra el texto, limpiamos todo
             document.querySelector('.cards').innerHTML = "";
+            const pag = document.querySelector('.paginacion');
+            if (pag) pag.innerHTML = "";
+            filtrosActuales = null;
+            paginaActual = 1;
             return;
         }
 
-        buscarRecetaTodas(texto);
+        buscarRecetaTodas(textoCrudo);
     });
 });
 
+async function cargarPagina(pagina = paginaActual) {
+    if (!filtrosActuales) return;
+
+    paginaActual = pagina;
+
+    const filtrosConPagina = {
+        ...filtrosActuales,
+        page: paginaActual,
+        limit: LIMIT
+    };
+
+    await mostrarRecetas('.cards', filtrosConPagina);
+    await dibujarPaginacion();
+
+    setTimeout(enfocarRecetas, 200);
+}
+
+
+async function dibujarPaginacion() {
+    const cont = document.querySelector('.paginacion');
+    if (!cont) return;
+
+    cont.innerHTML = '';
+
+    if (!filtrosActuales) return;
+
+    if (paginaActual > 1) {
+        const btnPrev = document.createElement('button');
+        btnPrev.type = 'button';
+        btnPrev.textContent = 'Anterior';
+        btnPrev.addEventListener('click', () => {
+            cargarPagina(paginaActual - 1);
+        });
+        cont.appendChild(btnPrev);
+    }
+
+    const span = document.createElement('span');
+    span.textContent = `Página ${paginaActual}`;
+    cont.appendChild(span);
+
+    const haySiguiente = await existePagina(paginaActual + 1);
+    if (haySiguiente) {
+        const btnNext = document.createElement('button');
+        btnNext.type = 'button';
+        btnNext.textContent = 'Siguiente';
+        btnNext.addEventListener('click', () => {
+            cargarPagina(paginaActual + 1);
+        });
+        cont.appendChild(btnNext);
+    }
+}
+
+async function existePagina(pagina) {
+    if (!filtrosActuales) return false;
+
+    const filtrosSiguiente = {
+        ...filtrosActuales,
+        page: pagina,
+        limit: LIMIT
+    };
+
+    const queryString = new URLSearchParams(filtrosSiguiente).toString();
+    const url = `${API_URL}/muestrarecetas?${queryString}`;
+
+    try {
+        const resp = await fetch(url);
+        const recetas = await resp.json();
+        // El backend devuelve un array. Si viene vacío, no hay más páginas.
+        return Array.isArray(recetas) && recetas.length > 0;
+    } catch (error) {
+        console.error('Error comprobando siguiente página:', error);
+        return false;
+    }
+}
+
+
 async function buscarRecetaTodas(texto) {
-    let resultados = await fetch(`${API_URL}/muestrarecetas?nombre=${texto}&orden=top&limit=10`)
-        .then(r => r.json())
-        .catch(() => []);
-    if (resultados.length > 0) {
-        mostrarRecetas('.cards',{ nombre: texto });
-        // Esperar un poco para que se rendericen las tarjetas
-        setTimeout(enfocarRecetas, 100);
+    const textoNormalizado = texto.trim().toLowerCase();
+
+    if (textoNormalizado === "todas") {
+        filtrosActuales = { orden: 'top' }; 
+        paginaActual = 1;
+        await cargarPagina(paginaActual);
         return;
     }
 
-    resultados = await fetch(`${API_URL}/muestrarecetas?ingredientes=${texto}&orden=top&limit=10`)
-        .then(r => r.json())
-        .catch(() => []);
-    if (resultados.length > 0) {
-        mostrarRecetas('.cards',{ ingredientes: texto });
-        setTimeout(enfocarRecetas, 100);
+    let resultados = [];
+
+    try {
+        resultados = await fetch(
+            `${API_URL}/muestrarecetas?nombre=${encodeURIComponent(texto)}&orden=top&limit=${LIMIT}&page=1`
+        ).then(r => r.json());
+    } catch (e) {
+        resultados = [];
+    }
+
+    if (Array.isArray(resultados) && resultados.length > 0) {
+        filtrosActuales = { nombre: texto, orden: 'top' };
+        paginaActual = 1;
+        await cargarPagina(paginaActual);
         return;
     }
 
-    resultados = await fetch(`${API_URL}/muestrarecetas?categoria=${texto}&orden=top&limit=10`)
-        .then(r => r.json())
-        .catch(() => []);
+    try {
+        resultados = await fetch(
+            `${API_URL}/muestrarecetas?ingredientes=${encodeURIComponent(texto)}&orden=top&limit=${LIMIT}&page=1`
+        ).then(r => r.json());
+    } catch (e) {
+        resultados = [];
+    }
 
-    mostrarRecetas('.cards',{ categoria: texto });
-    setTimeout(enfocarRecetas, 100);
+    if (Array.isArray(resultados) && resultados.length > 0) {
+        filtrosActuales = { ingredientes: texto, orden: 'top' };
+        paginaActual = 1;
+        await cargarPagina(paginaActual);
+        return;
+    }
+
+    try {
+        resultados = await fetch(
+            `${API_URL}/muestrarecetas?categoria=${encodeURIComponent(texto)}&orden=top&limit=${LIMIT}&page=1`
+        ).then(r => r.json());
+    } catch (e) {
+        resultados = [];
+    }
+
+    filtrosActuales = { categoria: texto, orden: 'top' };
+    paginaActual = 1;
+    await cargarPagina(paginaActual);
 }
 
 function enfocarRecetas() {

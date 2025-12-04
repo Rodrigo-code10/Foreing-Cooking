@@ -71,6 +71,7 @@
         <div class="cards">
             
         </div>
+        <div class="paginacion"></div>
     </div>
 
     <?php include 'includes/footer.php'; ?>

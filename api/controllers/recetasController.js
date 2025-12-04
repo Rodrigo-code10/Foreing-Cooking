@@ -75,7 +75,7 @@ export async function mostrarRecetas(req, res) {
             const categorias = Array.isArray(req.query.categoria)
                 ? req.query.categoria
                 : req.query.categoria.split(',');
-            filtros.categoria = { $all: categorias};
+            filtros.categoria = { $all: categorias };
         }
         
         if (req.query.ingredientes) {
@@ -92,26 +92,30 @@ export async function mostrarRecetas(req, res) {
         
             filtros["ingredientes.nombre"] = { $all: regexIngredientes };
         }
-        let orden = {};
 
+        let orden = {};
         switch (req.query.orden) {
             case "viejas":
-                orden = { fechaCreacion: 1 }; //De las mas antiguas
+                orden = { fechaCreacion: 1 };  // De las más antiguas
                 break;
             case "top":
-                orden = { calificacion: -1 }; //Mejores Calificacion
+                orden = { calificacion: -1 };  // Mejores Calificación
                 break;
             default:
-                orden = { fechaCreacion: -1 }; //Recientes
+                orden = { fechaCreacion: -1 }; // Recientes
         }
 
-        let query = Receta.find(filtros).populate('autor', 'nombre').sort(orden);
+        // 🔹 NUEVO: paginación
+        const page  = parseInt(req.query.page)  || 1;
+        const limit = parseInt(req.query.limit);
+        
+        let query = Receta.find(filtros)
+            .populate('autor', 'nombre')
+            .sort(orden);
 
-        if (req.query.limit) {
-            const limit = parseInt(req.query.limit);
-            if (!isNaN(limit) && limit > 0) { //Verifia sino muestra todas 
-                query = query.limit(limit);
-            }
+        if (!isNaN(limit) && limit > 0) {
+            const skip = (page - 1) * limit;
+            query = query.skip(skip).limit(limit);
         }
 
         const recetas = await query;
@@ -121,6 +125,7 @@ export async function mostrarRecetas(req, res) {
         res.status(500).json({ error: "Error al obtener recetas" });
     }
 }
+
 
 
 export async function like(req, res) {
