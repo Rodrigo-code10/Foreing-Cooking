@@ -5,10 +5,14 @@ import dotenv from "dotenv";
 import {connectMongo} from "./config/db.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import Stripe from "stripe";
 
 import sesionRoutes from "./routes/sesionRoutes.js";
 import recetasRoutes from "./routes/recetasRoutes.js";
 import favoritasRoutes from "./routes/favoritasRoutes.js";
+import iaRoutes from "./routes/iaRoutes.js";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 
 const swaggerOptions = {
@@ -79,6 +83,45 @@ app.get("/health", async (req, res) => {
 app.use("/", sesionRoutes);
 app.use("/", recetasRoutes);
 app.use("/", favoritasRoutes);
+app.use("/", iaRoutes);
+
+app.get("/config", (req, res) => {
+    res.json({
+      stripePublicKey: process.env.STRIPE_PUBLIC_KEY,
+      apiUrl: process.env.URL_API
+    });
+});
+  
+  
+// Endpoint para crear un Payment Intent
+app.post("/api/pagos/crear", async (req, res) => {
+    try {
+        const { monto, moneda, descripcion } = req.body;
+
+        if (!monto) {
+            return res.status(400).json({ error: "Monto requerido" });
+        }
+
+        // Crear Payment Intent
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: monto,
+            currency: moneda || "mxn",
+            description: descripcion || "Pago tienda",
+            automatic_payment_methods: {
+                enabled: true,
+            }
+        });
+
+        res.json({
+            clientSecret: paymentIntent.client_secret,
+            idTransaccion: paymentIntent.id
+        });
+
+    } catch (error) {
+        console.log("Error Stripe:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 // Instancia de swagger
 const swaggerDocs = swaggerJSDoc(swaggerOptions);

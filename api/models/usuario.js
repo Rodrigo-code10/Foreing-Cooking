@@ -8,6 +8,7 @@ const usuarioSchema = new mongoose.Schema({
   foto:{ type:String, default: "https://res.cloudinary.com/ddnarqecz/image/upload/v1764514329/SinFoto_f1nbvo.png"},
   status: { type:String },
   fechaRegistro: { type: Date, default: Date.now },
+  paquete: { type: String, enum: ['normal', 'premium'], default: 'normal' },
   estado: { type: String, enum: ['active', 'desactive'], default: 'active' }
 });
 

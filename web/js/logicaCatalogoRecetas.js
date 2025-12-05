@@ -129,7 +129,7 @@ async function existePagina(pagina) {
     try {
         const resp = await fetch(url);
         const recetas = await resp.json();
-        // El backend devuelve un array. Si viene vacío, no hay más páginas.
+        
         return Array.isArray(recetas) && recetas.length > 0;
     } catch (error) {
         console.error('Error comprobando siguiente página:', error);

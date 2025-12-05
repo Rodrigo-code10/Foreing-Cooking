@@ -11,6 +11,7 @@
         <a href="CatalogoRecetas.php">Catálogo de recetas</a>
         <a href="AcercaNosotros.php">Acerca de nosotros</a>
         <a id="CreaReceta" href="IniciarRegistrarse.php?mode=register">Publicar Receta</a>
+        <a id="RecetaIA" href="IniciarRegistrarse.php?mode=register">Receta IA</a>
         <a id="PanelAdmin" href="PanelAdministrativo.php" style="display:none">Panel Administrativo</a>
         <a id="btn-login" href="IniciarRegistrarse.php"><button class="btn-secondary">Iniciar Sesión</button></a>
         <a id="btn-register" href="IniciarRegistrarse.php?mode=register"><button class="btn-primary">Registrarse</button></a>

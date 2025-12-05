@@ -1,0 +1,1082 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FFEFE9;
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Formulario_contenedor {
+    width: 100%;
+    max-width: 800px;
+    animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.Formulario_Receta {
+    background: white;
+    border-radius: 25px;
+    padding: 50px;
+    box-shadow: 0 10px 40px rgba(232, 83, 79, 0.15);
+}
+
+.header-form {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #FFEFE9;
+}
+
+h2 {
+    color: #E8534F;
+    font-size: 36px;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+h3 {
+    color: #666;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.5;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    color: #2C2C2C;
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.campo-requerido {
+    color: #E8534F;
+    font-size: 16px;
+}
+
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    transition: all 0.3s ease;
+    background-color: white;
+    color: #2C2C2C;
+}
+
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #E8534F;
+    background-color: #fffbfa;
+    box-shadow: 0 0 0 4px rgba(232, 83, 79, 0.1);
+}
+
+input[type="number"]::placeholder,
+textarea::placeholder {
+    color: #999;
+}
+
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 45px;
+}
+
+select option:first-child {
+    color: #999;
+}
+
+#Categoria {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+}
+
+#Categoria label {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border: 2px solid #ddd;
+    position: relative;
+}
+
+#Categoria label:hover {
+    border-color: #E8534F;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(232, 83, 79, 0.15);
+}
+
+.Tipo_platillo {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    cursor: pointer;
+    accent-color: #E8534F;
+}
+
+#Categoria input[type="radio"]:checked + span {
+    color: #E8534F;
+    font-weight: bold;
+}
+
+#Categoria input[type="radio"]:checked ~ .check-indicator {
+    opacity: 1;
+}
+
+.check-indicator {
+    position: absolute;
+    right: 12px;
+    color: #E8534F;
+    font-size: 18px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.categoria-otro {
+    grid-column: 1 / -1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+}
+
+.categoria-otro-header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+#inputOtro {
+    width: 100%;
+    margin: 0;
+    background-color: white;
+    border: 2px solid #ddd;
+    padding: 12px 16px;
+    border-radius: 8px;
+}
+
+#inputOtro:focus {
+    border-color: #E8534F;
+    background-color: #fffbfa;
+}
+
+#inputOtro:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 0.6;
+    border-color: #e5e5e5;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 140px;
+    line-height: 1.6;
+}
+
+.textarea-hint {
+    font-size: 13px;
+    color: #666;
+    margin-top: 6px;
+    font-style: italic;
+}
+
+.botones {
+    margin-top: 20px;
+}
+
+.enviar {
+    width: 100%;
+    padding: 18px;
+    background-color: #E8534F;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(232, 83, 79, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.enviar:hover {
+    background-color: #e32620;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232, 83, 79, 0.4);
+}
+
+.enviar:active {
+    transform: translateY(0);
+}
+
+.row-fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* Animación de carga */
+.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.loading .enviar::after {
+    content: "";
+    width: 16px;
+    height: 16px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .Formulario_Receta {
+        padding: 30px 20px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    h3 {
+        font-size: 14px;
+    }
+
+    .row-fields {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    #Categoria {
+        grid-template-columns: 1fr;
+        padding: 16px;
+    }
+
+    form {
+        gap: 22px;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 20px 15px;
+    }
+
+    .Formulario_Receta {
+        padding: 25px 18px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    input[type="number"],
+    select,
+    textarea {
+        padding: 12px 14px;
+        font-size: 14px;
+    }
+
+    .enviar {
+        padding: 16px;
+        font-size: 16px;
+    }
+}
+
+.receta-generada {
+    background: white;
+    border-radius: 25px;
+    padding: 0;
+    box-shadow: 0 10px 40px rgba(232, 83, 79, 0.15);
+    animation: slideIn 0.5s ease;
+    margin-top: 30px;
+    overflow: hidden;
+}
+
+@keyframes slideIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+.receta-header {
+    background: linear-gradient(135deg, #E8534F 0%, #e32620 100%);
+    color: white;
+    padding: 40px 50px;
+    position: relative;
+}
+
+.btn-regresar {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-regresar:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-5px);
+}
+
+.receta-titulo {
+    font-size: 42px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.receta-descripcion {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    opacity: 0.95;
+}
+
+.receta-info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.info-item {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.info-icon {
+    font-size: 28px;
+}
+
+.info-label {
+    display: block;
+    font-size: 12px;
+    opacity: 0.9;
+    margin-bottom: 2px;
+}
+
+.info-value {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.receta-contenido {
+    padding: 50px;
+}
+
+.receta-seccion {
+    margin-bottom: 40px;
+}
+
+.receta-seccion:last-child {
+    margin-bottom: 0;
+}
+
+.seccion-titulo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 28px;
+    color: #2C2C2C;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #FFEFE9;
+}
+
+.lista-ingredientes {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.ingrediente-item {
+    background: #FFEFE9;
+    padding: 15px 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.ingrediente-item:hover {
+    border-color: #E8534F;
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(232, 83, 79, 0.15);
+}
+
+.ingrediente-cantidad {
+    color: #E8534F;
+    font-weight: bold;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.ingrediente-nombre {
+    color: #2C2C2C;
+    font-size: 15px;
+}
+
+
+.lista-pasos {
+    list-style: none;
+    counter-reset: paso-counter;
+}
+
+.paso-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #FFFBFA;
+    border-radius: 12px;
+    border-left: 4px solid #E8534F;
+    transition: all 0.3s ease;
+}
+
+.paso-item:hover {
+    background: #FFEFE9;
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(232, 83, 79, 0.1);
+}
+
+.paso-numero {
+    background: #E8534F;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.paso-descripcion {
+    color: #2C2C2C;
+    line-height: 1.7;
+    font-size: 16px;
+    margin: 0;
+    padding-top: 8px;
+}
+
+
+.notas-seccion {
+    background: linear-gradient(135deg, #FFF9E6 0%, #FFF3D6 100%);
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid #FFE4A3;
+}
+
+.lista-notas {
+    list-style: none;
+}
+
+.nota-item {
+    padding: 15px 20px;
+    background: white;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    color: #666;
+    line-height: 1.6;
+    border-left: 4px solid #FFC107;
+    font-size: 15px;
+}
+
+.nota-item:last-child {
+    margin-bottom: 0;
+}
+
+.nota-item::before {
+    margin-right: 10px;
+}
+
+@media (max-width: 1024px) {
+    .receta-info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .lista-ingredientes {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .receta-header {
+        padding: 30px 25px;
+    }
+    
+    .receta-titulo {
+        font-size: 32px;
+    }
+    
+    .receta-descripcion {
+        font-size: 16px;
+    }
+    
+    .receta-info-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .receta-contenido {
+        padding: 30px 25px;
+    }
+    
+    .seccion-titulo {
+        font-size: 24px;
+    }
+    
+    .lista-ingredientes {
+        grid-template-columns: 1fr;
+    }
+    
+    .paso-item {
+        flex-direction: column;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 600px) {
+    .receta-generada {
+        border-radius: 15px;
+    }
+    
+    .receta-header {
+        padding: 25px 20px;
+    }
+    
+    .receta-titulo {
+        font-size: 26px;
+    }
+    
+    .receta-descripcion {
+        font-size: 14px;
+    }
+    
+    .receta-contenido {
+        padding: 25px 20px;
+    }
+    
+    .seccion-titulo {
+        font-size: 22px;
+    }
+    
+    .ingrediente-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .paso-descripcion {
+        font-size: 15px;
+    }
+}
+
+
+
+
+
+
+
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-contenido {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-cerrar {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.modal-cerrar:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.modal-cuerpo h2 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 24px;
+}
+
+.modal-cuerpo p {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.modal-cuerpo ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.modal-cuerpo ul li {
+    padding: 10px 0;
+    color: #555;
+    font-size: 15px;
+}
+
+.modal-acciones {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.btn-premium {
+    flex: 1;
+    background: linear-gradient(135deg, #E8534F 0%, #e76a65 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px #e94741(102, 126, 234, 0.4);
+}
+
+.btn-secundario {
+    flex: 1;
+    background: white;
+    color: #666;
+    border: 2px solid #e0e0e0;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secundario:hover {
+    border-color: #999;
+    color: #333;
+}
+
+@media (max-width: 600px) {
+    .modal-contenido {
+        padding: 20px;
+    }
+    
+    .modal-acciones {
+        flex-direction: column;
+    }
+    
+    .btn-premium, .btn-secundario {
+        width: 100%;
+    }
+}
+
+
+/* Estilos del modal de pago mejorado */
+.modal-pago-amplio {
+    max-width: 550px !important;
+    padding: 0 !important;
+    overflow: hidden;
+}
+
+.pago-header {
+    background: linear-gradient(135deg, #E8534F 0%, #e32620 100%);
+    padding: 30px;
+    text-align: center;
+    color: white;
+}
+
+.pago-header h2 {
+    color: white !important;
+    margin: 0 0 8px 0;
+    font-size: 28px;
+}
+
+.subtitulo-suscripcion {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 14px;
+    margin: 0;
+    font-weight: 500;
+}
+
+.resumen-suscripcion {
+    background: #FFF9F8;
+    border: 2px solid #FFE4E1;
+    border-radius: 12px;
+    margin: 25px 30px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.plan-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: white;
+}
+
+.plan-nombre {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.icono-plan {
+    font-size: 32px;
+}
+
+.plan-nombre strong {
+    display: block;
+    font-size: 18px;
+    color: #2C2C2C;
+    margin-bottom: 4px;
+}
+
+.plan-nombre p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.plan-precio {
+    text-align: right;
+}
+
+.precio-grande {
+    display: block;
+    font-size: 32px;
+    font-weight: bold;
+    color: #E8534F;
+    line-height: 1;
+}
+
+.precio-periodo {
+    display: block;
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+}
+
+.icono-info {
+    font-size: 16px;
+}
+
+.formulario-pago {
+    padding: 30px;
+}
+
+.seccion-titulo {
+    font-size: 18px;
+    color: #2C2C2C;
+    margin: 0 0 20px 0;
+    font-weight: 600;
+}
+
+.campo-grupo {
+    margin-bottom: 20px;
+}
+
+.campo-grupo label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2C2C2C;
+    margin-bottom: 8px;
+}
+
+.stripe-input {
+    padding: 14px 16px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.stripe-input:focus-within {
+    border-color: #E8534F;
+    background-color: #FFF9F8;
+    box-shadow: 0 0 0 4px rgba(232, 83, 79, 0.1);
+}
+
+.campos-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.error-mensaje {
+    color: #E8534F;
+    font-size: 14px;
+    min-height: 20px;
+    margin: 10px 0;
+    font-weight: 500;
+}
+
+.btn-pagar-suscripcion {
+    width: 100%;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #E8534F 0%, #e32620 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(232, 83, 79, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.btn-pagar-suscripcion:hover:not(:disabled) {
+    background: linear-gradient(135deg, #d72d28 0%, #c91f1b 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232, 83, 79, 0.4);
+}
+
+.btn-pagar-suscripcion:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.btn-loading {
+    position: relative;
+}
+
+.spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.texto-seguridad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 15px;
+    font-size: 13px;
+    color: #666;
+}
+
+.icono-seguridad {
+    font-size: 16px;
+}
+
+.mensaje-pago {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    min-height: 20px;
+}
+
+.mensaje-pago .exito {
+    color: #28a745;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.mensaje-pago .error {
+    color: #E8534F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .modal-pago-amplio {
+        width: 95%;
+        max-width: 95% !important;
+    }
+
+    .pago-header {
+        padding: 25px 20px;
+    }
+
+    .pago-header h2 {
+        font-size: 24px;
+    }
+
+    .resumen-suscripcion {
+        margin: 20px 15px;
+    }
+
+    .plan-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .plan-precio {
+        text-align: left;
+        width: 100%;
+        padding-top: 10px;
+        border-top: 1px solid #FFE4E1;
+    }
+
+    .formulario-pago {
+        padding: 20px 15px;
+    }
+
+    .campos-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .btn-pagar-suscripcion {
+        font-size: 15px;
+        padding: 14px 20px;
+    }
+}
