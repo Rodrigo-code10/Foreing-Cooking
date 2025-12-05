@@ -38,6 +38,7 @@ export async function registrarUsuario(req, res) {
                 rol: nuevoUsuario.rol,
                 foto: nuevoUsuario.foto,
                 status: nuevoUsuario.status,
+                paquete: nuevoUsuario.paquete,
             }
         });
 
@@ -81,6 +82,7 @@ export async function iniciarSesion(req, res){
                 rol: usuario.rol,
                 foto: usuario.foto,
                 status: usuario.status,
+                paquete: usuario.paquete,
             }
         });
     } catch (error) {
@@ -175,5 +177,25 @@ export async function BuscarUsuario(req, res) {
     } catch (err) {
         console.error("Error", err);
         res.status(500).json({ error: "Error obteniendo usuario" });
+    }
+}
+
+export async function ModificarPaquete(req, res) {
+    try {
+        const { id, paquete } = req.body;
+
+        if (!id) return res.status(400).json({ success: false, error: "ID requerido" });
+        if (!paquete || !['normal', 'premium'].includes(paquete)) {
+            return res.status(400).json({ success: false, error: "Paquete inválido" });
+        }
+
+        const usuarioActualizado = await Usuario.findByIdAndUpdate(id,{ paquete },{ new: true } );
+
+        if (!usuarioActualizado) return res.status(404).json({ success: false, error: "Usuario no encontrado" });
+
+        res.status(200).json({ success: true, usuario: usuarioActualizado });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, error: 'Error al actualizar el paquete' });
     }
 }

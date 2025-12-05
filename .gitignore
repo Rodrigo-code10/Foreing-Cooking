@@ -1,3 +1,12 @@
 .env
+/api/.env
+/web/.env
 mongo/data/
 /api/public/uploads/
+/api/localhost-key.pem
+/api/localhost.pem
+/web/localhost-key.pem
+/web/localhost.pem
+localhost-key.pem
+localhost.pem
+node_modules

@@ -9,6 +9,7 @@ export function CambiarHeader(fotoPerfil,rol){
     const img = document.getElementById("perfil-foto");
 
     const receta = document.getElementById("CreaReceta");
+    const RecetaIA = document.getElementById("RecetaIA");
 
     if(btnLogin) btnLogin.style.display = "none";
     if(btnRegister) btnRegister.style.display = "none";
@@ -16,9 +17,10 @@ export function CambiarHeader(fotoPerfil,rol){
     if(perfil && img){        
         img.src = `${API_URL}` + fotoPerfil ;
         perfil.style.display = "block";
-        receta.href="CrearRecetas.php";
+        receta.href = "CrearRecetas.php";
+        RecetaIA.href = "RecetaIA.php";
     }
-
+    
     const panel = document.getElementById("PanelAdmin");
     if(rol=='admin'){
         panel.style.display = "block";

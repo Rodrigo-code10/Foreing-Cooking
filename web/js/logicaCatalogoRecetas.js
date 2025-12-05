@@ -7,8 +7,6 @@ const LIMIT = 10;
 
 document.addEventListener('DOMContentLoaded', () => {
     const buscador = document.getElementById('buscar_recetas');
-
-    // ---- Procesar checkboxes de categoría e ingredientes ----
     function procesarCheckboxes() {
 
         const checksCat = [...document.querySelectorAll('input[name="categoria"]:checked')]
@@ -49,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const textoNormalizado = textoCrudo.trim().toLowerCase();
 
         if (textoNormalizado === "") {
-            // si se borra el texto, limpiamos todo
             document.querySelector('.cards').innerHTML = "";
             const pag = document.querySelector('.paginacion');
             if (pag) pag.innerHTML = "";
@@ -129,7 +126,6 @@ async function existePagina(pagina) {
     try {
         const resp = await fetch(url);
         const recetas = await resp.json();
-        // El backend devuelve un array. Si viene vacío, no hay más páginas.
         return Array.isArray(recetas) && recetas.length > 0;
     } catch (error) {
         console.error('Error comprobando siguiente página:', error);

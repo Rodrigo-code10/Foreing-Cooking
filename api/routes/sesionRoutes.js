@@ -7,6 +7,7 @@ import {
     TotalUsuarios,
     BuscarUsuario,
     EstadoPerfil,
+    ModificarPaquete,
 } from '../controllers/sesionController.js'; // Controlador para manejar la lógica de registro
 
 import {
@@ -35,6 +36,8 @@ router.post('/login', iniciarSesion);
 router.post('/registrar', registrarUsuario); 
 
 router.put('/editarperfil', verificarToken,upload.single("foto"), ModificarPerfil);
+
+router.put('/editarPaquete', verificarToken, ModificarPaquete);
 
 router.get('/BuscarUsuario',verificarToken, BuscarUsuario);
 

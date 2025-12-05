@@ -827,7 +827,7 @@ body.auth-page {
     nav > a:not(:first-child),
     #perfil-container {
         display: none !important;
-    }
+    }  
 
     nav.active {
         height: auto;
@@ -882,8 +882,9 @@ body.auth-page {
     #perfil-foto {
         width: 70px;
         height: 70px;
+        border-radius: 50%; 
     }
-
+    
     body:not(.auth-page) {
         padding-top: 70px;
     }
