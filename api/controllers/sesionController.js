@@ -82,7 +82,7 @@ export async function iniciarSesion(req, res){
                 rol: usuario.rol,
                 foto: usuario.foto,
                 status: usuario.status,
-                paquete: nuevoUsuario.paquete,
+                paquete: usuario.paquete,
             }
         });
     } catch (error) {
