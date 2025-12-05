@@ -94,7 +94,7 @@ app.get("/config", (req, res) => {
   
   
 // Endpoint para crear un Payment Intent
-app.post("/api/pagos/crear", async (req, res) => {
+app.post("/pagos/crear", async (req, res) => {
     try {
         const { monto, moneda, descripcion } = req.body;
 
