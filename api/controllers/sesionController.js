@@ -38,6 +38,7 @@ export async function registrarUsuario(req, res) {
                 rol: nuevoUsuario.rol,
                 foto: nuevoUsuario.foto,
                 status: nuevoUsuario.status,
+                paquete: nuevoUsuario.paquete,
             }
         });
 
@@ -81,6 +82,7 @@ export async function iniciarSesion(req, res){
                 rol: usuario.rol,
                 foto: usuario.foto,
                 status: usuario.status,
+                paquete: nuevoUsuario.paquete,
             }
         });
     } catch (error) {
