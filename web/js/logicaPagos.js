@@ -147,7 +147,6 @@ async function cargarConfig() {
     const conf = await fetch(`${API_URL}/config`).then(r => r.json());
     window.STRIPE_PUBLIC_KEY = conf.stripePublicKey;
     window.API_URL = conf.apiUrl;
-    console.log("Config cargada:", conf);
 }
 
 // Cargar configuración desde el backend (clave pública + URL API)
