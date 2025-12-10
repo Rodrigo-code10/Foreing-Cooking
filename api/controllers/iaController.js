@@ -1,4 +1,4 @@
-const MODEL = "gemini-2.0-flash"; 
+const MODEL = "gemini-2.5-flash"; 
 const API_KEY = process.env.API_KEY; 
 
 export async function RecetaIA(req, res) {
